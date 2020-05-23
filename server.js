@@ -34,6 +34,7 @@ app.use('/comments', require('./routes/commentRouter.js'))
 app.use('/api', expressJwt({secret: secret}))
 app.use('/api/blog', require('./routes/userBlogRouter.js'))
 app.use('/api/posts', require('./routes/userPostRouter.js'))
+app.use('/api/comments', require('./routes/userCommentRouter.js'))
 
 app.use((err, req, res, next) => {
     console.log(err)

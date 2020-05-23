@@ -6,7 +6,7 @@ const User = require('../models/user.js')
 // get comments by post
 commentRouter.get('/:postId', (req, res, next) => {
     Comment.find(
-        {post: req.params._id}, 
+        {post: req.params.postId}, 
         (err, comments) => {
             if(err){
                 res.status(500)
@@ -37,34 +37,5 @@ commentRouter.post('/:postId', async (req, res, next) => {
     }
 })
 // ^^ need to make sure this works
-
-// delete a comment (by post's user)
-commentRouter.delete('/:commentId', (req, res, next) => {
-    Comment.findOneAndDelete(
-        {_id: req.params.commentId},
-        (err, deletedComment) => {
-            if(err){
-                res.status(500)
-                return next(err)
-            }
-        return res.status(200).send('Comment deleted')
-    })
-})
-
-// update comment
-commentRouter.put('/:commentId', (req, res, next) => {
-    Comment.findOneAndUpdate(
-        {_id: req.params.commentId},
-        req.body,
-        {new: true},
-        (err, updatedComment) => {
-            if(err){
-                res.status(500)
-                return next(err)
-            }
-            return res.status(201).send(updatedComment)
-        }
-    )
-})
 
 module.exports = commentRouter

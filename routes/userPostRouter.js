@@ -3,16 +3,16 @@ const userPostRouter = express.Router()
 const Post = require('../models/post.js')
 
 // new blog post
-userPostRouter.post('/post', (req, res, next) => {
+userPostRouter.post('/', (req, res, next) => {
     req.body.user = req.user._id
     req.body.postedBy = req.user.username
     const newPost = new Post(req.body)
-    newPost.save((err, post) => {
+    newPost.save((err, newPost) => {
         if(err){
             res.status(500)
             return next(err)
         }
-        return res.status(201).send(post)
+        return res.status(201).send(newPost)
     })
 })
 
