@@ -1,20 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const postSchema = new Schema({
+const commentSchema = new Schema({
+    post: {
+        type: Schema.Types.ObjectId,
+        ref: 'Post',
+        required: true
+    },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
     },
     postedBy: {
-        type: Schema.Types.String,
-        ref: 'User',
-        required: true
-    },
-    title: {
         type: String,
-        required: true,
+        default: 'Anyonymous'
     },
     date: {
         type: String,
@@ -24,7 +23,7 @@ const postSchema = new Schema({
         type: String,
         required: true
     }
-    // images
+    // user icon
 })
 
-module.exports = mongoose.model('Post', postSchema)
+module.exports = mongoose.model('Comment', commentSchema)

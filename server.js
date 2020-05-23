@@ -30,6 +30,7 @@ mongoose.connect (
 app.use('/auth', require('./routes/authRouter.js'))
 app.use('/blog', require('./routes/blogRouter.js'))
 app.use('/posts', require('./routes/postRouter.js'))
+app.use('/comments', require('./routes/commentRouter.js'))
 app.use('/api', expressJwt({secret: secret}))
 app.use('/api/blog', require('./routes/userBlogRouter.js'))
 app.use('/api/posts', require('./routes/userPostRouter.js'))

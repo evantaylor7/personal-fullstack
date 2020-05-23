@@ -16,10 +16,10 @@ userPostRouter.post('/post', (req, res, next) => {
     })
 })
 
-// delete an blog post
-userPostRouter.delete('/:issueId', (req, res, next) => {
+// delete a blog post
+userPostRouter.delete('/:postId', (req, res, next) => {
     Post.findOneAndDelete(
-        {_id: req.params.issueId, user: req.user._id},
+        {_id: req.params.postId, user: req.user._id},
         (err, deletedPost) => {
             if(err){
                 res.status(500)
