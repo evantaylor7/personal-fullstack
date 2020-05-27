@@ -5,7 +5,7 @@ const Blog = require('../models/blog.js')
 // get one user's blog
 blogRouter.get('/:username', (req, res, next) => {
     Blog.findOne(
-        {user: req.params.username},
+        {username: req.params.username},
         (err, blog) => {
             if(err){
                 res.status(500)

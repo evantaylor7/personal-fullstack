@@ -3,7 +3,7 @@ const userCommentRouter = express.Router()
 const Comment = require('../models/comment.js')
 
 // delete a comment (by post's user)
-commentRouter.delete('/:commentId', (req, res, next) => {
+userCommentRouter.delete('/:commentId', (req, res, next) => {
     Comment.findOneAndDelete(
         {_id: req.params.commentId, user: req.user._id},
         (err, deletedComment) => {
@@ -16,7 +16,7 @@ commentRouter.delete('/:commentId', (req, res, next) => {
 })
 
 // edit comment
-commentRouter.put('/:commentId', (req, res, next) => {
+userCommentRouter.put('/:commentId', (req, res, next) => {
     Comment.findOneAndUpdate(
         {_id: req.params.commentId, user: req.user._id},
         req.body,

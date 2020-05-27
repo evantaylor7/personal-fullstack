@@ -5,6 +5,7 @@ const Blog = require('../models/blog.js')
 // update blog
 userBlogRouter.put('/', (req, res, next) => {
     req.body.user = req.user._id
+    req.body.username = req.user.username
     Blog.updateOne(
         {user: req.body.user},
         req.body,

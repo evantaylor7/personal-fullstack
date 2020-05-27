@@ -7,7 +7,7 @@ const blogSchema = new Schema({
         ref: 'User',
         required: true
     },
-    postedBy: {
+    username: {
         type: Schema.Types.String,
         ref: 'User',
         required: true
