@@ -23,8 +23,11 @@ const postSchema = new Schema({
     content: {
         type: String,
         required: true
+    },
+    img: {
+        data: Buffer,
+        contentType: String
     }
-    // images
 })
 
 module.exports = mongoose.model('Post', postSchema)

@@ -59,7 +59,11 @@ const UserProvider = props => {
     const logout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
-        setUserState(initState)
+        setUserState({
+            ...initState,
+            user: {},
+            token: ''
+        })
         // ^^ may have to alter this
     }
 
@@ -130,19 +134,30 @@ const UserProvider = props => {
 
     // post a comment (anyone can post: if user, will have user info, if not user, will have their optional info or 'anonymous' as default)
     const postComment = (postId, commentObj) => {
-        axios.post(`/comments/${postId}`, commentObj)
-            .then(res => {
-                setUserState(prevUserState => ({
-                    ...prevUserState,
-                    comments: [res.data, ...prevUserState.comments]
-                }))
-            })
-            .catch(err => console.log(err))
+        userState.token ?
+            userAxios.post(`/api/comments/${postId}`, commentObj)
+                .then(res => {
+                    setUserState(prevUserState => ({
+                        ...prevUserState,
+                        comments: [res.data, ...prevUserState.comments]
+                    }))
+                })
+                .catch(err => console.log(err))
+        :
+            axios.post(`/comments/${postId}`, commentObj)
+                .then(res => {
+                    setUserState(prevUserState => ({
+                        ...prevUserState,
+                        comments: [res.data, ...prevUserState.comments]
+                    }))
+                })
+                .catch(err => console.log(err))
     }
 
     // TOKEN NEEDED -->
 
     // BLOG:
+    // update or upsert (create new if non-existent)
     const updateBlog = updates => {
         userAxios.put('/api/blog', updates)
             .then(res => {

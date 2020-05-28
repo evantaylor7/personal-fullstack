@@ -2,32 +2,35 @@ import React, {useContext} from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
 import Navbar from './components/Navbar.js'
 import Home from './components/Home.js'
+import UserHome from './components/UserHome.js'
 import BlogDetail from './components/BlogDetail.js'
 import Auth from './components/auth/Auth.js'
 import {UserContext} from './context/UserProvider.js'
-// import {}
 
 import './styles.css'
 
 const App = () => {
-    const {token, logout} = useContext(UserContext)
+    const {token} = useContext(UserContext)
 
     return(
         <div>
-            <Navbar logout={logout}/>
+            <Navbar/>
             <Switch>
                 <Route
                     exact path='/'
-                    render={() => <Home/>}
+                    render={() => token ? <UserHome/> : <Home/>}
                 />
                 <Route
                     path='/auth'
-                    render={() => <Auth/>}
+                    render={() => token ? <Redirect to='/'/> : <Auth/>}
                 />
                 <Route
                     path='/:blogId'
                     render={() => <BlogDetail/>}
                 />
+                <Route
+                    path='/:postId'
+                    render={() =? <PostDetail/>}
             </Switch>
         </div>
     )

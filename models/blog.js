@@ -16,7 +16,10 @@ const blogSchema = new Schema({
         type: String,
         required: true,
     },
-    // landing page image
+    img: {
+        data: Buffer,
+        contentType: String
+    },
     description: String,
 })
 

@@ -5,7 +5,7 @@ const Post = require('../models/post.js')
 // get blog posts by user
 postRouter.get('/:user', (req, res, next) => {
     Post.find(
-        {user: req.user._id}, 
+        {postedBy: req.params.user}, 
         (err, posts) => {
             if(err){
                 res.status(500)

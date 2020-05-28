@@ -23,7 +23,10 @@ const commentSchema = new Schema({
         type: String,
         required: true
     }
-    // user icon
+    // userIcon: {
+    //     data: Buffer,
+    //     contentType: String
+    // },
 })
 
 module.exports = mongoose.model('Comment', commentSchema)

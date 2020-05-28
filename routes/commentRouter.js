@@ -1,7 +1,6 @@
 const express = require('express')
 const commentRouter = express.Router()
 const Comment = require('../models/comment.js')
-const User = require('../models/user.js')
 
 // get comments by post
 commentRouter.get('/:postId', (req, res, next) => {
@@ -16,26 +15,16 @@ commentRouter.get('/:postId', (req, res, next) => {
     })
 })
 
-// post comment
-commentRouter.post('/:postId', async (req, res, next) => {
-    // req.body.user = req.user._id
-    // req.body.postedBy = req.user.username
+commentRouter.post('/:postId', (req, res, next) => {
     req.body.post = req.params.postId
-    try {
-        const user = await User.findOne({_id: req.user._id})
-        if(user){
-            req.body.postedBy = user.username
-            req.body.user = user._id
+    const newComment = new Comment(req.body)
+    newComment.save((err, newComment) => {
+        if(err){
+            res.status(500)
+            return next(err)
         }
-        const newComment = new Comment(req.body)
-        const newCommentObj = await new newComment.save()
-        return res.status(201).send(newCommentObj)
-    }
-    catch(err){
-        res.status(500)
-        return next(err)
-    }
+        return res.status(201).send(newComment)
+    })
 })
-// ^^ need to make sure this works
 
 module.exports = commentRouter

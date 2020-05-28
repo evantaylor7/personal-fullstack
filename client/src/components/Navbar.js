@@ -1,19 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
-
-const NavBox = styled.div`
-    background-color: whitesmoke;
-    height: 40px
-`
+import {UserContext} from '../context/UserProvider'
 
 const Navbar = () => {
+    const {token, logout} = useContext(UserContext)
+
     return(
         <NavBox>
             This is the navbar
-            <Link to='/auth'>Log In</Link>
+            {
+            token ?
+                <button onClick={() => logout()}>Log Out</button>
+            :
+                <Link to='/auth'>Log In</Link>
+            }
         </NavBox>
     )
 }
 
 export default Navbar
+
+const NavBox = styled.div`
+    background-color: whitesmoke;
+    height: 40px
+`

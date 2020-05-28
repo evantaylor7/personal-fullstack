@@ -3,10 +3,12 @@ const app = express()
 const expressJwt = require('express-jwt')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+
+// const multer = require('multer')
+// const upload = multer({dest: 'uploads/'})
+
 require('dotenv').config()
-
 const port = process.env.PORT
-
 const secret = process.env.SECRET
 
 app.use(express.json())
@@ -26,7 +28,10 @@ mongoose.connect (
     }
 )
 
-// routes go here
+// app.use(multer({dest: ‘./uploads/’,
+//     rename: (fieldname, filename) => filename
+// }))
+
 app.use('/auth', require('./routes/authRouter.js'))
 app.use('/blog', require('./routes/blogRouter.js'))
 app.use('/posts', require('./routes/postRouter.js'))
