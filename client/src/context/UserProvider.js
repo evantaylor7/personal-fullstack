@@ -64,7 +64,6 @@ const UserProvider = props => {
             user: {},
             token: ''
         })
-        // ^^ may have to alter this
     }
 
     const handleAuthError = errMsg => {
@@ -83,7 +82,7 @@ const UserProvider = props => {
 
     // BLOG:
     // get blog (without token)
-    const getPublicBlog = username => {
+    const getBlog = username => {
         axios.get(`/blog/${username}`)
             .then(res => {
                 setUserState(prevUserState => ({
@@ -239,7 +238,7 @@ const UserProvider = props => {
                     login,
                     logout,
                     resetAuthError,
-                    getPublicBlog,
+                    getBlog,
                     getPublicPosts,
                     getPost,
                     getComments,

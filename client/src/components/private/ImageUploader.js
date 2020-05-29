@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const UserHome = () => {
+const ImageUploader = () => {
     return(
         <Container>
-            This is the User's Home page
+
         </Container>
     )
 }
 
-export default UserHome
+export default ImageUploader
 
 const Container = styled.div`
 

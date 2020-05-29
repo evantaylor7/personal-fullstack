@@ -16,6 +16,7 @@ const blogSchema = new Schema({
         type: String,
         required: true,
     },
+    subtitle: String,
     img: {
         data: Buffer,
         contentType: String

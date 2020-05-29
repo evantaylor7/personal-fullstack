@@ -1,6 +1,6 @@
 import React from 'react'
 import {useParams} from 'react-router-dom'
-import CommentList from './comments/CommentList.js'
+import CommentList from '../comments/CommentList.js'
 
 const PostDetail = () => {
     const {postId} = useParams()

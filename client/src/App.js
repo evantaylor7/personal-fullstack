@@ -1,13 +1,15 @@
 import React, {useContext} from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
 import Navbar from './components/Navbar.js'
-import Home from './components/Home.js'
-import UserHome from './components/UserHome.js'
-import BlogDetail from './components/BlogDetail.js'
+import Home from './components/public/Home.js'
+import UserHome from './components/private/UserHome.js'
 import Auth from './components/auth/Auth.js'
+import BlogDetail from './components/public/BlogDetail.js'
+import PostDetail from './components/public/PostDetail.js'
 import {UserContext} from './context/UserProvider.js'
 
 import './styles.css'
+import ProtectedRoute from './ProtectedRoute.js'
 
 const App = () => {
     const {token} = useContext(UserContext)
@@ -18,19 +20,26 @@ const App = () => {
             <Switch>
                 <Route
                     exact path='/'
-                    render={() => token ? <UserHome/> : <Home/>}
+                    render={() => token ? <Redirect to='/dashboard'/> : <Home/>}
+                />
+                <ProtectedRoute
+                    path='/dashboard'
+                    component={UserHome}
+                    redirectTo='/'
+                    token={token}
                 />
                 <Route
                     path='/auth'
                     render={() => token ? <Redirect to='/'/> : <Auth/>}
                 />
                 <Route
-                    path='/:blogId'
+                    path='/b/:blogId'
                     render={() => <BlogDetail/>}
                 />
                 <Route
-                    path='/:postId'
-                    render={() =? <PostDetail/>}
+                    path='/p/:postId'
+                    render={() => <PostDetail/>}
+                />
             </Switch>
         </div>
     )

@@ -13,6 +13,10 @@ const AuthForm = props => {
         errMsg
     } = props
 
+    const noSpaces = e => {
+        e.which === 32 && e.preventDefault()
+    }
+
     return(
         <Container>
             <form onSubmit={handleSubmit}>
@@ -22,13 +26,18 @@ const AuthForm = props => {
                     placeholder='username'
                     value={username}
                     onChange={handleChange}
+                    onKeyDown={noSpaces}
+                    maxLength={15}
+                    autoFocus
                 />
                 <input
                     name='password'
-                    type='text'
+                    type='password'
                     placeholder='password'
                     value={password}
                     onChange={handleChange}
+                    onKeyDown={noSpaces}
+                    maxLength={20}
                 />
                 <button>{btnText}</button>
                 <ErrorMsg>{errMsg}</ErrorMsg>
