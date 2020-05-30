@@ -1,26 +1,30 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
+const initInputs = {
+    title: '',
+    subtitle: ''
+}
+
 const Titles = props => {
-    const {title, subtitle, updateBlog} = props
-    const prevInputs = {
-        title: title,
-        subtitle: subtitle
-    }
-    const [formToggle, setFormToggle] = useState({title: false, subtitle: false})
-    const [inputs, setInputs] = useState(prevInputs)
-    console.log(inputs)
+    const {title, subtitle, description, updateBlog, settings} = props
+
+    const [formToggle, setFormToggle] = useState({title: false, subtitle: false, description: false})
+    const [inputs, setInputs] = useState(initInputs)
+    
+    useEffect(() => { 
+        setInputs({title: title, subtitle: subtitle, description: description})
+    }, [title, subtitle, description])
 
     const handleToggle = type => {
         setFormToggle(prevFormToggle => ({
             ...prevFormToggle,
-            [type]: !prevFormToggle.type
+            [type]: true
         }))
     }
 
     const handleChange = e => {
         const {name, value} = e.target
-        console.log(name)
         setInputs(prevInputs => ({
             ...prevInputs,
             [name]: value
@@ -33,50 +37,66 @@ const Titles = props => {
         updateBlog(inputs)
         setFormToggle(prevFormToggle => ({
             ...prevFormToggle,
-            [name]: !prevFormToggle.name
+            [name]: false
         }))
     }
 
     return(
         <Container>
-            <Title onClick={() => handleToggle('title')}>
+            <TitleContainer onClick={() => handleToggle('title')}>
                 {
                 !formToggle.title && title ? 
-                    <h1>{title}</h1>
+                    <Title>{title}</Title>
                 : 
-                    <TitleForm onSubmit={handleSubmit}>
+                    <TitleForm onSubmit={handleSubmit} name='title'>
                         <TitleInput 
                             type='text'
                             name='title'
                             value={inputs.title} 
-                            handleChange={handleChange} 
-                            input={inputs.title}
+                            onChange={handleChange} 
                             autoFocus
-                            // placeholder='Add Blog Title'
+                            onBlur={handleSubmit}
+                            placeholder={title ? '' : 'Add Blog Title'}
                         />
-                        <button>Save</button>
                     </TitleForm>
                 }
-            </Title>
-            <Subtitle onClick={() => handleToggle('subtitle')}>
+            </TitleContainer>
+            <Subtitle onClick={() => handleToggle('subtitle')} setting={settings?.subtitle}>
                 {
                 !formToggle.subtitle && subtitle ? 
                     <h3>{subtitle}</h3>
                 : 
-                    <SubtitleForm onSubmit={handleSubmit}>
+                    <SubtitleForm onSubmit={handleSubmit} name='subtitle'>
                         <SubtitleInput 
                             type='text' 
                             name='subtitle'
                             value={inputs.subtitle}
-                            handleChange={handleChange} 
-                            input={inputs.subtitle}
+                            onChange={handleChange} 
                             autoFocus
-                            // placeholder='Add Blog Subtitle'
+                            onBlur={handleSubmit}
+                            placeholder={subtitle ? '' : 'Add a Subtitle'}
                         /> 
-                        <button>Save</button>
                     </SubtitleForm>
                 }
             </Subtitle>
+            <Description onClick={() => handleToggle('description')} setting={settings?.description}>
+                {
+                !formToggle.description && description ? 
+                    <p>{description}</p>
+                : 
+                    <DescriptionForm onSubmit={handleSubmit} name='description'>
+                        <DescriptionInput 
+                            type='text' 
+                            name='description'
+                            value={inputs.description}
+                            onChange={handleChange} 
+                            autoFocus
+                            onBlur={handleSubmit}
+                            placeholder={description ? '' : 'Add a description of your blog'}
+                        /> 
+                    </DescriptionForm>
+                }
+            </Description>
         </Container>
     )
 }
@@ -86,10 +106,19 @@ export default Titles
 const Container = styled.div`
     grid-column: 2 / -1;
     margin: 10px;
+    text-align: center
 `
 
-const Title = styled.div`
+const TitleContainer = styled.div`
 
+`
+
+const Title = styled.h1`
+    &:hover {
+        border: solid 1px black;
+        border-radius: 10px;
+        background-color: lightblue
+    }
 `
 
 const TitleForm = styled.form`
@@ -101,7 +130,7 @@ const TitleInput = styled.input`
 `
 
 const Subtitle = styled.div`
-
+    display: ${props => props.setting ? 'block' : 'none'}
 `
 
 const SubtitleForm = styled.form`
@@ -109,5 +138,17 @@ const SubtitleForm = styled.form`
 `
 
 const SubtitleInput = styled.input`
+
+`
+
+const Description = styled.div`
+    display: ${props => props.setting ? 'block' : 'none'}
+`
+
+const DescriptionForm = styled.form`
+
+`
+
+const DescriptionInput = styled.textarea`
 
 `

@@ -6,17 +6,27 @@ import {UserContext} from '../../context/UserProvider'
 import styled from 'styled-components'
 
 const UserHome = () => {
-    const {blog, getBlog, user: {username}, updateBlog} = useContext(UserContext)
-
+    const {
+        blog,
+        getBlog, 
+        user: {username}, 
+        updateBlog
+    } = useContext(UserContext)
+    console.log(blog)
     useEffect(() => {
         getBlog(username)
     }, [])
-    console.log(blog)
 
     return(
         <Container>
-            <Sidebar/>
-            <Titles title={blog.title} subtitle={blog.subtitle} updateBlog={updateBlog}/>
+            <Sidebar blog={blog} updateBlog={updateBlog}/>
+            <Titles 
+                title={blog.title} 
+                subtitle={blog.subtitle} 
+                description={blog.description}
+                updateBlog={updateBlog} 
+                settings={blog.settings}
+            />
             <MainImg>
                 {/* <button>Click to add a </button> */}
             </MainImg>

@@ -16,12 +16,21 @@ const blogSchema = new Schema({
         type: String,
         required: true,
     },
+    settings: {
+        type: Object,
+        default: {
+            subtitle: false,
+            description: false,
+            img: true
+        },
+        required: true
+    },
     subtitle: String,
+    description: String,
     img: {
         data: Buffer,
         contentType: String
-    },
-    description: String,
+    }
 })
 
 module.exports = mongoose.model('Blog', blogSchema)

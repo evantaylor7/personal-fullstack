@@ -158,15 +158,18 @@ const UserProvider = props => {
     // BLOG:
     // update or upsert (create new if non-existent)
     const updateBlog = updates => {
+        console.log(updates)
         userAxios.put('/api/blog', updates)
             .then(res => {
-                setUserState(prevUserState => ({
-                    ...prevUserState,
-                    blog: res.data
-                }))
+                // setUserState(prevUserState => ({
+                //     ...prevUserState,
+                //     blog: {...prevUserState.blog, updates}
+                // }))
+                console.log(res.data)
+                getBlog(userState.user.username)
             })
             .catch(err => console.log(err))
-    }
+    }   
 
     // BLOG POSTS:
     const postNew = post => {

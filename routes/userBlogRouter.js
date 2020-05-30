@@ -6,7 +6,7 @@ const upload = multer({dest: 'uploads/'})
 
 // update blog
 userBlogRouter.put('/', (req, res, next) => {
-    console.log(req.file)
+    // console.log(req.file)
     req.body.user = req.user._id
     req.body.username = req.user.username
     req.body.img = req.file
