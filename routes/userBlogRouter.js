@@ -2,7 +2,7 @@ const express = require('express')
 const userBlogRouter = express.Router()
 const Blog = require('../models/blog.js')
 const multer = require('multer')
-const upload = multer({dest: 'uploads/'})
+// const upload = multer({dest: 'uploads/'})
 
 // update blog
 userBlogRouter.put('/', (req, res, next) => {
