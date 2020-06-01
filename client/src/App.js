@@ -2,8 +2,8 @@ import React, {useContext} from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
 import Navbar from './components/Navbar.js'
 import Home from './components/public/Home.js'
-import UserHome from './components/private/UserHome.js'
 import Auth from './components/auth/Auth.js'
+import UserHome from './components/private/UserHome.js'
 import BlogDetail from './components/public/BlogDetail.js'
 import PostDetail from './components/public/PostDetail.js'
 import {UserContext} from './context/UserProvider.js'
@@ -22,15 +22,15 @@ const App = () => {
                     exact path='/'
                     render={() => token ? <Redirect to='/dashboard'/> : <Home/>}
                 />
+                <Route
+                    path='/auth'
+                    render={() => token ? <Redirect to='/'/> : <Auth/>}
+                />
                 <ProtectedRoute
                     path='/dashboard'
                     component={UserHome}
                     redirectTo='/'
                     token={token}
-                />
-                <Route
-                    path='/auth'
-                    render={() => token ? <Redirect to='/'/> : <Auth/>}
                 />
                 <Route
                     path='/b/:blogId'

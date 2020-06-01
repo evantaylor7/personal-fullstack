@@ -69,5 +69,6 @@ const Auth = () => {
 export default Auth
 
 const Container = styled.div`
-
+    padding-top: 50px;
+    margin-left: 10px
 `

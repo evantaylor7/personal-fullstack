@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ImageUploader = () => {
+const Post = () => {
     return(
         <Container>
 
@@ -9,7 +9,7 @@ const ImageUploader = () => {
     )
 }
 
-export default ImageUploader
+export default Post
 
 const Container = styled.div`
 

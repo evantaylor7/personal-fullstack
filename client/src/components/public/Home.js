@@ -12,5 +12,5 @@ const Home = () => {
 export default Home
 
 const HomePage = styled.div`
-    
+    padding-top: 40px
 `

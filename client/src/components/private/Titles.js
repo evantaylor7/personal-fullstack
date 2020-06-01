@@ -104,7 +104,6 @@ const Titles = props => {
 export default Titles
 
 const Container = styled.div`
-    /* grid-column: 2 / -1; */
     margin: 10px;
     text-align: center
 `

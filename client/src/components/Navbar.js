@@ -23,5 +23,7 @@ export default Navbar
 
 const NavBox = styled.div`
     background-color: whitesmoke;
-    height: 40px
+    height: 40px;
+    position: fixed;
+    width: 100%
 `
