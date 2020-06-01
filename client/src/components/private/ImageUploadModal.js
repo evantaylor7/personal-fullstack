@@ -1,20 +1,40 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 
 const ImageUploadModal = props => {
-    const {toggle} = props
+    const {toggle, cancel} = props
+
+    const [tab, setTab] = useState('')
+
+    const handleTab = type => {
+        setTab(type)
+    }
 
     return(
         <Modal toggle={toggle}>
             <Container>
-                <Title>Choose an Image</Title>
-                <LeftDiv>
-                    <Tab>Unsplash</Tab>
-                    <Tab>Upload Photo</Tab>
-                </LeftDiv>
-                <RightDiv>
+                <TitleContainer>
+                    <Title>Choose an Image</Title>
+                    <CancelButton onClick={() => cancel('img')}>X</CancelButton>
+                </TitleContainer>
+                <ContentContainer>
+                    <LeftDiv>
+                        <Tab>
+                            <TabContent onClick={() => handleTab('unsplash')} selected={tab === 'unsplash'}>
+                                Unsplash
+                            </TabContent>
+                        </Tab>
+                        <Tab>
+                            <TabContent onClick={() => handleTab('upload')} selected={tab === 'upload'}>
+                                Upload Photo
+                            </TabContent>
+                        </Tab>
+                    </LeftDiv>
+                    <RightDiv>
 
-                </RightDiv>
+                    </RightDiv>
+                </ContentContainer>
+                <Apply>Apply</Apply>
             </Container>
         </Modal>
     )
@@ -30,41 +50,84 @@ const Modal = styled.div`
     top: 0;
     width: 100%;
     height: 100%;
-    /* overflow: auto; */
-    background-color: rgba(0, 0, 0, .5);
-    padding: 2%
+    background-color: rgba(0, 0, 0, .6);
 `
 
 const Container = styled.div`
-    /* position: fixed; */
     width: 90%;
     height: 90%;
-    margin: 1% auto;
-    /* margin-top: 10%; */
+    margin: auto;
+    margin-top: 5vh;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
     background-color: whitesmoke;
-    border-radius: 10px
-    /* border: solid black 1px */
+    border-radius: 10px;
+    position: relative
 `
 
-const Title = styled.div`
+const TitleContainer = styled.div`
     height: 40px;
     background-color: #214761;
     border-radius: 10px 10px 0 0;
+    display: flex;
+    padding: 0 20px;
+    justify-content: space-between;
+    align-items: center
+`
+
+const Title = styled.p`
     color: whitesmoke;
-    font-size: 18pt;
-    padding-left: 10px;
-    padding-top: 4px
+    font-size: 14pt;
+`
+
+const CancelButton = styled.button`
+    border: none;
+    background-color: inherit;
+    color: whitesmoke;
+    font-size: 20px;
+
+    &:hover {
+        cursor: pointer
+    }
+`
+
+const ContentContainer = styled.div`
+    display: grid;
+    grid-template-columns: 200px auto;
+    height: 80%;
 `
 
 const LeftDiv = styled.div`
-
+    grid-column: 1 / 2;
+    background-color: #b5d3e7;
 `
 
 const RightDiv = styled.div`
-
+    grid-column: 2 / -1;
 `
 
 const Tab = styled.div`
+    background-color: #b5d3e7;
+    padding: 20px 0 0 20px;
+    /* padding-bottom: 0 */
+`
 
+const TabContent = styled.p`
+    font-size: 12pt;
+    clear: both;
+    color: ${props => props.selected && '#cca74c'};
+
+    &:hover {
+        cursor: pointer
+    }
+`
+
+const Apply = styled.button`
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border: none;
+    background-color: #214761;
+    color: whitesmoke;
+    padding: 5px;
+    border-radius: 4px
 `

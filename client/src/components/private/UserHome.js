@@ -21,12 +21,10 @@ const UserHome = () => {
         getBlog(username)
     }, [])
 
-    const handleToggleModal = e => {
-        const {name} = e.target
-        console.log(name)
+    const handleToggleModal = type => {
         setToggleModal(prevToggleModal => ({
             ...prevToggleModal,
-            [name]: !prevToggleModal.name
+            [type]: prevToggleModal[type] === true ? false : true
         }))
     }
 
@@ -42,11 +40,11 @@ const UserHome = () => {
                     settings={blog.settings}
                 />
                 <MainImg setting={blog?.settings?.img}>
-                    <button onClick={handleToggleModal} name='img'>Choose Image</button>
+                    <button onClick={() => handleToggleModal('img')}>Choose Image</button>
                 </MainImg>
-                <ImageUploadModal toggle={toggleModal.img}/>
+                <ImageUploadModal toggle={toggleModal.img} cancel={handleToggleModal}/>
                 <h2>Your Posts</h2>
-                <Button onClick={handleToggleModal} name='post'>Make New Post</Button>
+                <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
                 {/* ^^ opens modal to make new post */}
                 <PostList/>
                 <Button primary>Publish</Button>
@@ -74,9 +72,7 @@ const BlogContainer = styled.div`
 const MainImg = styled.div`
     display: ${props => props.setting ? 'block' : 'none'};
     height: 500px;
-    /* border: solid black 1px; */
     margin: 10px;
-    /* width: 100%; */
     background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80');
     background-repeat: no-repeat;
     background-size: cover;
