@@ -3,27 +3,77 @@ import styled from 'styled-components'
 import {UserContext} from '../../../context/UserProvider'
 
 const Unsplash = props => {
+    const {handleImgSelect} = props
     const {unsplash, getPhotos, searchPhotos} = useContext(UserContext)
     console.log(unsplash)
+    const [input, setInput] = useState('')
+    const [imgSelector, setImgSelector] = useState('')
 
     useEffect(() => {
         getPhotos()
     }, [])
 
+    const handleChange = e => {
+        const {value} = e.target
+        setInput(value)
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        searchPhotos(input)
+    }
+
     const photo = unsplash.map(photo => (
-        <Img key={photo.id} src={photo.urls.raw}/>
+        <Img 
+            key={photo.id} 
+            selected={imgSelector === photo.id}
+            src={photo.urls.small} 
+            onClick={() => {
+                handleImgSelect(photo.urls.raw)
+                setImgSelector(photo.id)
+            }}
+        />
     ))
 
     return(
-        <div>
+        <Container>
+            <SearchForm onSubmit={handleSubmit}>
+                <Input 
+                    placeholder='Search Unsplash for Images. i.e. "nature", "travel", "italian food"'
+                    value={input}
+                    onChange={handleChange}
+                />
+            </SearchForm>
             {photo}
-        </div>
+        </Container>
     )
 }
 
 export default Unsplash
 
+const Container = styled.div`
+
+`
+
+const SearchForm = styled.form`
+
+`
+
+const Input = styled.input`
+    width: 80%;
+    outline: none;
+    margin: 0 0 5px 5px;
+    padding: 10px;
+    border-radius: 4px;
+    border: solid 1px black
+`
+
 const Img = styled.img`
-    /* max-width: 200px; */
-    height: 150px
+    height: 150px;
+    margin: 5px;
+    outline: ${props => props.selected && '6px solid #214761'};
+    
+    &:hover {
+        cursor: pointer;
+    }
 `

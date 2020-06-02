@@ -30,7 +30,8 @@ const blogSchema = new Schema({
     img: {
         data: Buffer,
         contentType: String
-    }
+    },
+    imgUrl: String
 })
 
 module.exports = mongoose.model('Blog', blogSchema)

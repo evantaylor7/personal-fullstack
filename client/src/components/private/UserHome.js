@@ -39,10 +39,17 @@ const UserHome = () => {
                     updateBlog={updateBlog} 
                     settings={blog.settings}
                 />
-                <MainImg setting={blog?.settings?.img}>
-                    <button onClick={() => handleToggleModal('img')}>Choose Image</button>
+                <MainImg setting={blog?.settings?.img} imgUrl={blog.imgUrl}>
+                    <Button onClick={() => handleToggleModal('img')}>Choose Image</Button>
                 </MainImg>
-                {toggleModal.img && <ImageUploadModal toggle={toggleModal.img} cancel={handleToggleModal}/>}
+                {
+                toggleModal.img && 
+                    <ImageUploadModal 
+                        toggle={toggleModal.img} 
+                        close={handleToggleModal}
+                        addImg={updateBlog}
+                    />
+                }
                 <h2>Your Posts</h2>
                 <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
                 {/* ^^ opens modal to make new post */}
@@ -73,7 +80,7 @@ const MainImg = styled.div`
     display: ${props => props.setting ? 'block' : 'none'};
     height: 500px;
     margin: 10px;
-    background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80');
+    background-image: url(${props => props.imgUrl ? props.imgUrl : 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80'});
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -87,7 +94,7 @@ const Button = styled.button`
     padding: 5px;
     border-radius: 4px;
     border: solid 1px black;
-    background-color: darkcyan;
+    background-color: #214761;
     color: whitesmoke;
     cursor: pointer;
     ${props => props.primary && 'margin-top: 40px; font-size: 18pt'}

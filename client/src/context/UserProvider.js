@@ -254,9 +254,9 @@ const UserProvider = props => {
     }
 
     const searchPhotos = query => {
-        unsplashAxios.get(`https://api.unsplash.com/search/photos?query=${query}`)
+        unsplashAxios.get(`https://api.unsplash.com/search/photos?query=${query}&per_page=30`)
             .then(res => {
-                setUnsplash(res.data)
+                setUnsplash(res.data.results)
             })
             .catch(err => console.log(err))
     }

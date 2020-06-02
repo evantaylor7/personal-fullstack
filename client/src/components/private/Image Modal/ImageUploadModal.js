@@ -3,11 +3,21 @@ import Unsplash from './Unsplash.js'
 import styled from 'styled-components'
 
 const ImageUploadModal = props => {
-    const {toggle, cancel} = props
+    const {toggle, close, addImg} = props
     const [tab, setTab] = useState('unsplash')
+    const [img, setImg] = useState('')
 
     const handleTab = type => {
         setTab(type)
+    }
+
+    const handleImgSelect = url => {
+        setImg(url)
+    }
+
+    const handleImgSubmit = () => {
+        addImg({imgUrl: img})
+        close('img')
     }
 
     return(
@@ -15,7 +25,7 @@ const ImageUploadModal = props => {
             <Container>
                 <TitleContainer>
                     <Title>Choose an Image</Title>
-                    <CancelButton onClick={() => cancel('img')}>X</CancelButton>
+                    <CancelButton onClick={() => close('img')}>X</CancelButton>
                 </TitleContainer>
                 <ContentContainer>
                     <LeftDiv>
@@ -31,10 +41,10 @@ const ImageUploadModal = props => {
                         </Tab>
                     </LeftDiv>
                     <RightDiv>
-                        {tab === 'unsplash' && <Unsplash/>}
+                        {tab === 'unsplash' && <Unsplash handleImgSelect={handleImgSelect}/>}
                     </RightDiv>
                 </ContentContainer>
-                <Apply>Apply</Apply>
+                <Apply onClick={handleImgSubmit}>Apply</Apply>
             </Container>
         </Modal>
     )
@@ -108,7 +118,9 @@ const LeftDiv = styled.div`
 
 const RightDiv = styled.div`
     grid-column: 2 / -1;
-    overflow: auto
+    overflow: auto;
+    padding: 20px;
+    padding-top: 10px
 `
 
 const Tab = styled.div`
