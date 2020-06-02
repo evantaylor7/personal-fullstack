@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
+import Unsplash from './Unsplash.js'
 import styled from 'styled-components'
 
 const ImageUploadModal = props => {
     const {toggle, cancel} = props
-
-    const [tab, setTab] = useState('')
+    const [tab, setTab] = useState('unsplash')
 
     const handleTab = type => {
         setTab(type)
@@ -19,19 +19,19 @@ const ImageUploadModal = props => {
                 </TitleContainer>
                 <ContentContainer>
                     <LeftDiv>
-                        <Tab>
-                            <TabContent onClick={() => handleTab('unsplash')} selected={tab === 'unsplash'}>
+                        <Tab onClick={() => handleTab('unsplash')} selected={tab === 'unsplash'}>
+                            <TabContent selected={tab === 'unsplash'}>
                                 Unsplash
                             </TabContent>
                         </Tab>
-                        <Tab>
-                            <TabContent onClick={() => handleTab('upload')} selected={tab === 'upload'}>
+                        <Tab onClick={() => handleTab('upload')} selected={tab === 'upload'}>
+                            <TabContent selected={tab === 'upload'}>
                                 Upload Photo
                             </TabContent>
                         </Tab>
                     </LeftDiv>
                     <RightDiv>
-
+                        {tab === 'unsplash' && <Unsplash/>}
                     </RightDiv>
                 </ContentContainer>
                 <Apply>Apply</Apply>
@@ -84,6 +84,7 @@ const CancelButton = styled.button`
     background-color: inherit;
     color: whitesmoke;
     font-size: 20px;
+    outline: none;
 
     &:hover {
         cursor: pointer
@@ -92,33 +93,38 @@ const CancelButton = styled.button`
 
 const ContentContainer = styled.div`
     display: grid;
-    grid-template-columns: 200px auto;
-    height: 80%;
+    grid-template-columns: 160px auto;
+    position: relative;
+    min-height: 0;
+    height: calc(100% - 40px);
 `
 
 const LeftDiv = styled.div`
     grid-column: 1 / 2;
     background-color: #b5d3e7;
+    border-bottom-left-radius: 10px;
+    border-top: solid 1px whitesmoke;
 `
 
 const RightDiv = styled.div`
     grid-column: 2 / -1;
+    overflow: auto
 `
 
 const Tab = styled.div`
-    background-color: #b5d3e7;
-    padding: 20px 0 0 20px;
-    /* padding-bottom: 0 */
+    background-color: ${props => props.selected ? '#214761' : '#b5d3e7'};
+    padding: 10px;
+    padding-left: 20px;
+
+    &:hover {
+        cursor: pointer
+    }
 `
 
 const TabContent = styled.p`
     font-size: 12pt;
     clear: both;
-    color: ${props => props.selected && '#cca74c'};
-
-    &:hover {
-        cursor: pointer
-    }
+    color: ${props => props.selected && 'whitesmoke'};
 `
 
 const Apply = styled.button`

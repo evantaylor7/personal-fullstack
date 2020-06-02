@@ -1,15 +1,24 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 
+const key = process.env.REACT_APP_ACCESS_KEY
+
 const UserContext = React.createContext()
 
 const userAxios = axios.create()
-
 userAxios.interceptors.request.use(config => {
     const token = localStorage.getItem('token')
     config.headers.Authorization = `Bearer ${token}`
     return config
 })
+
+const unsplashAxios = axios.create()
+unsplashAxios.interceptors.request.use(config => {
+    config.headers.Authorization = `Client-ID ${key}`
+    config.headers['Accept-Version'] = 'v1'
+    return config
+})
+// ask if this is the best way to do this ^^
 
 const UserProvider = props => {
     const initState = {
@@ -22,6 +31,7 @@ const UserProvider = props => {
         errMsg: ''
     }
     const [userState, setUserState] = useState(initState)
+    const [unsplash, setUnsplash] = useState([])
 
     // NO TOKEN NEEDED -->
 
@@ -230,6 +240,25 @@ const UserProvider = props => {
                     ))
                 }))
             })
+            .catch(err => console.log(err))
+    }
+
+    // EXTERNAL -- Unsplash API requests
+
+    const getPhotos = () => {
+        unsplashAxios.get(`https://api.unsplash.com/photos?per_page=30`)
+            .then(res => {
+                setUnsplash(res.data)
+            })
+            .catch(err => console.log(err))
+    }
+
+    const searchPhotos = query => {
+        unsplashAxios.get(`https://api.unsplash.com/search/photos?query=${query}`)
+            .then(res => {
+                setUnsplash(res.data)
+            })
+            .catch(err => console.log(err))
     }
 
     return(
@@ -237,6 +266,7 @@ const UserProvider = props => {
             <UserContext.Provider
                 value={{
                     ...userState,
+                    unsplash,
                     signup,
                     login,
                     logout,
@@ -251,7 +281,9 @@ const UserProvider = props => {
                     deletePost,
                     editPost,
                     deleteComment,
-                    editComment
+                    editComment,
+                    getPhotos,
+                    searchPhotos
                 }}
             >
                 {props.children}

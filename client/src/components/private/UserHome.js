@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import Sidebar from './Sidebar.js'
 import Titles from './Titles.js'
-import ImageUploadModal from './ImageUploadModal.js'
+import ImageUploadModal from './Image Modal/ImageUploadModal.js'
 import PostList from '../posts/PostList.js'
 import {UserContext} from '../../context/UserProvider'
 import styled from 'styled-components'
@@ -42,7 +42,7 @@ const UserHome = () => {
                 <MainImg setting={blog?.settings?.img}>
                     <button onClick={() => handleToggleModal('img')}>Choose Image</button>
                 </MainImg>
-                <ImageUploadModal toggle={toggleModal.img} cancel={handleToggleModal}/>
+                {toggleModal.img && <ImageUploadModal toggle={toggleModal.img} cancel={handleToggleModal}/>}
                 <h2>Your Posts</h2>
                 <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
                 {/* ^^ opens modal to make new post */}
