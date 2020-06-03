@@ -44,7 +44,9 @@ const ImageUploadModal = props => {
                         {tab === 'unsplash' && <Unsplash handleImgSelect={handleImgSelect}/>}
                     </RightDiv>
                 </ContentContainer>
-                <Apply onClick={handleImgSubmit}>Apply</Apply>
+                <ApplyContainer>
+                    <Apply onClick={handleImgSubmit}>Apply</Apply>
+                </ApplyContainer>
             </Container>
         </Modal>
     )
@@ -71,7 +73,7 @@ const Container = styled.div`
     box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
     background-color: whitesmoke;
     border-radius: 10px;
-    position: relative
+    position: relative;
 `
 
 const TitleContainer = styled.div`
@@ -81,7 +83,7 @@ const TitleContainer = styled.div`
     display: flex;
     padding: 0 20px;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
 `
 
 const Title = styled.p`
@@ -120,7 +122,7 @@ const RightDiv = styled.div`
     grid-column: 2 / -1;
     overflow: auto;
     padding: 20px;
-    padding-top: 10px
+    padding-top: 10px;
 `
 
 const Tab = styled.div`
@@ -139,13 +141,33 @@ const TabContent = styled.p`
     color: ${props => props.selected && 'whitesmoke'};
 `
 
-const Apply = styled.button`
+const ApplyContainer = styled.div`
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    height: 40px;
+    width: 100%;
+    background-color: white;
+    /* border: solid black 1px; */
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+`
+
+const Apply = styled.button`
+    /* position: absolute; */
+    /* bottom: 10px; */
+    /* right: 10px; */
+    float: right;
+    margin-right: 25px;
+    /* margin-top: 8px; */
+    
     border: none;
     background-color: #214761;
     color: whitesmoke;
     padding: 5px;
-    border-radius: 4px
+    border-radius: 4px;
+
+    &:hover {
+        cursor: pointer;
+    }
 `

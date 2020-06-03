@@ -23,7 +23,7 @@ const Unsplash = props => {
         searchPhotos(input)
     }
 
-    const photo = unsplash.map(photo => (
+    const imgList = unsplash.map(photo => (
         <Img 
             key={photo.id} 
             selected={imgSelector === photo.id}
@@ -44,7 +44,9 @@ const Unsplash = props => {
                     onChange={handleChange}
                 />
             </SearchForm>
-            {photo}
+            <ImgListContainer>
+                {imgList}
+            </ImgListContainer>
         </Container>
     )
 }
@@ -65,7 +67,13 @@ const Input = styled.input`
     margin: 0 0 5px 5px;
     padding: 10px;
     border-radius: 4px;
-    border: solid 1px black
+    border: solid 1px black;
+`
+
+const ImgListContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 `
 
 const Img = styled.img`

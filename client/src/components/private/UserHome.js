@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import Sidebar from './Sidebar.js'
+import Endpoint from './Endpoint.js'
 import Titles from './Titles.js'
 import ImageUploadModal from './Image Modal/ImageUploadModal.js'
 import PostList from '../posts/PostList.js'
@@ -9,7 +10,7 @@ import styled from 'styled-components'
 const UserHome = () => {
     const {
         blog,
-        getBlog, 
+        getUserBlog, 
         user: {username}, 
         updateBlog
     } = useContext(UserContext)
@@ -18,7 +19,7 @@ const UserHome = () => {
     const [toggleModal, setToggleModal] = useState({img: false, post: false})
 
     useEffect(() => {
-        getBlog(username)
+        getUserBlog()
     }, [])
 
     const handleToggleModal = type => {
@@ -32,29 +33,41 @@ const UserHome = () => {
         <Container>
             <Sidebar blog={blog} updateBlog={updateBlog}/>
             <BlogContainer>
-                <Titles 
-                    title={blog.title} 
-                    subtitle={blog.subtitle} 
-                    description={blog.description}
-                    updateBlog={updateBlog} 
-                    settings={blog.settings}
-                />
-                <MainImg setting={blog?.settings?.img} imgUrl={blog.imgUrl}>
-                    <Button onClick={() => handleToggleModal('img')}>Choose Image</Button>
-                </MainImg>
-                {
-                toggleModal.img && 
-                    <ImageUploadModal 
+                <Url>
+                    <DotContainer>
+                        <Dot color='rgb(237, 101, 90)'/>
+                        <Dot color='rgb(225, 192, 76)'/>
+                        <Dot color='rgb(114, 190, 71)'/>
+                    </DotContainer>
+                    <Endpoint/>
+                </Url>
+                <TitleContainer>
+                    <Titles 
+                        title={blog.title} 
+                        subtitle={blog.subtitle} 
+                        description={blog.description}
+                        updateBlog={updateBlog} 
+                        settings={blog.settings}
+                    />
+                    <MainImg setting={blog?.settings?.img} imgUrl={blog.imgUrl}>
+                        <Button onClick={() => handleToggleModal('img')}>Choose Image</Button>
+                    </MainImg>
+                    {
+                    toggleModal.img && 
+                        <ImageUploadModal 
                         toggle={toggleModal.img} 
                         close={handleToggleModal}
                         addImg={updateBlog}
-                    />
-                }
-                <h2>Your Posts</h2>
-                <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
-                {/* ^^ opens modal to make new post */}
-                <PostList/>
-                <Button primary>Publish</Button>
+                        />
+                    }
+                </TitleContainer>
+                <PostContainer>
+                    <h2>Your Posts</h2>
+                    <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
+                    {/* ^^ opens modal to make new post */}
+                    <PostList/>
+                    <Button primary>Publish</Button>
+                </PostContainer>
             </BlogContainer>
         </Container>
     )
@@ -65,7 +78,7 @@ export default UserHome
 const Container = styled.div`
     display: grid;
     grid-template-columns: 220px auto;
-    padding-top: 40px
+    padding-top: 40px;
 `
 
 const BlogContainer = styled.div`
@@ -73,7 +86,30 @@ const BlogContainer = styled.div`
     border: solid lightgrey 1px;
     border-radius: 4px;
     margin: 10px;
-    margin-left: 0
+    margin-left: 0;
+`
+
+const Url = styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+`
+
+const DotContainer = styled.div`
+    display: flex;
+    margin: 10px;
+`
+
+const Dot = styled.div`
+    height: 10px;
+    width: 10px;
+    border-radius: 10px;
+    margin-right: 5px;
+    background-color: ${props => props.color};
+`
+
+const TitleContainer = styled.div`
+    position: relative;
 `
 
 const MainImg = styled.div`
@@ -98,4 +134,8 @@ const Button = styled.button`
     color: whitesmoke;
     cursor: pointer;
     ${props => props.primary && 'margin-top: 40px; font-size: 18pt'}
+`
+
+const PostContainer = styled.div`
+    /* grid-column: 2 / -1; */
 `

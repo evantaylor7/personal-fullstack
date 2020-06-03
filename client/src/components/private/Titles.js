@@ -42,7 +42,7 @@ const Titles = props => {
     }
 
     return(
-        <Container>
+        <Container titleAbove={settings?.titleAbove}>
             <TitleContainer onClick={() => handleToggle('title')}>
                 {
                 !formToggle.title && title ? 
@@ -105,7 +105,11 @@ export default Titles
 
 const Container = styled.div`
     margin: 10px;
-    text-align: center
+    text-align: center;
+    position: ${props => !props.titleAbove && 'absolute'};
+    top: ${props => !props.titleAbove && '50%'};
+    left: ${props => !props.titleAbove && '50%'};
+    transform: ${props => !props.titleAbove && 'translate(-50%, -50%)'};
 `
 
 const TitleContainer = styled.div`
@@ -113,6 +117,8 @@ const TitleContainer = styled.div`
 `
 
 const Title = styled.h1`
+    font-size: 30pt;
+
     &:hover {
         border: solid 1px black;
         border-radius: 10px;

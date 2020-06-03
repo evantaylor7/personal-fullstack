@@ -1,14 +1,27 @@
-import React from 'react'
+import React, {useEffect, useContext} from 'react'
 import {useParams} from 'react-router-dom'
+import styled from 'styled-components'
+import {UserContext} from '../../context/UserProvider'
 
 const BlogDetail = () => {
-    const {blogId} = useParams()
-    console.log(blogId)
+    const {blogUrl} = useParams()
+    const {blog, getBlog} = useContext(UserContext)
+    
+    useEffect(() => {
+        getBlog(blogUrl)
+    }, [])
+    
+    console.log(blogUrl)
+    console.log(blog)
     return(
-        <div>
+        <Container>
             This is a blog detail page
-        </div>
+        </Container>
     )
 }
 
 export default BlogDetail
+
+const Container = styled.div`
+    padding-top: 50px
+`

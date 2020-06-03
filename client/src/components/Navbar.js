@@ -25,5 +25,6 @@ const NavBox = styled.div`
     background-color: whitesmoke;
     height: 40px;
     position: fixed;
-    width: 100%
+    width: 100%;
+    z-index: 1
 `

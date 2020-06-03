@@ -28,7 +28,8 @@ const UserProvider = props => {
         posts: [],
         postDetail: {},
         comments: [],
-        errMsg: ''
+        errMsg: '',
+        urlCheck: false
     }
     const [userState, setUserState] = useState(initState)
     const [unsplash, setUnsplash] = useState([])
@@ -89,12 +90,13 @@ const UserProvider = props => {
             errMsg: ''
         }))
     }
-
+    console.log(userState)
     // BLOG:
     // get blog (without token)
-    const getBlog = username => {
-        axios.get(`/blog/${username}`)
+    const getBlog = blogUrl => {
+        axios.get(`/blog/${blogUrl}`)
             .then(res => {
+                console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
                     blog: res.data
@@ -166,6 +168,29 @@ const UserProvider = props => {
     // TOKEN NEEDED -->
 
     // BLOG:
+    // user getting their own blog
+    const getUserBlog = () => {
+        userAxios.get('/api/blog')
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    blog: res.data
+                }))
+            })
+           
+            .catch(err => console.log(err))
+    }
+
+    const checkUrlEndpoints = endpoint => {
+        userAxios.get(`/api/blog/check/${endpoint}`)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    urlCheck: res.data
+                }))
+            })
+    }
+
     // update or upsert (create new if non-existent)
     const updateBlog = updates => {
         console.log(updates)
@@ -176,7 +201,7 @@ const UserProvider = props => {
                 //     blog: {...prevUserState.blog, updates}
                 // }))
                 console.log(res.data)
-                getBlog(userState.user.username)
+                getUserBlog()
             })
             .catch(err => console.log(err))
     }   
@@ -276,6 +301,8 @@ const UserProvider = props => {
                     getPost,
                     getComments,
                     postComment,
+                    getUserBlog,
+                    checkUrlEndpoints,
                     updateBlog,
                     postNew,
                     deletePost,

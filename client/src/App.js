@@ -33,7 +33,7 @@ const App = () => {
                     token={token}
                 />
                 <Route
-                    path='/b/:blogId'
+                    path='/:blogUrl'
                     render={() => <BlogDetail/>}
                 />
                 <Route
