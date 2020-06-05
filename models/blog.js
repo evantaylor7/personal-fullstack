@@ -4,9 +4,8 @@ const Schema = mongoose.Schema
 const blogSchema = new Schema({
     url: {
         type: String,
-        default: Schema.Types.String,
-        ref: 'User',
-        required: true
+        required: true,
+        unique: true
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -20,6 +19,7 @@ const blogSchema = new Schema({
     },
     title: {
         type: String,
+        default: 'My Blog',
         required: true,
     },
     settings: {

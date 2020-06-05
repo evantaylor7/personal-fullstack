@@ -3,16 +3,20 @@ import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
 
 const Endpoint = () => {
-    const {blog: {username}, urlCheck, checkUrlEndpoints} = useContext(UserContext)
+    const {blog: {username, url}, urlCheck, checkUrlEndpoints, updateBlog} = useContext(UserContext)
 
     const [urlInput, setUrlInput] = useState('')
+    const [showResponse, setShowResponse] = useState(false)
+    const [toggleDomain, setToggleDomain] = useState(false)
     
     useEffect(() => {
-        setUrlInput(username)
-    }, [username])
+        !showResponse && setUrlInput(url ? url : `${username}sBlog`)
+        url && setToggleDomain(true)
+    }, [username, url])
 
-    const handleChange = e => {
+    const handleUrlInput = e => {
         const {value} = e.target
+        setShowResponse(false)
         setUrlInput(value)
     }
 
@@ -20,24 +24,57 @@ const Endpoint = () => {
         e.which === 32 && e.preventDefault()
     }
 
-    const handleSubmit = e => {
+    const handleUrlCheck = e => {
         e.preventDefault()
         checkUrlEndpoints(urlInput)
+        setShowResponse(true)
     }
-    console.log(urlCheck)
+
+    const updateUrl = () => {
+        updateBlog({url: urlInput})
+        setToggleDomain(true)
+    }
+
+    const handleDomainEdit = prevUrl => {
+        setShowResponse(true)
+        setUrlInput(prevUrl)
+        setToggleDomain(false)
+        updateBlog({url: ''})
+    }
 
     return(
         <Container>
-            <p>http://blogtopia.herokuapp.com/</p>
-            <EndpointForm onSubmit={handleSubmit}>
-                <EndpointInput 
-                    maxLength={20}
-                    type='text'
-                    value={urlInput} 
-                    onChange={handleChange}
-                    onKeyDown={noSpaces}
-                />
-            </EndpointForm>
+            <p>{`http://blogtopia.herokuapp.com/${toggleDomain ? url : ''}`}</p>
+            {
+            !toggleDomain ?
+                <EndpointForm onSubmit={handleUrlCheck}>
+                    <EndpointInput 
+                        maxLength={20}
+                        type='text'
+                        value={urlInput} 
+                        onChange={handleUrlInput}
+                        onKeyDown={noSpaces}
+                    />
+                    {
+                    showResponse ?
+                        <>
+                            <Response type={urlCheck ? 'true' : 'false'}>
+                                {urlCheck ? 'X not available' : <ResSpan>&#10003; available</ResSpan>}
+                            </Response>
+                            {!urlCheck && <Button claim onClick={updateUrl}>claim domain</Button>}
+                        </>
+                    :
+                        <Button>
+                            Check Availability
+                        </Button>
+                    }
+                </EndpointForm>
+            :
+                <>
+                    <CurrentDomain>is the address of your blog!</CurrentDomain>
+                    <EditDomainButton onClick={() => handleDomainEdit(url)}>Edit</EditDomainButton>
+                </>
+            }
         </Container>
     )
 }
@@ -53,11 +90,32 @@ const Container = styled.div`
     align-items: center;
     padding-left: 14px;
     font-size: 10pt;
-    /* padding: 8px; */
+`
+
+const CurrentDomain = styled.p`
+    color: #0066CC;
+    font-size: 9pt;
+    margin-left: 10px;
+`
+
+const EditDomainButton = styled.button`
+    margin-left: 10px;
+    text-decoration: underline;
+    border: none;
+    background-color: white;
+    color: #0066CC;
+    font-size: 9pt;
+    outline: none;
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 const EndpointForm = styled.form`
     width: calc(100% - 10px);
+    display: flex;
+    align-items: center;
 `
 
 const EndpointInput = styled.input`
@@ -65,4 +123,30 @@ const EndpointInput = styled.input`
     border: none;
     outline: none;
     color: grey;
+`
+
+const Response = styled.p`
+    position: absolute;
+    margin-left: 100px;
+    font-size: 9pt;
+    color: ${props => props.type === 'true' ? 'red' : 'green'};
+`
+
+const ResSpan = styled.span`
+    display: flex;
+    width: 64px;
+`
+
+const Button = styled.button`
+    position: absolute;
+    margin-left: ${props => props.claim ? '180px' : '100px'};
+    border: none;
+    background-color: white;
+    color: #0066CC;
+    font-size: 9pt;
+    outline: none;
+
+    &:hover {
+        cursor: pointer;
+    }
 `

@@ -22,7 +22,7 @@ userBlogRouter.get('/', (req, res, next) => {
 userBlogRouter.get('/check/:endpoint', async (req, res, next) => {
     try {
         const existingUrl = await Blog.findOne({url: req.params.endpoint})
-        if(existingUrl){
+        if(existingUrl) {
             return res.status(200).send(true)
         } else {
             return res.status(200).send(false)
