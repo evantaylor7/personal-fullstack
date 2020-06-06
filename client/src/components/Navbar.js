@@ -22,9 +22,10 @@ const Navbar = () => {
 export default Navbar
 
 const NavBox = styled.div`
-    background-color: whitesmoke;
+    background-color: white;
     height: 40px;
     position: fixed;
     width: 100%;
-    z-index: 1
+    z-index: 1;
+    box-shadow: 0 0 8px #262626
 `

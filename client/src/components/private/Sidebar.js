@@ -20,7 +20,6 @@ const Sidebar = props => {
         }
         updateBlog({settings: newSettings})
     }
-    console.log(settings)
     
     return(
         <Container>
@@ -34,15 +33,20 @@ const Sidebar = props => {
             <SidebarButton onClick={changeSettings} name='img'>
                 {settings?.img ? 'Remove Image' : 'Add Image'}
             </SidebarButton>
-            <p>Title Placement</p>
-            <div>
-                <SidebarButton select active={settings?.titleAbove} onClick={() => changeStyleSetting(true)}>
-                    Above
-                </SidebarButton>
-                <SidebarButton select active={!settings?.titleAbove} onClick={() => changeStyleSetting(false)}>
-                    Overlay
-                </SidebarButton>
-            </div>
+            {
+            settings?.img &&
+                <>
+                    <p>Title Placement</p>
+                    <div>
+                        <SidebarButton select active={settings?.titleAbove} onClick={() => changeStyleSetting(true)}>
+                            Above
+                        </SidebarButton>
+                        <SidebarButton select active={!settings?.titleAbove} onClick={() => changeStyleSetting(false)}>
+                            Overlay
+                        </SidebarButton>
+                    </div>
+                </>
+            }
         </Container>
     )
 }
@@ -54,10 +58,13 @@ const Container = styled.div`
     height: 80vh;
     position: fixed;
     margin: 10px;
-    background-color: whitesmoke;
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* border: 1px solid lightgrey; */
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px #a2a2a2;
 `
 
 const SidebarButton = styled.button`

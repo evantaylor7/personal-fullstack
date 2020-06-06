@@ -18,8 +18,8 @@ const blogSchema = new Schema({
         required: true
     },
     title: {
-        type: String,
-        default: 'My Blog',
+        type: Object,
+        default: {content: 'My Blog', color: 'black'},
         required: true,
     },
     settings: {
@@ -32,8 +32,14 @@ const blogSchema = new Schema({
         },
         required: true
     },
-    subtitle: String,
-    description: String,
+    subtitle: {
+        type: Object,
+        default: {content: '', color: 'black'}
+    },
+    description: {
+        type: Object,
+        default: {content: '', color: 'black'}
+    },
     img: {
         data: Buffer,
         contentType: String

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import Sidebar from './Sidebar.js'
 import Endpoint from './Endpoint.js'
-import Titles from './Titles.js'
+import Titles from './titles/Titles.js'
 import ImageUploadModal from './Image Modal/ImageUploadModal.js'
 import PostList from '../posts/PostList.js'
 import {UserContext} from '../../context/UserProvider'
@@ -79,14 +79,16 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: 220px auto;
     padding-top: 40px;
+    background-color: whitesmoke;
 `
 
 const BlogContainer = styled.div`
     grid-column: 2 / -1;
     border: solid lightgrey 1px;
-    border-radius: 4px;
+    border-radius: 6px;
     margin: 10px;
     margin-left: 0;
+    background-color: white;
 `
 
 const Url = styled.div`
