@@ -4,9 +4,6 @@ const expressJwt = require('express-jwt')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 
-// const multer = require('multer')
-// const upload = multer({dest: 'uploads/'})
-
 require('dotenv').config()
 const port = process.env.PORT
 const secret = process.env.SECRET
@@ -28,18 +25,22 @@ mongoose.connect (
     }
 )
 
-// app.use(multer({dest: ‘./uploads/’,
-//     rename: (fieldname, filename) => filename
-// }))
-
 app.use('/auth', require('./routes/authRouter.js'))
 app.use('/blog', require('./routes/blogRouter.js'))
 app.use('/posts', require('./routes/postRouter.js'))
 app.use('/comments', require('./routes/commentRouter.js'))
+app.use('/image', require('./routes/imageRouter.js'))
 app.use('/api', expressJwt({secret: secret}))
 app.use('/api/blog', require('./routes/userBlogRouter.js'))
 app.use('/api/posts', require('./routes/userPostRouter.js'))
 app.use('/api/comments', require('./routes/userCommentRouter.js'))
+
+app.use('/uploads', express.static('uploads'))
+// app.use(bodyParser.json({limit: '20mb'}))
+// app.use(bodyParser.urlencoded({limit: '20mb', extended: true}))
+// app.use(cookieParser())
+// app.use(express.static(path.join(__dirname, 'public')))
+app.use('/api/image', require('./routes/userImageRouter.js'))
 
 app.use((err, req, res, next) => {
     console.log(err)

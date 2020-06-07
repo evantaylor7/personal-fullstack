@@ -40,10 +40,10 @@ const blogSchema = new Schema({
         type: Object,
         default: {content: '', color: 'black'}
     },
-    img: {
-        data: Buffer,
-        contentType: String
-    },
+    // img: {
+    //     data: Buffer,
+    //     contentType: String
+    // },
     imgUrl: String
 })
 

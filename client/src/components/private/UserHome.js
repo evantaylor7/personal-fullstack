@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import Sidebar from './Sidebar.js'
 import Endpoint from './Endpoint.js'
 import Titles from './titles/Titles.js'
-import ImageUploadModal from './Image Modal/ImageUploadModal.js'
+import ImageUploadModal from './Image Modal/ImageModal.js'
 import PostList from '../posts/PostList.js'
 import {UserContext} from '../../context/UserProvider'
 import styled from 'styled-components'
@@ -10,12 +10,13 @@ import styled from 'styled-components'
 const UserHome = () => {
     const {
         blog,
+        // getImage,
+        img,
         getUserBlog, 
-        user: {username}, 
-        updateBlog
+        updateBlog,
     } = useContext(UserContext)
     console.log(blog)
-    
+    console.log(img)
     const [toggleModal, setToggleModal] = useState({img: false, post: false})
 
     useEffect(() => {
@@ -52,12 +53,12 @@ const UserHome = () => {
                     <MainImg setting={blog?.settings?.img} imgUrl={blog.imgUrl}>
                         <Button onClick={() => handleToggleModal('img')}>Choose Image</Button>
                     </MainImg>
+                    <img src={img?.[0]?.imageData}/>
                     {
                     toggleModal.img && 
                         <ImageUploadModal 
-                        toggle={toggleModal.img} 
-                        close={handleToggleModal}
-                        addImg={updateBlog}
+                            toggle={toggleModal.img} 
+                            close={handleToggleModal}
                         />
                     }
                 </TitleContainer>

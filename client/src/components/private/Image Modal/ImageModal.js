@@ -1,22 +1,33 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Unsplash from './Unsplash.js'
+import ImageUpload from './ImageUpload.js'
 import styled from 'styled-components'
+import {UserContext} from '../../../context/UserProvider.js'
 
 const ImageUploadModal = props => {
-    const {toggle, close, addImg} = props
+    const {blog: {_id: blogId, username}, updateBlog, uploadImage} = useContext(UserContext)
+    const {toggle, close} = props
+
     const [tab, setTab] = useState('unsplash')
-    const [img, setImg] = useState('')
+    const [img, setImg] = useState(null)
 
     const handleTab = type => {
         setTab(type)
     }
 
-    const handleImgSelect = url => {
-        setImg(url)
+    const handleImgChange = source => {
+        setImg(source)
     }
-
+    console.log(img)
     const handleImgSubmit = () => {
-        addImg({imgUrl: img})
+        if(typeof img === 'string'){
+            updateBlog({imgUrl: img})
+        } else {
+            const data = new FormData()
+            data.append('imageName', `${img.file.name} ${Date.now()}`)
+            data.append('imageData', img.file)
+            uploadImage(blogId, data)
+        }
         close('img')
     }
 
@@ -41,7 +52,12 @@ const ImageUploadModal = props => {
                         </Tab>
                     </LeftDiv>
                     <RightDiv>
-                        {tab === 'unsplash' && <Unsplash handleImgSelect={handleImgSelect}/>}
+                        {
+                        tab === 'unsplash' ? 
+                            <Unsplash handleImgSelect={handleImgChange}/>
+                        :
+                            <ImageUpload handleImgChange={handleImgChange} img={img}/>
+                        }
                     </RightDiv>
                 </ContentContainer>
                 <ApplyContainer>
