@@ -11,12 +11,12 @@ const UserHome = () => {
     const {
         blog,
         // getImage,
-        img,
+        // img,
         getUserBlog, 
         updateBlog,
     } = useContext(UserContext)
     console.log(blog)
-    console.log(img)
+    // console.log(img)
     const [toggleModal, setToggleModal] = useState({img: false, post: false})
 
     useEffect(() => {
@@ -50,10 +50,9 @@ const UserHome = () => {
                         updateBlog={updateBlog} 
                         settings={blog.settings}
                     />
-                    <MainImg setting={blog?.settings?.img} imgUrl={blog.imgUrl}>
+                    <MainImg setting={blog?.settings?.img} imgUrl={blog?.img}>
                         <Button onClick={() => handleToggleModal('img')}>Choose Image</Button>
                     </MainImg>
-                    <img src={img?.[0]?.imageData}/>
                     {
                     toggleModal.img && 
                         <ImageUploadModal 

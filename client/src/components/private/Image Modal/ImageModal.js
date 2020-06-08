@@ -15,13 +15,13 @@ const ImageUploadModal = props => {
         setTab(type)
     }
 
-    const handleImgChange = source => {
-        setImg(source)
+    const handleImgChange = img => {
+        setImg(img)
     }
     console.log(img)
     const handleImgSubmit = () => {
         if(typeof img === 'string'){
-            updateBlog({imgUrl: img})
+            updateBlog({img: img})
         } else {
             const data = new FormData()
             data.append('imageName', `${img.file.name} ${Date.now()}`)

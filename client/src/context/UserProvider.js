@@ -30,7 +30,7 @@ const UserProvider = props => {
         comments: [],
         errMsg: '',
         urlCheck: false,
-        img: {}
+        // img: {}
         // ^^ temporary
     }
     const [userState, setUserState] = useState(initState)
@@ -50,6 +50,7 @@ const UserProvider = props => {
                     user,
                     token
                 }))
+                createBlog()
             })
             .catch(err => handleAuthError(err.response.data.errMsg))
     }
@@ -170,23 +171,24 @@ const UserProvider = props => {
     // TOKEN NEEDED -->
 
     // IMAGES:
-    const getImage = blogId => {
-        userAxios.get(`/api/image/${blogId}`)
-            .then(res => {
-                setUserState(prevUserState => ({
-                    ...prevUserState,
-                    img: res.data
-                }))
-            })
-            .catch(err => console.log(err))
-    }
+    // const getImage = blogId => {
+    //     userAxios.get(`/api/image/${blogId}`)
+    //         .then(res => {
+    //             setUserState(prevUserState => ({
+    //                 ...prevUserState,
+    //                 img: res.data
+    //             }))
+    //         })
+    //         .catch(err => console.log(err))
+    // }
 
     const uploadImage = (blogId, imgData) => {
-        userAxios.post(`/api/image/${blogId}`, imgData)
+        userAxios.put(`/api/image/${blogId}`, imgData)
             .then(res => {
+                console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    img: res.data.document
+                    blog: res.data
                 }))
             })
             .catch(err => console.log(err))
@@ -201,7 +203,7 @@ const UserProvider = props => {
                     ...prevUserState,
                     blog: res.data
                 }))
-                getImage(res.data._id)
+                // getImage(res.data._id)
             })
             .catch(err => console.log(err))
     }
@@ -216,17 +218,26 @@ const UserProvider = props => {
             })
     }
 
+    const createBlog = () => {
+        userAxios.post('/api/blog')
+            .then(res => {
+                userState(prevUserState => ({
+                    ...prevUserState,
+                    blog: res.data
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
     // update or upsert (create new if non-existent)
     const updateBlog = updates => {
         console.log(updates)
         userAxios.put('/api/blog', updates)
             .then(res => {
-                // setUserState(prevUserState => ({
-                //     ...prevUserState,
-                //     blog: {...prevUserState.blog, updates}
-                // }))
-                console.log(res.data)
-                getUserBlog()
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    blog: res.data
+                }))
             })
             .catch(err => console.log(err))
     }   
@@ -326,7 +337,7 @@ const UserProvider = props => {
                     getPost,
                     getComments,
                     postComment,
-                    getImage,
+                    // getImage,
                     uploadImage,
                     getUserBlog,
                     checkUrlEndpoints,

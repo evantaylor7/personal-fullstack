@@ -19,7 +19,7 @@ const blogSchema = new Schema({
     },
     title: {
         type: Object,
-        default: {content: 'My Blog', color: 'black'},
+        default: {content: 'My Blog', color: '#1d1d1d'},
         required: true,
     },
     settings: {
@@ -34,17 +34,17 @@ const blogSchema = new Schema({
     },
     subtitle: {
         type: Object,
-        default: {content: '', color: 'black'}
+        default: {content: '', color: '#1d1d1d'}
     },
     description: {
         type: Object,
-        default: {content: '', color: 'black'}
+        default: {content: '', color: '#1d1d1d'}
     },
-    // img: {
+    // storedImg: {
     //     data: Buffer,
     //     contentType: String
     // },
-    imgUrl: String
+    img: String
 })
 
 module.exports = mongoose.model('Blog', blogSchema)

@@ -1,8 +1,22 @@
 const express = require('express')
 const userBlogRouter = express.Router()
 const Blog = require('../models/blog.js')
-const multer = require('multer')
-// const upload = multer({dest: 'uploads/'})
+
+// create blog
+userBlogRouter.post('/', (req, res, next) => {
+    req.body.user = req.user._id
+    req.body.username = req.user.username
+    req.body.url = `${req.user.username}sBlog`
+    req.body.title = {content: `${req.user.username}'s Blog`, color: '#1d1d1d'}
+    const newBlog = new Blog(req.body)
+    newBlog.save((err, newBlog) => {
+        if(err){
+            res.status(500)
+            return next(err)
+        }
+        return res.status(201).send(newBlog)
+    })
+})
 
 // get blog
 userBlogRouter.get('/', (req, res, next) => {
@@ -36,14 +50,12 @@ userBlogRouter.get('/check/:endpoint', async (req, res, next) => {
 
 // update blog
 userBlogRouter.put('/', (req, res, next) => {
-    // console.log(req.file)
     req.body.user = req.user._id
     req.body.username = req.user.username
-    req.body.img = req.file
-    Blog.updateOne(
+    Blog.findOneAndUpdate(
         {user: req.body.user},
         req.body,
-        {upsert: true, new: true},
+        {new: true},
         (err, blog) => {
             if(err){
                 res.status(500)
@@ -53,7 +65,5 @@ userBlogRouter.put('/', (req, res, next) => {
         }
     )
 })
-
-// const cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'gallery', maxCount: 8 }])
 
 module.exports = userBlogRouter

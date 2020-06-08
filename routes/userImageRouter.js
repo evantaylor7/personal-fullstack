@@ -1,6 +1,7 @@
 const express = require('express')
 const userImageRouter = express.Router()
-const Image = require('../models/image.js')
+// const Image = require('../models/image.js')
+const Blog = require('../models/blog.js')
 const multer = require('multer')
 
 const storage = multer.diskStorage({
@@ -8,48 +9,48 @@ const storage = multer.diskStorage({
         cb(null, './uploads')
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + file.originalname)
+        cb(null, `${file.originalname}-${Date.now()}`)
     }
 })
 
 const fileFilter = (req, file, cb) => {
-    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/gif' || file.mimetype === 'image/tiff'){
         cb(null, true)
     } else {
         cb(null, false)
     }
 }
-// can change this
 
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 5
-        // may have to change this
+        fileSize: 12000000
     },
     fileFilter: fileFilter
 })
 
-userImageRouter.route('/:blogId')
-// maybe can change this?
-    .post(upload.single('imageData'), (req, res, next) => {
-        console.log(req.body)
-        const newImage = new Image({
-            imageName: req.body.imageName,
-            imageData: req.file.path,
-            blog: req.params.blogId
-        })
-
-        newImage.save()
-            .then(result => {
-                console.log(result)
-                res.status(201).json({
-                    success: true,
-                    document: result
-                })
-            })
-            .catch(err => next(err))
-    })
+userImageRouter.put('/:blogId', upload.single('imageData'), (req, res, next) => {
+        // if(err instanceof multer.MulterError){
+        //     res.status(500)
+        //     return next(err)
+        // } else if(err) {
+        //     res.status(500)
+        //     return next(Error('An error occured'))
+        // }      
+    console.log(req.file)
+    Blog.findOneAndUpdate(
+        {_id: req.params.blogId},
+        {img: req.file.path},
+        {new: true},
+        (err, blog) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(blog)
+        }
+    )
+})
 
 userImageRouter.get('/:blogId', (req, res, next) => {
     Image.find(

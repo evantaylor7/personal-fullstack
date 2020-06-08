@@ -73,7 +73,7 @@ const Container = styled.div`
 `
 
 const TitleStyleHeader = styled.p`
-    color: ${props => props.disabled && 'darkgrey'}
+    color: ${props => props.disabled && 'darkgrey'};
 `
 
 const SidebarButton = styled.button`
