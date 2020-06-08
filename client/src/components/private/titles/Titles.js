@@ -2,26 +2,26 @@ import React, {useState, useEffect} from 'react'
 import ColorChooser from './ColorChooser.js'
 import styled from 'styled-components'
 
-const initInputs = {
-    title: {
-        content: 'My Blog...',
-        color: '#1d1d1d'
-    },
-    subtitle: {
-        content: '',
-        color: '#1d1d1d'
-    },
-    description: {
-        content: '',
-        color: '#1d1d1d'
-    }
-}
+// const initInputs = {
+//     title: {
+//         content: '',
+//         color: '#1d1d1d'
+//     },
+//     subtitle: {
+//         content: '',
+//         color: '#1d1d1d'
+//     },
+//     description: {
+//         content: '',
+//         color: '#1d1d1d'
+//     }
+// }
 
 const Titles = props => {
     const {title, subtitle, description, updateBlog, settings} = props
 
     const [formToggle, setFormToggle] = useState({title: false, subtitle: false, description: false})
-    const [inputs, setInputs] = useState(initInputs)
+    const [inputs, setInputs] = useState({})
     
     useEffect(() => { 
         setInputs({
@@ -74,7 +74,7 @@ const Titles = props => {
                     <TitleInput 
                         type='text'
                         name='title'
-                        value={inputs.title.content} 
+                        value={inputs?.title?.content} 
                         onChange={handleContentChange} 
                         autoFocus
                         onBlur={handleSubmitContent}
@@ -96,7 +96,7 @@ const Titles = props => {
                         <SubtitleInput 
                             type='text' 
                             name='subtitle'
-                            value={inputs.subtitle.content}
+                            value={inputs?.subtitle?.content}
                             onChange={handleContentChange} 
                             autoFocus
                             onBlur={handleSubmitContent}
@@ -119,7 +119,7 @@ const Titles = props => {
                         <DescriptionInput 
                             type='text' 
                             name='description'
-                            value={inputs.description.content}
+                            value={inputs?.description?.content}
                             onChange={handleContentChange} 
                             autoFocus
                             onBlur={handleSubmitContent}

@@ -28,7 +28,8 @@ const blogSchema = new Schema({
             subtitle: false,
             description: false,
             img: true,
-            titleAbove: true
+            titleAbove: true,
+            parallax: false
         },
         required: true
     },

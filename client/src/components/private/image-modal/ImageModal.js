@@ -24,9 +24,9 @@ const ImageUploadModal = props => {
             updateBlog({img: img})
         } else {
             const data = new FormData()
-            data.append('imageName', `${img.file.name} ${Date.now()}`)
+            // data.append('imageName', `${img.file.name} ${Date.now()}`)
             data.append('imageData', img.file)
-            uploadImage(blogId, data)
+            uploadImage('blog', blogId, data)
         }
         close('img')
     }

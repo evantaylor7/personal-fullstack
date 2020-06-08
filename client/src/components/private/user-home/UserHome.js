@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 import Sidebar from './Sidebar.js'
 import Endpoint from './Endpoint.js'
-import Titles from './titles/Titles.js'
-import ImageUploadModal from './Image Modal/ImageModal.js'
-import PostList from '../posts/PostList.js'
-import {UserContext} from '../../context/UserProvider'
+import Titles from '../titles/Titles.js'
+import ImageUploadModal from '../image-modal/ImageModal.js'
+import PostList from '../../posts/PostList.js'
+import AboutForm from '../about/AboutForm.js'
+import {UserContext} from '../../../context/UserProvider'
 import styled from 'styled-components'
 
 const UserHome = () => {
@@ -30,15 +31,16 @@ const UserHome = () => {
         }))
     }
 
+    const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
+    const windowDots = colorArray.map(dot => <Dot color={dot}/>)
+
     return(
         <Container>
             <Sidebar blog={blog} updateBlog={updateBlog}/>
             <BlogContainer>
                 <Url>
                     <DotContainer>
-                        <Dot color='rgb(237, 101, 90)'/>
-                        <Dot color='rgb(225, 192, 76)'/>
-                        <Dot color='rgb(114, 190, 71)'/>
+                        {windowDots}
                     </DotContainer>
                     <Endpoint/>
                 </Url>
@@ -50,7 +52,7 @@ const UserHome = () => {
                         updateBlog={updateBlog} 
                         settings={blog.settings}
                     />
-                    <MainImg setting={blog?.settings?.img} imgUrl={blog?.img}>
+                    <MainImg setting={blog?.settings?.img} imgUrl={blog?.img} parallax={blog?.settings?.parallax}>
                         <Button onClick={() => handleToggleModal('img')}>Choose Image</Button>
                     </MainImg>
                     {
@@ -61,13 +63,17 @@ const UserHome = () => {
                         />
                     }
                 </TitleContainer>
-                <PostContainer>
-                    <h2>Your Posts</h2>
-                    <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
-                    {/* ^^ opens modal to make new post */}
-                    <PostList/>
-                    <Button primary>Publish</Button>
-                </PostContainer>
+                {!blog?.settings?.img && <hr style={{width: '96%', margin: 'auto'}}/>}
+                <ContentContainer>
+                    <PostContainer>
+                        <h2>Your Posts</h2>
+                        <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
+                        {/* ^^ opens modal to make new post */}
+                        <PostList/>
+                    </PostContainer>
+                    <AboutForm/>
+                </ContentContainer>
+                <Button primary>Publish</Button>
             </BlogContainer>
         </Container>
     )
@@ -117,14 +123,12 @@ const TitleContainer = styled.div`
 const MainImg = styled.div`
     display: ${props => props.setting ? 'block' : 'none'};
     height: 500px;
-    margin: 10px;
+    margin: 10px 0;
     background-image: url(${props => props.imgUrl ? props.imgUrl : 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80'});
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
-    /* background-position: 110px center; */
-    /* background-attachment: fixed */
-    /* ^^ to make paralax */
+    background-position: ${props => props.parallax ? '110px center' : 'center'};
+    background-attachment: ${props => props.parallax && 'fixed'};
 `
 
 const Button = styled.button`
@@ -135,9 +139,16 @@ const Button = styled.button`
     background-color: #214761;
     color: whitesmoke;
     cursor: pointer;
-    ${props => props.primary && 'margin-top: 40px; font-size: 18pt'}
+    ${props => props.primary && 'margin-top: 40px; font-size: 18pt'};
+`
+
+const ContentContainer = styled.div`
+    display: grid;
+    grid-template-columns: auto 400px;
+    padding-top: 20px;
 `
 
 const PostContainer = styled.div`
-    /* grid-column: 2 / -1; */
+    grid-column: 1 / 2;
+    justify-self: center;
 `

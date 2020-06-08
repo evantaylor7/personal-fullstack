@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react'
 import styled from 'styled-components'
-import {UserContext} from '../../context/UserProvider'
+import {UserContext} from '../../../context/UserProvider'
 
 const Endpoint = () => {
     const {blog: {username, url}, urlCheck, checkUrlEndpoints, updateBlog} = useContext(UserContext)

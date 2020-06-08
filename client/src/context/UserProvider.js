@@ -28,10 +28,9 @@ const UserProvider = props => {
         posts: [],
         postDetail: {},
         comments: [],
+        profile: {},
         errMsg: '',
-        urlCheck: false,
-        // img: {}
-        // ^^ temporary
+        urlCheck: false
     }
     const [userState, setUserState] = useState(initState)
     const [unsplash, setUnsplash] = useState([])
@@ -168,27 +167,28 @@ const UserProvider = props => {
                 .catch(err => console.log(err))
     }
 
+    // PROFILE:
+    const getProfile = blogId => {
+        userAxios.get(`/api/profile/${blogId}`)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    profile: res.data
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
     // TOKEN NEEDED -->
 
     // IMAGES:
-    // const getImage = blogId => {
-    //     userAxios.get(`/api/image/${blogId}`)
-    //         .then(res => {
-    //             setUserState(prevUserState => ({
-    //                 ...prevUserState,
-    //                 img: res.data
-    //             }))
-    //         })
-    //         .catch(err => console.log(err))
-    // }
-
-    const uploadImage = (blogId, imgData) => {
-        userAxios.put(`/api/image/${blogId}`, imgData)
+    const uploadImage = (dest, blogId, imgData) => {
+        userAxios.put(`/api/image/${dest}/${blogId}`, imgData)
             .then(res => {
                 console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    blog: res.data
+                    [dest]: res.data
                 }))
             })
             .catch(err => console.log(err))
@@ -304,6 +304,30 @@ const UserProvider = props => {
             .catch(err => console.log(err))
     }
 
+    // PROFILE (about section)
+    const getUserProfile = () => {
+        userAxios.get('/api/profile')
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    profile: res.data
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
+    // update (or upsert) profile
+    const updateProfile = (blogId, updates) => {
+        userAxios.put(`/api/profile/${blogId}`, updates)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    profile: res.data
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
     // EXTERNAL -- Unsplash API requests
 
     const getPhotos = () => {
@@ -337,7 +361,7 @@ const UserProvider = props => {
                     getPost,
                     getComments,
                     postComment,
-                    // getImage,
+                    getProfile,
                     uploadImage,
                     getUserBlog,
                     checkUrlEndpoints,
@@ -347,6 +371,8 @@ const UserProvider = props => {
                     editPost,
                     deleteComment,
                     editComment,
+                    getUserProfile,
+                    updateProfile,
                     getPhotos,
                     searchPhotos
                 }}

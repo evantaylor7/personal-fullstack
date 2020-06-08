@@ -52,6 +52,16 @@ const Sidebar = props => {
                     Overlay
                 </SidebarButton>
             </div>
+            <ImageStyleHeader disabled={!settings?.img}>Image Style</ImageStyleHeader>
+            <SidebarButton 
+                onClick={changeSettings} 
+                name='parallax' 
+                active={settings?.parallax} 
+                disabled={!settings?.img}
+            >
+                {settings?.parallax ? 'Remove Parallax' : 'Add Parallax'}
+            </SidebarButton>
+            {settings?.parallax && settings?.img && <ParallaxText>scroll to see effect &#x279C;</ParallaxText>}
         </Container>
     )
 }
@@ -89,4 +99,13 @@ const SidebarButton = styled.button`
     &:hover {
         cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}
     }
+`
+
+const ImageStyleHeader = styled.p`
+    color: ${props => props.disabled && 'darkgrey'};
+`
+
+const ParallaxText = styled.p`
+    font-style: italic;
+    font-size: 11pt;
 `
