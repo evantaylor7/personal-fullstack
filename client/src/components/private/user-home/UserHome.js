@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import Sidebar from './Sidebar.js'
 import Endpoint from './Endpoint.js'
 import Titles from '../titles/Titles.js'
-import ImageUploadModal from '../image-modal/ImageModal.js'
+import Modal from '../modal/Modal.js'
 import PostList from '../../posts/PostList.js'
 import AboutForm from '../about/AboutForm.js'
 import {UserContext} from '../../../context/UserProvider'
@@ -11,28 +11,22 @@ import styled from 'styled-components'
 const UserHome = () => {
     const {
         blog,
-        // getImage,
-        // img,
         getUserBlog, 
         updateBlog,
     } = useContext(UserContext)
-    console.log(blog)
-    // console.log(img)
-    const [toggleModal, setToggleModal] = useState({img: false, post: false})
+
+    const [toggleModal, setToggleModal] = useState('')
 
     useEffect(() => {
         getUserBlog()
     }, [])
 
-    const handleToggleModal = type => {
-        setToggleModal(prevToggleModal => ({
-            ...prevToggleModal,
-            [type]: prevToggleModal[type] === true ? false : true
-        }))
+    const handleModalClose = () => {
+        setToggleModal('')
     }
 
     const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
-    const windowDots = colorArray.map(dot => <Dot color={dot}/>)
+    const windowDots = colorArray.map(dot => <Dot key={dot} color={dot}/>)
 
     return(
         <Container>
@@ -44,6 +38,7 @@ const UserHome = () => {
                     </DotContainer>
                     <Endpoint/>
                 </Url>
+                <Hr/>
                 <TitleContainer>
                     <Titles 
                         title={blog.title} 
@@ -53,25 +48,31 @@ const UserHome = () => {
                         settings={blog.settings}
                     />
                     <MainImg setting={blog?.settings?.img} imgUrl={blog?.img} parallax={blog?.settings?.parallax}>
-                        <Button onClick={() => handleToggleModal('img')}>Choose Image</Button>
+                        <Button onClick={() => setToggleModal('img')}>Choose Image</Button>
                     </MainImg>
                     {
-                    toggleModal.img && 
-                        <ImageUploadModal 
-                            toggle={toggleModal.img} 
-                            close={handleToggleModal}
+                    toggleModal === 'img' && 
+                        <Modal 
+                            toggle={toggleModal} 
+                            close={handleModalClose}
                         />
                     }
                 </TitleContainer>
-                {!blog?.settings?.img && <hr style={{width: '96%', margin: 'auto'}}/>}
-                <ContentContainer>
+                {!blog?.settings?.img && <Hr mid/>}
+                <ContentContainer profile={blog?.settings?.profile ? 'true' : 'thisseemssilly'}>
                     <PostContainer>
                         <h2>Your Posts</h2>
-                        <Button onClick={() => handleToggleModal('post')}>Make New Post</Button>
-                        {/* ^^ opens modal to make new post */}
+                        <Button onClick={() => setToggleModal('post')}>Make New Post</Button>
+                        {
+                        toggleModal === 'post' &&
+                            <Modal
+                                toggle={toggleModal}
+                                close={handleModalClose}
+                            />
+                        }
                         <PostList/>
                     </PostContainer>
-                    <AboutForm/>
+                    {blog?.settings?.profile && <AboutForm/>}
                 </ContentContainer>
                 <Button primary>Publish</Button>
             </BlogContainer>
@@ -101,6 +102,11 @@ const Url = styled.div`
     display: flex;
     align-items: center;
     margin-top: 2px;
+`
+
+const Hr = styled.hr`
+    margin-top: 2px;
+    ${props => props.mid && 'width: 96%; margin: auto'}
 `
 
 const DotContainer = styled.div`
@@ -143,7 +149,8 @@ const Button = styled.button`
 `
 
 const ContentContainer = styled.div`
-    display: grid;
+    display: ${props => props.profile === 'true' ? 'grid' : 'block'};
+    text-align: center;
     grid-template-columns: auto 400px;
     padding-top: 20px;
 `

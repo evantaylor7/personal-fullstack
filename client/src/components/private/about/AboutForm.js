@@ -5,7 +5,7 @@ import {UserContext} from '../../../context/UserProvider'
 
 const AboutForm = () => {
     const {profile, blog, uploadImage, getUserProfile, updateProfile} = useContext(UserContext)
-    console.log(profile)
+
     const [blurb, setBlurb] = useState('')
     const [blurbFormToggle, setBlurbFormToggle] = useState(false)
 
@@ -64,10 +64,9 @@ export default AboutForm
 const Container = styled.div`
     grid-column: 2 / -1;
     text-align: center;
-    border-left: solid black 1px;
+    border-left: solid rgb(154, 154, 154) 1px;
     width: 100%;
     padding: 0 20px;
-    margin: 10px 0;
 `
 
 const AboutHeader = styled.h2`

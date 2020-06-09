@@ -16,10 +16,9 @@ const ImageUpload = props => {
     return(
         <Container>
             <Label>
-                Choose Image
+                {img ? 'Choose Different Image' : 'Choose Image'}
                 <UploadInput 
                     type='file' 
-                    // name='file' 
                     accept='image/*'
                     onChange={handleChange}
                 />
@@ -55,5 +54,5 @@ const UploadInput = styled.input`
 
 const ImgPreview = styled.img`
     max-width: 90%;
-    max-height: 70vh;
+    max-height: 60vh;
 `

@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import styled from 'styled-components'
-import {UserContext} from '../../../context/UserProvider'
+import {UserContext} from '../../../../context/UserProvider'
 
 const Unsplash = props => {
     const {handleImgSelect} = props

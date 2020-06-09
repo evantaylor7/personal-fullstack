@@ -23,7 +23,7 @@ const Sidebar = props => {
     
     return(
         <Container>
-            <p>Blog Elements</p>
+            <Header>Title Elements</Header>
             <SidebarButton onClick={changeSettings} name='subtitle' active={settings?.subtitle}>
                 {settings?.subtitle ? 'Remove Subtitle' : 'Add Subtitle'}
             </SidebarButton>
@@ -33,7 +33,7 @@ const Sidebar = props => {
             <SidebarButton onClick={changeSettings} name='img' active={settings?.img}>
                 {settings?.img ? 'Remove Image' : 'Add Image'}
             </SidebarButton>
-            <TitleStyleHeader disabled={!settings?.img}>Title Placement</TitleStyleHeader>
+            <Header disabled={!settings?.img}>Title Placement</Header>
             <div>
                 <SidebarButton 
                     select 
@@ -52,7 +52,7 @@ const Sidebar = props => {
                     Overlay
                 </SidebarButton>
             </div>
-            <ImageStyleHeader disabled={!settings?.img}>Image Style</ImageStyleHeader>
+            <Header disabled={!settings?.img}>Image Style</Header>
             <SidebarButton 
                 onClick={changeSettings} 
                 name='parallax' 
@@ -62,6 +62,14 @@ const Sidebar = props => {
                 {settings?.parallax ? 'Remove Parallax' : 'Add Parallax'}
             </SidebarButton>
             {settings?.parallax && settings?.img && <ParallaxText>scroll to see effect &#x279C;</ParallaxText>}
+            <Header>Author Profile</Header>
+            <SidebarButton 
+                onClick={changeSettings}
+                name='profile'
+                active={settings?.profile}
+            >
+                {settings?.profile ? 'Remove Profile' : 'Add Profile'}
+            </SidebarButton>
         </Container>
     )
 }
@@ -73,6 +81,7 @@ const Container = styled.div`
     height: 80vh;
     position: fixed;
     margin: 10px;
+    padding-top: 6px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -80,14 +89,16 @@ const Container = styled.div`
     /* border: 1px solid lightgrey; */
     border-radius: 4px;
     box-shadow: 2px 2px 3px #a2a2a2;
+    overflow: auto;
 `
 
-const TitleStyleHeader = styled.p`
+const Header = styled.p`
     color: ${props => props.disabled && 'darkgrey'};
+    margin-top: 6px;
 `
 
 const SidebarButton = styled.button`
-    margin: 4px;
+    margin: 2px;
     padding: 2px;
     width: ${props => props.select ? '71px' : '150px'};
     border-radius: 10px;
@@ -99,10 +110,6 @@ const SidebarButton = styled.button`
     &:hover {
         cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}
     }
-`
-
-const ImageStyleHeader = styled.p`
-    color: ${props => props.disabled && 'darkgrey'};
 `
 
 const ParallaxText = styled.p`

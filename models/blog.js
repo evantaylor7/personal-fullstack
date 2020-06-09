@@ -29,7 +29,8 @@ const blogSchema = new Schema({
             description: false,
             img: true,
             titleAbove: true,
-            parallax: false
+            parallax: false,
+            profile: true
         },
         required: true
     },
