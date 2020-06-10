@@ -1,10 +1,57 @@
-import React from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import styled from 'styled-components'
+import {UserContext} from '../../../../context/UserProvider'
 
-const PostModal = () => {
+const initInputs = {
+    title: '',
+    authorName: '',
+    content: ''
+}
+
+const PostModal = props => {
+    const {close} = props
+    const [inputs, setInputs] = useState(initInputs)
+    console.log(inputs)
+    const {
+        blog,
+        blog: {_id: blogId, authorName}, 
+        postDetail, 
+        postNew, 
+        editPost
+    } = useContext(UserContext)
+    console.log(postDetail)
+
+    useEffect(() => {
+        setInputs({title: postDetail?.title, authorName: authorName, content: postDetail.content})
+    }, [blog, postDetail])
+
+    const handleChange = e => {
+        const {name, value} = e.target
+        setInputs(prevInputs => ({
+            ...prevInputs,
+            [name]: value
+        }))
+    }
+
+    const save = () => {
+        if(!inputs.title && !inputs.content){
+            return
+        } else {
+            console.log('saved')
+            postDetail?._id ? 
+                editPost(postDetail._id, inputs)
+            :
+                postNew({...inputs, blog: blogId})
+        }
+    }
+
     const handlePostSubmit = e => {
         const {name} = e.target
-        console.log(`use the ${name}`)
+        name === 'draft' ?
+            editPost(postDetail._id, inputs)
+        :
+            editPost(postDetail._id, {...inputs, draft: false})
+        close()
     }
 
     return(
@@ -17,7 +64,14 @@ const PostModal = () => {
                     Italicize and stuff
                 </LeftDiv>
                 <RightDiv>
-                    This is the post modal whatsup
+                    <TitleInput 
+                        name='title' 
+                        type='text'
+                        value={inputs.title} 
+                        placeholder='Add a Blog Title'
+                        onChange={handleChange}
+                        onBlur={save}
+                    />
                 </RightDiv>
             </ContentContainer>
             <SubmitContainer>
@@ -53,6 +107,20 @@ const RightDiv = styled.div`
     /* overflow: auto; */
     /* padding: 20px; */
     /* padding-top: 10px; */
+`
+
+const TitleInput = styled.input`
+    border: none;
+    border-radius: 10px;
+    /* background-color: whitesmoke; */
+    width: 80%;
+    /* height: 40px; */
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 20pt;
+    outline: none;
+    font-weight: 200;
+    background-color: whitesmoke;
 `
 
 const SubmitContainer = styled.div`

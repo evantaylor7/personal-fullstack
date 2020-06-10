@@ -35,6 +35,8 @@ const UserProvider = props => {
     const [userState, setUserState] = useState(initState)
     const [unsplash, setUnsplash] = useState([])
 
+    console.log(userState)
+
     // NO TOKEN NEEDED -->
 
     // USER AUTH / LOGOUT:
@@ -92,7 +94,7 @@ const UserProvider = props => {
             errMsg: ''
         }))
     }
-    console.log(userState)
+
     // BLOG:
     // get blog (without token)
     const getBlog = blogUrl => {
@@ -243,36 +245,70 @@ const UserProvider = props => {
     }   
 
     // BLOG POSTS:
+    const clearPostDetail = () => {
+        setUserState(prevUserState => ({
+            ...prevUserState,
+            postDetail: {}
+        }))
+    }
+
+    const getPosts = blogId => {
+        userAxios.get(`/api/posts/${blogId}`)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    posts: res.data
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
     const postNew = post => {
         userAxios.post('/api/posts', post)
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    posts: [res.data, prevUserState.posts]
+                    postDetail: res.data,
+                    posts: [res.data, ...prevUserState.posts]
                 }))
+            })
+            .catch(err => console.log(err))
+    }
+
+    // edit post
+    const editPost = (postId, edits) => {
+        userAxios.put(`/api/posts/update-one/${postId}`, edits)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    postDetail: res.data,
+                    posts: prevUserState.posts.map(post => post._id === postId ? res.data : post)
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
+    // update many posts (when adding or changing author name)
+    const editPosts = edits => {
+        console.log(edits)
+        userAxios.put('/api/posts/update-collection', edits)
+            .then(res => {
+                console.log(res.data)
+                // setUserState(prevUserState => ({
+                //     ...prevUserState,
+                //     posts: res.data
+                // }))
             })
             .catch(err => console.log(err))
     }
 
     const deletePost = postId => {
-        userAxios.delete(`/api/posts${postId}`)
+        userAxios.delete(`/api/posts/${postId}`)
             .then(res => {
+                console.log(res)
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    posts: prevUserState.filter(post => post._id !== postId)
-                }))
-            })
-            .catch(err => console.log(err))
-    }
-
-    const editPost = (postId, edits) => {
-        userAxios.put(`api/posts/${postId}`, edits)
-            .then(res => {
-                setUserState(prevUserState => ({
-                    ...prevUserState,
-                    posts: prevUserState.map(post => (
-                        post._id === postId ? res.data : post
-                    ))
+                    posts: prevUserState.posts.filter(post => post._id !== postId)
                 }))
             })
             .catch(err => console.log(err))
@@ -366,9 +402,12 @@ const UserProvider = props => {
                     getUserBlog,
                     checkUrlEndpoints,
                     updateBlog,
+                    clearPostDetail,
+                    getPosts,
                     postNew,
-                    deletePost,
                     editPost,
+                    editPosts,
+                    deletePost,
                     deleteComment,
                     editComment,
                     getUserProfile,

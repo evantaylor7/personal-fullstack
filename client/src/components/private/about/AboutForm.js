@@ -34,6 +34,7 @@ const AboutForm = () => {
     return(
         <Container>
             <AboutHeader>About the Author</AboutHeader>
+            {blog?.authorName && <AuthorName>{blog.authorName}</AuthorName>}
             <ImageContainer img={profile?.img ? profile.img : DefaultAvatar}>
                 <ImageLabel>
                     <ImgInput type='file' accept='image/*' onChange={handleImgSubmit}/>
@@ -52,7 +53,7 @@ const AboutForm = () => {
                     onChange={handleBlurbChange}
                     onBlur={handleBlurbSubmit}
                     autoFocus
-                    placeholder={`${blog?.username} is an entrepreneur, a philanthropist, and a writer...`}
+                    placeholder={`${blog?.authorName ? blog.authorName : blog.username} is an entrepreneur, a philanthropist, and a writer...`}
                 />
             }
         </Container>
@@ -71,6 +72,10 @@ const Container = styled.div`
 
 const AboutHeader = styled.h2`
     margin-bottom: 10px;
+`
+
+const AuthorName = styled.p`
+    margin-bottom: 6px;
 `
 
 const ImageContainer = styled.div`

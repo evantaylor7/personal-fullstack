@@ -12,26 +12,20 @@ const postSchema = new Schema({
         ref: 'User',
         required: true
     },
+    authorName: String,
     blog: {
         type: Schema.Types.ObjectId,
         ref: 'Blog',
         required: true
     },
-    title: {
-        type: String,
-        required: true,
-    },
-    date: {
-        type: String,
-        required: true
-    },
-    content: {
-        type: String,
-        required: true
-    },
-    img: {
-        data: Buffer,
-        contentType: String
+    title: String,
+    date: String,
+    content: String,
+    img: Array,
+    // right?
+    draft: {
+        type: Boolean,
+        default: true
     }
 })
 

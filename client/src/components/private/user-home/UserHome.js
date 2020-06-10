@@ -3,6 +3,7 @@ import Sidebar from './Sidebar.js'
 import Endpoint from './Endpoint.js'
 import Titles from '../titles/Titles.js'
 import Modal from '../modal/Modal.js'
+import AuthorNameInput from './AuthorName.js'
 import PostList from '../../posts/PostList.js'
 import AboutForm from '../about/AboutForm.js'
 import {UserContext} from '../../../context/UserProvider'
@@ -11,11 +12,14 @@ import styled from 'styled-components'
 const UserHome = () => {
     const {
         blog,
+        postDetail,
         getUserBlog, 
         updateBlog,
+        clearPostDetail
     } = useContext(UserContext)
 
     const [toggleModal, setToggleModal] = useState('')
+    const [toggleAuthorName, setToggleAuthorName] = useState(false)
 
     useEffect(() => {
         getUserBlog()
@@ -23,6 +27,15 @@ const UserHome = () => {
 
     const handleModalClose = () => {
         setToggleModal('')
+    }
+
+    const handleAuthorNameToggle = () => {
+        setToggleAuthorName(prevState => !prevState)
+    }
+
+    const handleNewPost = () => {
+        clearPostDetail()
+        setToggleModal('post')
     }
 
     const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
@@ -61,8 +74,19 @@ const UserHome = () => {
                 {!blog?.settings?.img && <Hr mid/>}
                 <ContentContainer profile={blog?.settings?.profile ? 'true' : 'thisseemssilly'}>
                     <PostContainer>
-                        <h2>Your Posts</h2>
-                        <Button onClick={() => setToggleModal('post')}>Make New Post</Button>
+                        {
+                        blog?.authorName && !toggleAuthorName ? 
+                            <AuthorNameContainer>
+                                <AuthorName>{blog.authorName}</AuthorName> 
+                                <EditAuthorName onClick={handleAuthorNameToggle}>
+                                    Change
+                                </EditAuthorName>
+                            </AuthorNameContainer>
+                        : 
+                            <AuthorNameInput toggle={handleAuthorNameToggle}/>
+                        }
+                        <PostsHeading>Your Posts</PostsHeading>
+                        <Button onClick={handleNewPost}>Make New Post</Button>
                         {
                         toggleModal === 'post' &&
                             <Modal
@@ -70,7 +94,7 @@ const UserHome = () => {
                                 close={handleModalClose}
                             />
                         }
-                        <PostList/>
+                        <PostList blogId={blog._id} modal={setToggleModal}/>
                     </PostContainer>
                     {blog?.settings?.profile && <AboutForm/>}
                 </ContentContainer>
@@ -158,4 +182,28 @@ const ContentContainer = styled.div`
 const PostContainer = styled.div`
     grid-column: 1 / 2;
     justify-self: center;
+`
+
+const AuthorNameContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`
+
+const AuthorName = styled.p`
+    font-size: 18pt;
+`
+
+const EditAuthorName = styled.button`
+    margin-left: 10px;
+    font-size: 9pt;
+    border: none;
+    background-color: white;
+    color: #0066CC;
+    cursor: pointer;
+`
+
+const PostsHeading = styled.h2`
+    margin-top: 10px
 `

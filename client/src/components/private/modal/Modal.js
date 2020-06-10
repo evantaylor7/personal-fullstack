@@ -1,18 +1,31 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import ImageModal from './image/ImageModal.js'
 import PostModal from './post/PostModal.js'
 import styled from 'styled-components'
+import {UserContext} from '../../../context/UserProvider.js'
 
 const Modal = props => {
     const {toggle, close} = props
-
-    console.log(toggle)
+    const {postDetail} = useContext(UserContext)
 
     return(
         <ModalContainer toggle={toggle}>
             <Container>
                 <TitleContainer>
-                    <Title>{props.toggle === 'img' ? 'Choose an Image' : 'Write a New Blog Post'}</Title>
+                    <Title>
+                        {
+                        props.toggle === 'img' ? 
+                            'Choose an Image' 
+                        : 
+                            !postDetail?._id ? 
+                                'New Blog Post'
+                            :
+                                postDetail?.draft ?
+                                    'Edit Draft'
+                                :
+                                    'Edit Blog Post'
+                        }
+                    </Title>
                     <CancelButton onClick={close}>X</CancelButton>
                 </TitleContainer>
                 <ContentContainer>

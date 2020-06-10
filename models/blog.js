@@ -17,6 +17,7 @@ const blogSchema = new Schema({
         ref: 'User',
         required: true
     },
+    authorName: String,
     title: {
         type: Object,
         default: {content: 'My Blog', color: '#1d1d1d'},
