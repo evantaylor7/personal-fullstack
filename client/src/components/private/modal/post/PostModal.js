@@ -10,8 +10,6 @@ const initInputs = {
 
 const PostModal = props => {
     const {close} = props
-    const [inputs, setInputs] = useState(initInputs)
-    console.log(inputs)
     const {
         blog,
         blog: {_id: blogId, authorName}, 
@@ -21,12 +19,16 @@ const PostModal = props => {
     } = useContext(UserContext)
     console.log(postDetail)
 
+    const [inputs, setInputs] = useState(initInputs)
+    console.log(inputs)
+
     useEffect(() => {
         setInputs({title: postDetail?.title, authorName: authorName, content: postDetail.content})
     }, [blog, postDetail])
 
     const handleChange = e => {
         const {name, value} = e.target
+        console.log(value)
         setInputs(prevInputs => ({
             ...prevInputs,
             [name]: value
@@ -72,6 +74,13 @@ const PostModal = props => {
                         onChange={handleChange}
                         onBlur={save}
                     />
+                    <Content 
+                        name='content' 
+                        onChange={handleChange} 
+                        onBlur={save} 
+                        value={inputs.content}
+                        placeholder='Write your blog post here. Add images, links, dividers, and edit text style using the editor on the left.'
+                    />
                 </RightDiv>
             </ContentContainer>
             <SubmitContainer>
@@ -112,15 +121,27 @@ const RightDiv = styled.div`
 const TitleInput = styled.input`
     border: none;
     border-radius: 10px;
-    /* background-color: whitesmoke; */
-    width: 80%;
-    /* height: 40px; */
+    width: 90%;
     margin: 10px auto;
-    padding: 10px;
+    padding: 16px 24px;
     font-size: 20pt;
     outline: none;
     font-weight: 200;
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
+`
+
+const Content = styled.textarea`
+    height: calc(100% - 94px);
+    width: 90%;
+    resize: none;
+    margin: auto;
+    padding: 16px 24px;
+    border-radius: 10px;
+    border: none;
+    background-color: white;
+    text-align: left;
+    font-weight: 300;
+    outline: none;
 `
 
 const SubmitContainer = styled.div`
