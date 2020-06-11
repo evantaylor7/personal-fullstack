@@ -18,24 +18,29 @@ const UserHome = () => {
         clearPostDetail
     } = useContext(UserContext)
 
-    const [toggleModal, setToggleModal] = useState('')
+    const [toggleModal, setToggleModal] = useState({img: false, post: false})
     const [toggleAuthorName, setToggleAuthorName] = useState(false)
-
+    console.log(toggleModal)
     useEffect(() => {
         getUserBlog()
     }, [])
 
-    const handleModalClose = () => {
-        setToggleModal('')
+    const handleToggleModal = e => {
+        const {name} = e.target
+        console.log(name)
+        setToggleModal(prevToggle => ({
+            ...prevToggle,
+            [name]: !prevToggle[name]
+        }))
     }
 
     const handleAuthorNameToggle = () => {
         setToggleAuthorName(prevState => !prevState)
     }
 
-    const handleNewPost = () => {
+    const handleNewPost = e => {
         clearPostDetail()
-        setToggleModal('post')
+        handleToggleModal(e)
     }
 
     const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
@@ -61,13 +66,14 @@ const UserHome = () => {
                         settings={blog.settings}
                     />
                     <MainImg setting={blog?.settings?.img} imgUrl={blog?.img} parallax={blog?.settings?.parallax}>
-                        <Button onClick={() => setToggleModal('img')}>Choose Image</Button>
+                        <Button name='img' onClick={handleToggleModal}>Choose Image</Button>
                     </MainImg>
                     {
-                    toggleModal === 'img' && 
+                    toggleModal?.img && 
                         <Modal 
-                            toggle={toggleModal} 
-                            close={handleModalClose}
+                            close={handleToggleModal} 
+                            name='img'
+                            collection='blog'
                         />
                     }
                 </TitleContainer>
@@ -86,15 +92,15 @@ const UserHome = () => {
                             <AuthorNameInput toggle={handleAuthorNameToggle}/>
                         }
                         <PostsHeading>Your Posts</PostsHeading>
-                        <Button onClick={handleNewPost}>Make New Post</Button>
+                        <Button name='post' onClick={handleNewPost}>Make New Post</Button>
                         {
-                        toggleModal === 'post' &&
+                        toggleModal?.post &&
                             <Modal
-                                toggle={toggleModal}
-                                close={handleModalClose}
+                                close={handleToggleModal}
+                                name='post'
                             />
                         }
-                        <PostList blogId={blog._id} modal={setToggleModal}/>
+                        <PostList blogId={blog._id} openModal={handleToggleModal}/>
                     </PostContainer>
                     {blog?.settings?.profile && <AboutForm/>}
                 </ContentContainer>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const ImageUpload = props => {
@@ -8,8 +8,8 @@ const ImageUpload = props => {
         const imgFile = e.target.files[0]
         imgFile && handleImgChange({
             file: imgFile,
-            url: URL.createObjectURL(imgFile),
-            loaded: 0
+            url: URL.createObjectURL(imgFile)
+            // loaded: 0
         })
     }
 

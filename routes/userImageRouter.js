@@ -2,6 +2,7 @@ const express = require('express')
 const userImageRouter = express.Router()
 const Blog = require('../models/blog.js')
 const Profile = require('../models/profile.js')
+const Post = require('../models/post.js')
 const multer = require('multer')
 
 const storage = multer.diskStorage({
@@ -66,6 +67,21 @@ userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, n
                 return next(err)
             }
             return res.status(201).send(profile)
+        }
+    )
+})
+
+userImageRouter.put('/posts/:postId', upload.single('imageData'), (req, res, next) => {
+    Post.findOneAndUpdate(
+        {_id: req.params.postId},
+        {$push: {img: req.file.path}},
+        {new: true},
+        (err, post) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(post)
         }
     )
 })

@@ -184,13 +184,14 @@ const UserProvider = props => {
     // TOKEN NEEDED -->
 
     // IMAGES:
-    const uploadImage = (dest, blogId, imgData) => {
-        userAxios.put(`/api/image/${dest}/${blogId}`, imgData)
+    const uploadImage = (dest, id, imgData) => {
+        console.log('ran')
+        userAxios.put(`/api/image/${dest}/${id}`, imgData)
             .then(res => {
                 console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    [dest]: res.data
+                    [dest === 'posts' ? 'postDetail' : dest]: res.data
                 }))
             })
             .catch(err => console.log(err))
@@ -283,6 +284,20 @@ const UserProvider = props => {
                     ...prevUserState,
                     postDetail: res.data,
                     posts: prevUserState.posts.map(post => post._id === postId ? res.data : post)
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
+    // add unsplash image to post
+    const addPostImg = (postId, img) => {
+        console.log(img)
+        userAxios.put(`/api/posts/add-img/${postId}`, img)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    postDetail: res.data,
+                    posts: prevUserState.posts.map(post => post._id ? res.data : post)
                 }))
             })
             .catch(err => console.log(err))
@@ -406,6 +421,7 @@ const UserProvider = props => {
                     getPosts,
                     postNew,
                     editPost,
+                    addPostImg,
                     editPosts,
                     deletePost,
                     deleteComment,

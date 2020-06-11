@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
 
 const PostList = props => {
-    const {blogId, modal} = props
+    const {blogId, openModal} = props
     const {posts, getPosts} = useContext(UserContext)
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const PostList = props => {
         <Post
             {...post}
             key={post._id}
-            modal={modal}
+            openModal={openModal}
         />
     )
 
@@ -23,11 +23,10 @@ const PostList = props => {
         <Post
             {...post}
             key={post._id}
-            modal={modal}
+            openModal={openModal}
         />
     )
-    console.log(drafts)
-    console.log(published)
+
     return(
         <Container>
             <h2>Drafts</h2>

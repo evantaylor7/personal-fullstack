@@ -3,23 +3,23 @@ import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
 
 const Post = props => {
-    const {_id, draft, title, authorName, date, content, img, modal} = props
+    const {_id, draft, title, authorName, date, content, img, openModal} = props
     const {getPost, deletePost} = useContext(UserContext)
-    console.log(props)
 
-    const handleOpenPostEditor = () => {
+    const handleOpenPostEditor = e => {
         getPost(_id)
-        modal('post')
+        openModal(e)
     }
+
+    const reducedContent = content?.slice(0, 200)
 
     return(
         <Container>
             <Title>{title}</Title>
             {/* <Author>{authorName}</Author> */}
             <Date>{date}</Date>
-            <Content>{content}</Content>
-            {/* want to have just a couple lines of content and then '...' */}
-            <Button onClick={handleOpenPostEditor}>Edit</Button>
+            <Content>{reducedContent}{reducedContent?.length > 190 && '...'}</Content>
+            <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
             <Button onClick={() => deletePost(_id)}>Delete</Button>
         </Container>
     )

@@ -5,8 +5,14 @@ import styled from 'styled-components'
 import {UserContext} from '../../../../context/UserProvider.js'
 
 const ImageModal = props => {
-    const {close} = props
-    const {blog: {_id: blogId, username}, updateBlog, uploadImage} = useContext(UserContext)
+    const {close, collection} = props
+    const {
+        blog: {_id: blogId, username}, 
+        updateBlog, 
+        addPostImg,
+        uploadImage, 
+        postDetail: {_id: postId}
+    } = useContext(UserContext)
 
     const [tab, setTab] = useState('unsplash')
     const [img, setImg] = useState(null)
@@ -18,17 +24,23 @@ const ImageModal = props => {
     const handleImgChange = img => {
         setImg(img)
     }
-
-    const handleImgSubmit = () => {
+    console.log(collection)
+    const handleImgSubmit = e => {
         if(typeof img === 'string'){
-            updateBlog({img: img})
+            collection === 'blog' ?
+                updateBlog({img: img})
+            :
+                addPostImg(postId, {img: img})
         } else {
             const data = new FormData()
             // data.append('imageName', `${img.file.name} ${Date.now()}`)
             data.append('imageData', img.file)
-            uploadImage('blog', blogId, data)
+            collection === 'blog' ? 
+                uploadImage('blog', blogId, data)
+            :
+                uploadImage('posts', postId, data)
         }
-        close()
+        close(e)
     }
 
     return(
@@ -56,7 +68,7 @@ const ImageModal = props => {
                 </RightDiv>
             </ContentContainer>
             <ApplyContainer>
-                <Apply onClick={handleImgSubmit}>Apply</Apply>
+                <Apply onClick={handleImgSubmit} name='img'>Apply</Apply>
             </ApplyContainer>
         </Container>
     )

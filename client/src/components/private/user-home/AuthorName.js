@@ -7,7 +7,6 @@ const AuthorName = props => {
     const {blog, updateBlog, editPosts} = useContext(UserContext)
 
     const [input, setInput] = useState(blog.authorName || '')
-    console.log(blog.authorName)
 
     const handleChange = e => {
         const {value} = e.target

@@ -29,7 +29,7 @@ const Unsplash = props => {
             selected={imgSelector === photo.id}
             src={photo.urls.small} 
             onClick={() => {
-                handleImgSelect(photo.urls.raw)
+                handleImgSelect(photo.urls[photo.width * photo.height > 50000000 ? 'regular' : 'raw'])
                 setImgSelector(photo.id)
             }}
         />
@@ -53,13 +53,9 @@ const Unsplash = props => {
 
 export default Unsplash
 
-const Container = styled.div`
+const Container = styled.div``
 
-`
-
-const SearchForm = styled.form`
-
-`
+const SearchForm = styled.form``
 
 const Input = styled.input`
     width: 80%;

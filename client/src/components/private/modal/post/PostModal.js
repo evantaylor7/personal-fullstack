@@ -1,4 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react'
+import Modal from '../Modal.js'
 import styled from 'styled-components'
 import {UserContext} from '../../../../context/UserProvider'
 
@@ -9,7 +10,7 @@ const initInputs = {
 }
 
 const PostModal = props => {
-    const {close} = props
+    const {toggle} = props
     const {
         blog,
         blog: {_id: blogId, authorName}, 
@@ -20,15 +21,17 @@ const PostModal = props => {
     console.log(postDetail)
 
     const [inputs, setInputs] = useState(initInputs)
+    const [saveDisplay, setSaveDisplay] = useState(false)
+    const [imgModal, setImgModal] = useState(false)
     console.log(inputs)
 
     useEffect(() => {
-        setInputs({title: postDetail?.title, authorName: authorName, content: postDetail.content})
+        setInputs({title: postDetail?.title || '', authorName: authorName, content: postDetail.content || ''})
     }, [blog, postDetail])
 
     const handleChange = e => {
+        setSaveDisplay(false)
         const {name, value} = e.target
-        console.log(value)
         setInputs(prevInputs => ({
             ...prevInputs,
             [name]: value
@@ -39,7 +42,7 @@ const PostModal = props => {
         if(!inputs.title && !inputs.content){
             return
         } else {
-            console.log('saved')
+            handleSaveDisplay()
             postDetail?._id ? 
                 editPost(postDetail._id, inputs)
             :
@@ -47,13 +50,23 @@ const PostModal = props => {
         }
     }
 
-    const handlePostSubmit = e => {
-        const {name} = e.target
-        name === 'draft' ?
+    const handleSaveDisplay = () => {
+        setSaveDisplay(true)
+        setTimeout(() => setSaveDisplay(false), 1000)
+    }
+
+    const handleImgModal = () => {
+        setImgModal(prevImgModal => !prevImgModal)
+    }
+
+    const handlePostSubmit = (e, type) => {
+        console.log(type)
+        type === 'draft' ?
             editPost(postDetail._id, inputs)
         :
             editPost(postDetail._id, {...inputs, draft: false})
-        close()
+        
+        toggle(e)
     }
 
     return(
@@ -62,7 +75,15 @@ const PostModal = props => {
                 <LeftDiv>
                     Set Cover image
                     <hr/>
-                    Add Image <br/>
+                    <SidebarButton 
+                        onClick={handleImgModal} 
+                        name='img'
+                        disabled={!postDetail._id}
+                    >
+                        Add Image
+                    </SidebarButton>
+                    {imgModal && <Modal close={handleImgModal} name='img' collection='post'/>}
+                    <br/>
                     Italicize and stuff
                 </LeftDiv>
                 <RightDiv>
@@ -84,8 +105,9 @@ const PostModal = props => {
                 </RightDiv>
             </ContentContainer>
             <SubmitContainer>
-                <Submit draft name='draft' onClick={handlePostSubmit}>Save Draft</Submit>
-                <Submit name='submit' onClick={handlePostSubmit}>Publish</Submit>
+                <SavedAlert active={saveDisplay}>Saved &#10003;</SavedAlert>
+                <Submit draft name='post' onClick={(e) => handlePostSubmit(e, 'draft')}>Save Draft</Submit>
+                <Submit name='post' onClick={(e) => handlePostSubmit(e, 'published')}>Publish</Submit>
             </SubmitContainer>
         </Container>
     )
@@ -110,6 +132,8 @@ const LeftDiv = styled.div`
     background-color: #b5d3e7;
     border-top: solid 1px whitesmoke;
 `
+
+const SidebarButton = styled.button``
 
 const RightDiv = styled.div`
     grid-column: 2 / -1;
@@ -154,6 +178,13 @@ const SubmitContainer = styled.div`
     justify-content: flex-end;
     align-items: center;
     border-radius: 0 0 10px 10px;
+`
+
+const SavedAlert = styled.p`
+    display: ${props => props.active ? 'block' : 'none'};
+    font-size: 11pt;
+    margin-right: 20px;
+    color: green;
 `
 
 const Submit = styled.button`

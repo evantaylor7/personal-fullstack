@@ -5,16 +5,16 @@ import styled from 'styled-components'
 import {UserContext} from '../../../context/UserProvider.js'
 
 const Modal = props => {
-    const {toggle, close} = props
+    const {close, name, collection} = props
     const {postDetail} = useContext(UserContext)
 
     return(
-        <ModalContainer toggle={toggle}>
+        <ModalContainer toggle={name}>
             <Container>
                 <TitleContainer>
                     <Title>
                         {
-                        props.toggle === 'img' ? 
+                        name === 'img' ? 
                             'Choose an Image' 
                         : 
                             !postDetail?._id ? 
@@ -26,15 +26,14 @@ const Modal = props => {
                                     'Edit Blog Post'
                         }
                     </Title>
-                    <CancelButton onClick={close}>X</CancelButton>
+                    <CancelButton name={name} onClick={close}>X</CancelButton>
                 </TitleContainer>
                 <ContentContainer>
                     {
-                    toggle === 'img' ?
-                        <ImageModal close={close}/>
+                    name === 'img' ?
+                        <ImageModal close={close} collection={collection}/>
                     :
-                        <PostModal close={close}/>
-                    }
+                        <PostModal toggle={close}/>}
                 </ContentContainer>
             </Container>
         </ModalContainer>
@@ -44,9 +43,9 @@ const Modal = props => {
 export default Modal
 
 const ModalContainer = styled.div`
-    display: ${props => props.toggle ? 'block' : 'none'};
+    /* display: ${props => props.toggle ? 'block' : 'none'}; */
     position: fixed;
-    z-index: 1;
+    z-index: ${props => props.name === 'img' ? 3 : 2};
     left: 0;
     top: 0;
     width: 100%;
