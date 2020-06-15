@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import Modal from '../Modal.js'
+import PostEditor from './PostEditor.js'
 import styled from 'styled-components'
 import {UserContext} from '../../../../context/UserProvider'
 
@@ -87,7 +88,7 @@ const PostModal = props => {
                     Italicize and stuff
                 </LeftDiv>
                 <RightDiv>
-                    <TitleInput 
+                    {/* <TitleInput 
                         name='title' 
                         type='text'
                         value={inputs.title} 
@@ -101,7 +102,8 @@ const PostModal = props => {
                         onBlur={save} 
                         value={inputs.content}
                         placeholder='Write your blog post here. Add images, links, dividers, and edit text style using the editor on the left.'
-                    />
+                    /> */}
+                    <PostEditor/>
                 </RightDiv>
             </ContentContainer>
             <SubmitContainer>
