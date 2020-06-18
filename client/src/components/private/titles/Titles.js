@@ -197,7 +197,7 @@ const DescriptionContent = styled.p`
     max-width: 800px;
     margin: auto;
     color: ${props => props.color};
-    word-break: break-word
+    word-break: break-word;
 `
 
 const DescriptionForm = styled.form``

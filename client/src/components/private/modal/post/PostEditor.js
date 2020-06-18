@@ -1,73 +1,52 @@
-// import React, {useState} from 'react'
-// import {Editor, EditorState, RichUtils, convertFromHTML} from 'draft-js'
-// import 'draft-js/dist/Draft.css'
-// // import styled from 'styled-components'
-
-// const PostEditor = () => {
-//     const [editorState, setEditorState] = useState(
-//         () => EditorState.createEmpty()
-//     )
-
-//     const handleChange = editorState => {
-//         setEditorState(editorState)
-//     }
-
-//     const handleKeyCommand = (command, editorState) => {
-//         const newState = RichUtils.handleKeyCommand(editorState, command)
-//         if(newState){
-//             return 'handled'
-//         } 
-//         return 'not handled'
-//     }
-
-//     const onBoldClick = () => {
-//         handleChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'))
-//     }
-
-//     return (
-//         <>
-//             <button onClick={onBoldClick}>Bold</button>
-//             <Editor 
-//                 editorState={editorState} 
-//                 onChange={handleChange}
-//                 handleKeyCommand={handleKeyCommand}
-//             />
-//         </>
-//     )
-// }
-
-// export default PostEditor
-
 import React from 'react'
 import {Editor} from '@tinymce/tinymce-react'
+import styled from 'styled-components'
 
 const key = process.env.REACT_APP_TINY_KEY
 
-const PostEditor = () => {
+const PostEditor = props => {
+    const {onChange, value, save} = props
+
     const handleEditorChange = (content, editor) => {
-        console.log('Content was updated:', content)
+        onChange(content)
     }
 
     return (
-        <Editor
-            apiKey={key}
-            initialValue="<p>This is the initial content of the editor</p>"
-            init={{
-                height: 500,
-                menubar: true,
-                plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-                ],
-                toolbar:
-                'undo redo | formatselect | bold italic backcolor | \
-                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent | removeformat | help'
-            }}
-            onEditorChange={handleEditorChange}
-        />
+        <Container>
+            <Editor
+                apiKey={key}
+                value={value}
+                onBlur={save}
+                initialValue="<p>This is the initial content of the editor</p>"
+                init={{
+                    content_style: 
+                        'h1, h2, h3, h4, h5, h6 {font-weight: 200} body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; font-weight: 300}',
+                    resize: false,
+                    height: '100%',
+                    browser_spellcheck: true,
+                    contextmenu: false,
+                    menubar: true,
+                    menu: {file: {title: 'File', items: 'preview | print'}},
+                    plugins: [
+                    'quickbars advlist autolink lists link image hr emoticons charmap print preview',
+                    'searchreplace visualblocks code codesample fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar:
+                        'undo redo | formatselect | bold italic underline backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | image link hr | removeformat | preview'
+                }}
+                onEditorChange={handleEditorChange}
+            />
+        </Container>
     )
 }
 
 export default PostEditor
+
+const Container = styled.div`
+    width: 96%;
+    height: calc(100% - 84px);
+    margin: auto;
+`

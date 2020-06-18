@@ -16,8 +16,9 @@ const Endpoint = () => {
 
     const handleUrlInput = e => {
         const {value} = e.target
+        const noSpecialChars = value.replace(/[^a-zA-Z0-9-_]/g, '')
         setShowResponse(false)
-        setUrlInput(value)
+        setUrlInput(noSpecialChars)
     }
 
     const noSpaces = e => {
@@ -26,12 +27,12 @@ const Endpoint = () => {
 
     const handleUrlCheck = e => {
         e.preventDefault()
-        checkUrlEndpoints(urlInput)
+        checkUrlEndpoints(urlInput.toLowerCase())
         setShowResponse(true)
     }
 
     const updateUrl = () => {
-        updateBlog({url: urlInput})
+        updateBlog({url: urlInput.toLowerCase()})
         setToggleDomain(true)
     }
 

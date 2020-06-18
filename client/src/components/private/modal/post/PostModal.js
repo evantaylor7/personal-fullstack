@@ -27,15 +27,23 @@ const PostModal = props => {
     console.log(inputs)
 
     useEffect(() => {
-        setInputs({title: postDetail?.title || '', authorName: authorName, content: postDetail.content || ''})
+        setInputs({title: postDetail?.title || '', authorName: authorName, content: postDetail.content || {}})
     }, [blog, postDetail])
 
-    const handleChange = e => {
+    const handleTitleChange = e => {
         setSaveDisplay(false)
-        const {name, value} = e.target
+        const {value} = e.target
         setInputs(prevInputs => ({
             ...prevInputs,
-            [name]: value
+            title: value
+        }))
+    }
+
+    const handleContentChange = inputs => {
+        setSaveDisplay(false)
+        setInputs(prevInputs => ({
+            ...prevInputs,
+            content: inputs
         }))
     }
 
@@ -43,17 +51,12 @@ const PostModal = props => {
         if(!inputs.title && !inputs.content){
             return
         } else {
-            handleSaveDisplay()
+            setSaveDisplay(true)
             postDetail?._id ? 
                 editPost(postDetail._id, inputs)
             :
                 postNew({...inputs, blog: blogId})
         }
-    }
-
-    const handleSaveDisplay = () => {
-        setSaveDisplay(true)
-        setTimeout(() => setSaveDisplay(false), 1000)
     }
 
     const handleImgModal = () => {
@@ -88,28 +91,25 @@ const PostModal = props => {
                     Italicize and stuff
                 </LeftDiv>
                 <RightDiv>
-                    {/* <TitleInput 
-                        name='title' 
+                    <TitleInput 
                         type='text'
                         value={inputs.title} 
                         placeholder='Add a Blog Title'
-                        onChange={handleChange}
+                        onChange={handleTitleChange}
                         onBlur={save}
                     />
-                    <Content 
-                        name='content' 
-                        onChange={handleChange} 
-                        onBlur={save} 
-                        value={inputs.content}
-                        placeholder='Write your blog post here. Add images, links, dividers, and edit text style using the editor on the left.'
-                    /> */}
-                    <PostEditor/>
+                    <PostEditor 
+                        value={inputs.content} 
+                        onChange={handleContentChange}
+                        save={save}
+                    />
                 </RightDiv>
             </ContentContainer>
             <SubmitContainer>
                 <SavedAlert active={saveDisplay}>Saved &#10003;</SavedAlert>
-                <Submit draft name='post' onClick={(e) => handlePostSubmit(e, 'draft')}>Save Draft</Submit>
-                <Submit name='post' onClick={(e) => handlePostSubmit(e, 'published')}>Publish</Submit>
+                {!saveDisplay && <Submit draft name='post' onClick={save}>Save</Submit>}
+                <Submit draft name='post' onClick={e => handlePostSubmit(e, 'draft')}>Save as Draft</Submit>
+                <Submit name='post' onClick={e => handlePostSubmit(e, 'published')}>Publish</Submit>
             </SubmitContainer>
         </Container>
     )
@@ -147,27 +147,13 @@ const RightDiv = styled.div`
 const TitleInput = styled.input`
     border: none;
     border-radius: 10px;
-    width: 90%;
+    width: 96%;
     margin: 10px auto;
     padding: 16px 24px;
     font-size: 20pt;
     outline: none;
     font-weight: 200;
     /* background-color: whitesmoke; */
-`
-
-const Content = styled.textarea`
-    height: calc(100% - 94px);
-    width: 90%;
-    resize: none;
-    margin: auto;
-    padding: 16px 24px;
-    border-radius: 10px;
-    border: none;
-    background-color: white;
-    text-align: left;
-    font-weight: 300;
-    outline: none;
 `
 
 const SubmitContainer = styled.div`
@@ -185,7 +171,7 @@ const SubmitContainer = styled.div`
 const SavedAlert = styled.p`
     display: ${props => props.active ? 'block' : 'none'};
     font-size: 11pt;
-    margin-right: 20px;
+    margin-right: 10px;
     color: green;
 `
 

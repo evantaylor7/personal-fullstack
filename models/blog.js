@@ -47,7 +47,11 @@ const blogSchema = new Schema({
     //     data: Buffer,
     //     contentType: String
     // },
-    img: String
+    img: String,
+    published: {
+        type: Boolean,
+        default: false
+    }
 })
 
 module.exports = mongoose.model('Blog', blogSchema)

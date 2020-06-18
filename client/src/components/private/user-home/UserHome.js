@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
+import {Redirect} from 'react-router-dom'
 import Sidebar from './Sidebar.js'
 import Endpoint from './Endpoint.js'
 import Titles from '../titles/Titles.js'
@@ -41,6 +42,10 @@ const UserHome = () => {
     const handleNewPost = e => {
         clearPostDetail()
         handleToggleModal(e)
+    }
+
+    const handlePublish = () => {
+        updateBlog({published: !blog?.published})
     }
 
     const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
@@ -104,7 +109,17 @@ const UserHome = () => {
                     </PostContainer>
                     {blog?.settings?.profile && <AboutForm/>}
                 </ContentContainer>
-                <Button primary>Publish</Button>
+                {
+                blog?.published ? 
+                    <Button primary onClick={handlePublish}>{blog?.published ? 'Unp' : 'P'}ublish</Button>
+                :
+                    <Button 
+                        primary 
+                        onClick={<Redirect to={`/${blog?.url}`}/>}
+                    >
+                        {blog?.published ? 'View Blog' : 'Preview'}
+                    </Button>
+                }
             </BlogContainer>
         </Container>
     )
