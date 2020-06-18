@@ -1,4 +1,5 @@
 import React, {useEffect, useContext} from 'react'
+import {Link} from 'react-router-dom'
 import {useParams} from 'react-router-dom'
 import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
@@ -7,7 +8,7 @@ import AboutForm from '../private/about/AboutForm.js'
 
 const BlogDetail = () => {
     const {blogUrl} = useParams()
-    const {blog, blog: {settings, title, subtitle, description, img}, getBlog} = useContext(UserContext)
+    const {blog, blog: {settings, title, subtitle, description, img, published}, getBlog} = useContext(UserContext)
     
     useEffect(() => {
         getBlog(blogUrl)
@@ -15,33 +16,45 @@ const BlogDetail = () => {
     
     console.log(blogUrl)
     console.log(blog)
+
     return(
-        <Container>
-            <TitleContainer>
-                <TitlesContent titleAbove={settings?.titleAbove} img={settings?.img}>
-                    <Title color={title?.color}>
-                        {title?.content}
-                    </Title>
-                    {settings?.subtitle && 
-                        <Subtitle color={subtitle?.color}>
-                            {subtitle?.content}
-                        </Subtitle>}
-                    {settings?.description && 
-                        <Description color={description?.color}>
-                            {description?.content}
-                        </Description>}
-                </TitlesContent>
-                {settings?.img && <MainImg imgUrl={img} parallax={settings?.parallax}/>}
-            </TitleContainer>
-            {!settings?.img && <Hr/>}
-            <ContentContainer profile={settings?.profile ? 'true' : 'thisseemssilly'}>
-                <PostContainer>
-                    <PostsHeading>Posts</PostsHeading>
-                    <PostList blogId={blog._id}/>
-                </PostContainer>
-                {settings?.profile && <AboutForm/>}
-            </ContentContainer>
-        </Container>
+        <>
+            {
+            published ?
+                <Container>
+                    <TitleContainer>
+                        <TitlesContent titleAbove={settings?.titleAbove} img={settings?.img}>
+                            <Title color={title?.color}>
+                                {title?.content}
+                            </Title>
+                            {settings?.subtitle && 
+                                <Subtitle color={subtitle?.color}>
+                                    {subtitle?.content}
+                                </Subtitle>}
+                            {settings?.description && 
+                                <Description color={description?.color}>
+                                    {description?.content}
+                                </Description>}
+                        </TitlesContent>
+                        {settings?.img && <MainImg imgUrl={img} parallax={settings?.parallax}/>}
+                    </TitleContainer>
+                    {!settings?.img && <Hr/>}
+                    <ContentContainer profile={settings?.profile ? 'true' : 'thisseemssilly'}>
+                        <PostContainer>
+                            <PostsHeading>Posts</PostsHeading>
+                            <PostList blogId={blog._id}/>
+                        </PostContainer>
+                        {settings?.profile && <AboutForm/>}
+                    </ContentContainer>
+                </Container>
+            :
+                <DoesNotExist>
+                    <DNEText>This blog has yet to be published.</DNEText>
+                    <Link to='/auth'> Get Started</Link>
+                    <DNEText>to claim this domain!</DNEText>
+                </DoesNotExist>
+            }
+        </>
     )
 }
 
@@ -81,12 +94,13 @@ const Description = styled.p`
 `
 
 const MainImg = styled.div`
-    height: 500px;
+    height: 600px;
     margin: 10px 0;
     background-image: url(${props => props.imgUrl ? props.imgUrl : 'https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEzOTM2MX0'});
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: ${props => props.parallax ? '110px center' : 'center'};
+    /* background-position: ${props => props.parallax ? 'center' : 'center'}; */
+    background-position: center;
     background-attachment: ${props => props.parallax && 'fixed'};
 `
 
@@ -107,26 +121,16 @@ const PostContainer = styled.div`
     justify-self: center;
 `
 
-const AuthorNameContainer = styled.div`
+const PostsHeading = styled.h2`
+    margin-top: 10px;
+`
+
+const DoesNotExist = styled.div`
+    padding-top: 80px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
 `
 
-const AuthorName = styled.p`
-    font-size: 18pt;
-`
-
-const EditAuthorName = styled.button`
-    margin-left: 10px;
-    font-size: 9pt;
-    border: none;
-    background-color: white;
-    color: #0066CC;
-    cursor: pointer;
-`
-
-const PostsHeading = styled.h2`
-    margin-top: 10px;
+const DNEText = styled.p`
+    margin: 0 4px;
 `

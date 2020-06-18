@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Sidebar from './Sidebar.js'
 import Endpoint from './Endpoint.js'
 import Titles from '../titles/Titles.js'
@@ -45,7 +45,10 @@ const UserHome = () => {
     }
 
     const handlePublish = () => {
-        updateBlog({published: !blog?.published})
+        blog?.url ?
+            updateBlog({published: !blog?.published})
+        :
+            alert('You must set a url endpoint')
     }
 
     const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
@@ -109,17 +112,16 @@ const UserHome = () => {
                     </PostContainer>
                     {blog?.settings?.profile && <AboutForm/>}
                 </ContentContainer>
-                {
-                blog?.published ? 
-                    <Button primary onClick={handlePublish}>{blog?.published ? 'Unp' : 'P'}ublish</Button>
-                :
-                    <Button 
-                        primary 
-                        onClick={<Redirect to={`/${blog?.url}`}/>}
-                    >
-                        {blog?.published ? 'View Blog' : 'Preview'}
+                <ButtonsContainer>
+                    <Link to={`/${blog?.url}`}>
+                        <Button primary alt style={{'margin-right': '3px'}}>
+                            {blog?.published ? 'View Blog' : 'Preview'}
+                        </Button>
+                    </Link>
+                    <Button primary onClick={handlePublish} style={{'margin-left': '3px'}}>
+                        {blog?.published ? 'Unp' : 'P'}ublish
                     </Button>
-                }
+                </ButtonsContainer>
             </BlogContainer>
         </Container>
     )
@@ -173,7 +175,7 @@ const TitleContainer = styled.div`
 
 const MainImg = styled.div`
     display: ${props => props.setting ? 'block' : 'none'};
-    height: 500px;
+    height: 600px;
     margin: 10px 0;
     background-image: url(${props => props.imgUrl ? props.imgUrl : 'https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEzOTM2MX0'});
     background-repeat: no-repeat;
@@ -186,9 +188,9 @@ const Button = styled.button`
     height: ${props => props.primary ? '40px' : '30px'};
     padding: 5px;
     border-radius: 4px;
-    border: solid 1px black;
-    background-color: #214761;
-    color: whitesmoke;
+    border: solid 1px #214761;
+    background-color: ${props => props.alt ? 'whitesmoke' : '#214761'};
+    color: ${props => props.alt ? '#214761' : 'whitesmoke'};
     cursor: pointer;
     ${props => props.primary && 'margin-top: 40px; font-size: 18pt'};
 `
@@ -226,5 +228,11 @@ const EditAuthorName = styled.button`
 `
 
 const PostsHeading = styled.h2`
-    margin-top: 10px
+    margin-top: 10px;
+`
+
+const ButtonsContainer = styled.div`
+    margin: 40px 0 20px 0;
+    display: flex;
+    justify-content: center
 `

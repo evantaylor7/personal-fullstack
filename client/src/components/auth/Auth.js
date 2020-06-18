@@ -8,7 +8,7 @@ const Auth = () => {
 
     const initInputs = {username: '', password: ''}
     const [inputs, setInputs] = useState(initInputs)
-    const [authToggle, setAuthToggle] = useState(true)
+    const [authToggle, setAuthToggle] = useState(false)
 
     const toggle = () => {
         setAuthToggle(prevAuthToggle => !prevAuthToggle)
