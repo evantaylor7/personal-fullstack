@@ -6,7 +6,7 @@ import {UserContext} from '../context/UserProvider'
 const Navbar = () => {
     const {token, logout} = useContext(UserContext)
 
-    return(
+    return (
         <NavBox>
             This is the navbar
             {

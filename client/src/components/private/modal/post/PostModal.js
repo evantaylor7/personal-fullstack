@@ -73,7 +73,7 @@ const PostModal = props => {
         toggle(e)
     }
 
-    return(
+    return (
         <Container>
             <ContentContainer>
                 <LeftDiv>

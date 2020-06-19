@@ -31,7 +31,7 @@ const PostList = props => {
         />
     )
 
-    return(
+    return (
         <Container>
             {!readonly &&
                 <>

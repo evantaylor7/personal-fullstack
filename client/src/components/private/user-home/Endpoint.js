@@ -43,7 +43,7 @@ const Endpoint = () => {
         updateBlog({url: ''})
     }
 
-    return(
+    return (
         <Container>
             <p>{`http://blogtopia.herokuapp.com/${toggleDomain ? url : ''}`}</p>
             {
@@ -145,6 +145,7 @@ const ResponseContainer = styled.div`
 const Response = styled.p`
     font-size: 9pt;
     color: ${props => props.type === 'true' ? 'red' : 'green'};
+    margin-top: 1px;
 `
 
 const ResSpan = styled.span`

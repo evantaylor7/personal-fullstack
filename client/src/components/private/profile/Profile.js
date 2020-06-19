@@ -36,7 +36,7 @@ const Profile = props => {
         setBlurbFormToggle(false)
     }
 
-    return(
+    return (
         <Container>
             <AboutHeader>About the Author</AboutHeader>
             {blog?.authorName && <AuthorName>{blog.authorName}</AuthorName>}

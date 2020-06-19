@@ -20,7 +20,7 @@ const AuthorName = props => {
         toggle()
     }
 
-    return(
+    return (
         <Form onSubmit={handleSubmit}>
             <Label>Set your Author Name or Pen Name:</Label>
             <Input 

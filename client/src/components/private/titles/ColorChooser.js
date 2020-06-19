@@ -17,7 +17,7 @@ const ColorChooser = props => {
 
     const defaultColors = ['whitesmoke', '#1d1d1d', '#343837', '#214761', '#3C0008', '#0F9B8E', '#C85A53','#CB7723', '#048243', '#D0FEFE', '#8F1402']
 
-    return(
+    return (
         <ColorsContainer title={title} subtitle={subtitle} description={description}>
             {defaultColors.map(color => 
                 <Colors key={color} onClick={() => handleColorChange(color)} color={color}/>

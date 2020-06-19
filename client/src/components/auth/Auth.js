@@ -33,7 +33,7 @@ const Auth = () => {
         signup(inputs)
     }
 
-    return(
+    return (
         <Container>
             <h2>{authToggle ? 'Log In' : 'Sign Up'}</h2>
             {

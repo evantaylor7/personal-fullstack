@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Home = () => {
-    return(
+    return (
         <HomePage>
             This is the home page.
         </HomePage>

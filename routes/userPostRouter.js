@@ -24,6 +24,7 @@ userPostRouter.get('/:blogId', (req, res, next) => {
 
 // new blog post
 userPostRouter.post('/', (req, res, next) => {
+    req.body.date = createDate()
     req.body.user = req.user._id
     req.body.postedBy = req.user.username
     const newPost = new Post(req.body)

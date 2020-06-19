@@ -13,7 +13,7 @@ import ProtectedRoute from './ProtectedRoute.js'
 const App = () => {
     const {token} = useContext(UserContext)
 
-    return(
+    return (
         <div>
             <Navbar/>
             <Switch>

@@ -21,7 +21,7 @@ const Sidebar = props => {
         updateBlog({settings: newSettings})
     }
     
-    return(
+    return (
         <Container>
             <Header>Title Elements</Header>
             <SidebarButton onClick={changeSettings} name='subtitle' active={settings?.subtitle}>

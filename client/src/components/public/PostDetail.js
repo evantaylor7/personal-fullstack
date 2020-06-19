@@ -1,6 +1,7 @@
 import React, {useEffect, useContext} from 'react'
 import {useParams} from 'react-router-dom'
 import CommentList from '../comments/CommentList.js'
+import CommentForm from '../comments/CommentForm.js'
 import {UserContext} from '../../context/UserProvider.js'
 import DOMPurify from 'dompurify'
 import styled from 'styled-components'
@@ -27,7 +28,7 @@ const PostDetail = () => {
     // __v: 0
     // _id: "5eebfbbb9307f30f51d5739f"
 
-    return(
+    return (
         <>
             {
             _id ? 
@@ -37,7 +38,8 @@ const PostDetail = () => {
                         <Author><i>by</i> {authorName}</Author>
                         <Date>{date}</Date>
                         <Content dangerouslySetInnerHTML={cleanCode}/>
-                        <CommentList/>
+                        <CommentForm postId={postId}/>
+                        <CommentList postId={postId}/>
                     </Container>
                 </Page>
             :

@@ -2,11 +2,18 @@ const express = require('express')
 const userCommentRouter = express.Router()
 const Comment = require('../models/comment.js')
 
+const createDate = () => {
+    const month = new Date().toLocaleString('default', { month: 'long' })
+    const dateArr = Date().split(' ')
+    return `${month} ${dateArr[2]}, ${dateArr[3]}`
+}
+
 // post comment (if user)
 userCommentRouter.post('/:postId', (req, res, next) => {
     req.body.post = req.params.postId
     req.body.postedBy = req.user.username
     req.body.user = req.user._id
+    req.body.date = createDate()
     const newComment = new Comment(req.body)
     newComment.save((err, newComment) => {
         if(err){

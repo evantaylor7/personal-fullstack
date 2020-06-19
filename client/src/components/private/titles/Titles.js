@@ -59,7 +59,7 @@ const Titles = props => {
         }))
     }
 
-    return(
+    return (
         <Container titleAbove={settings?.titleAbove} img={settings?.img}>
             {
             !formToggle.title && title?.content ? 

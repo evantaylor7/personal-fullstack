@@ -17,7 +17,7 @@ const AuthForm = props => {
         e.which === 32 && e.preventDefault()
     }
 
-    return(
+    return (
         <Container>
             <form onSubmit={handleSubmit}>
                 <input

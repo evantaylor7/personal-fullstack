@@ -6,7 +6,7 @@ import {UserProvider} from './context/UserProvider.js'
 import App from './App'
 import './styles.css'
 
-ReactDOM.render(
+ReactDOM.render (
     <BrowserRouter>
       <ScrollToTop/>
         <UserProvider>

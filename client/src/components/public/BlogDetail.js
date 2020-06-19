@@ -17,7 +17,7 @@ const BlogDetail = () => {
     
     console.log(blog)
 
-    return(
+    return (
         <>
             {
             published || location?.state?.preview ?

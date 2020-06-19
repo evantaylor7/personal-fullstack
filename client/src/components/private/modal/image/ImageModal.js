@@ -43,7 +43,7 @@ const ImageModal = props => {
         close(e)
     }
 
-    return(
+    return (
         <Container>
             <ContentContainer>
                 <LeftDiv>

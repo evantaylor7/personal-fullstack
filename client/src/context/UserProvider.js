@@ -141,7 +141,7 @@ const UserProvider = props => {
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    comments: res.data
+                    comments: res.data.reverse()
                 }))
             })
             .catch(err => console.log(err))
@@ -149,7 +149,8 @@ const UserProvider = props => {
 
     // post a comment (anyone can post: if user, will have user info, if not user, will have their optional info or 'anonymous' as default)
     const postComment = (postId, commentObj) => {
-        userState.token ?
+        console.log(commentObj)
+        userState.token && commentObj.postedBy === '' ?
             userAxios.post(`/api/comments/${postId}`, commentObj)
                 .then(res => {
                     setUserState(prevUserState => ({
@@ -216,6 +217,11 @@ const UserProvider = props => {
             setUserState(prevUserState => ({
                 ...prevUserState,
                 urlCheck: true
+            }))
+        } else if(endpoint === userState.blog?.url) {
+            setUserState(prevUserState => ({
+                ...prevUserState,
+                urlCheck: false
             }))
         } else {
             userAxios.get(`/api/blog/check/${endpoint}`)
@@ -404,7 +410,7 @@ const UserProvider = props => {
             .catch(err => console.log(err))
     }
 
-    return(
+    return (
         <div>
             <UserContext.Provider
                 value={{

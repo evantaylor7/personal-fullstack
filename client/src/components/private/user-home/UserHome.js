@@ -54,7 +54,7 @@ const UserHome = () => {
     const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
     const windowDots = colorArray.map(dot => <Dot key={dot} color={dot}/>)
 
-    return(
+    return (
         <Container>
             <Sidebar blog={blog} updateBlog={updateBlog}/>
             <BlogContainer>

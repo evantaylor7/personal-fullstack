@@ -13,7 +13,7 @@ const ImageUpload = props => {
         })
     }
 
-    return(
+    return (
         <Container>
             <Label>
                 {img ? 'Choose Different Image' : 'Choose Image'}

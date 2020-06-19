@@ -20,7 +20,7 @@ const Post = props => {
     // const snippetEnd = textEnd - snippetStart > 200 ? 200 : textEnd
     // const blogSnippet = {__html: `${cleanCode.slice(snippetStart, snippetEnd)} ${cleanCode?.length > 190 ? ' ...' : ''}`} 
 
-    return(
+    return (
         <>
             {!readonly ?
                 <Container>

@@ -8,7 +8,7 @@ const Modal = props => {
     const {close, name, collection} = props
     const {postDetail} = useContext(UserContext)
 
-    return(
+    return (
         <ModalContainer toggle={name}>
             <Container>
                 <TitleContainer>
