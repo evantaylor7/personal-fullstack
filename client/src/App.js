@@ -8,7 +8,6 @@ import BlogDetail from './components/public/BlogDetail.js'
 import PostDetail from './components/public/PostDetail.js'
 import {UserContext} from './context/UserProvider.js'
 
-import './styles.css'
 import ProtectedRoute from './ProtectedRoute.js'
 
 const App = () => {
@@ -33,7 +32,7 @@ const App = () => {
                     token={token}
                 />
                 <Route
-                    path='/:blogUrl'
+                    exact path='/:blogUrl'
                     render={() => <BlogDetail/>}
                 />
                 <Route

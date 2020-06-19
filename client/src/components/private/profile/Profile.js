@@ -3,14 +3,19 @@ import styled from 'styled-components'
 import DefaultAvatar from './blank-avatar.png'
 import {UserContext} from '../../../context/UserProvider'
 
-const AboutForm = () => {
-    const {profile, blog, uploadImage, getUserProfile, updateProfile} = useContext(UserContext)
+const Profile = props => {
+    const {readonly} = props
+    console.log(readonly)
+    const {profile, blog, getProfile, uploadImage, getUserProfile, updateProfile} = useContext(UserContext)
 
     const [blurb, setBlurb] = useState('')
     const [blurbFormToggle, setBlurbFormToggle] = useState(false)
 
     useEffect(() => {
-        getUserProfile()
+        readonly ? 
+            getProfile(blog?._id)
+        :
+            getUserProfile()
     }, [])
 
     const handleImgSubmit = e => {
@@ -36,31 +41,43 @@ const AboutForm = () => {
             <AboutHeader>About the Author</AboutHeader>
             {blog?.authorName && <AuthorName>{blog.authorName}</AuthorName>}
             <ImageContainer img={profile?.img ? profile.img : DefaultAvatar}>
-                <ImageLabel>
-                    <ImgInput type='file' accept='image/*' onChange={handleImgSubmit}/>
-                    <ImgText>{profile?.img ? 'Change Portrait' : 'Choose Portrait'}</ImgText>
-                </ImageLabel>
+                {
+                !readonly &&
+                    <ImageLabel>
+                        <ImgInput type='file' accept='image/*' onChange={handleImgSubmit}/>
+                        <ImgText>{profile?.img ? 'Change Portrait' : 'Choose Portrait'}</ImgText>
+                    </ImageLabel>
+                }
             </ImageContainer>
             {
-            profile?.blurb && !blurbFormToggle ?
-                <Blurb onClick={() => setBlurbFormToggle(true)}>
+            readonly ?
+                <Blurb>
                     {profile.blurb}
                 </Blurb>
             :
-                <BlurbInput 
-                    type='text' 
-                    value={blurb}
-                    onChange={handleBlurbChange}
-                    onBlur={handleBlurbSubmit}
-                    autoFocus
-                    placeholder={`${blog?.authorName ? blog.authorName : blog.username} is an entrepreneur, a philanthropist, and a writer...`}
-                />
+                <>
+                    {
+                    profile?.blurb && !blurbFormToggle ?
+                        <Blurb onClick={() => setBlurbFormToggle(true)}>
+                            {profile.blurb}
+                        </Blurb>
+                    :
+                        <BlurbInput 
+                            type='text' 
+                            value={blurb}
+                            onChange={handleBlurbChange}
+                            onBlur={handleBlurbSubmit}
+                            autoFocus
+                            placeholder={`${blog?.authorName ? blog.authorName : blog.username} is an entrepreneur, a philanthropist, and a writer...`}
+                        />
+                    }
+                </>
             }
         </Container>
     )
 }
 
-export default AboutForm
+export default Profile
 
 const Container = styled.div`
     grid-column: 2 / -1;
@@ -75,7 +92,7 @@ const AboutHeader = styled.h2`
 `
 
 const AuthorName = styled.p`
-    margin-bottom: 6px;
+    margin-bottom: 12px;
 `
 
 const ImageContainer = styled.div`

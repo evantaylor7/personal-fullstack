@@ -6,7 +6,7 @@ import Titles from '../titles/Titles.js'
 import Modal from '../modal/Modal.js'
 import AuthorNameInput from './AuthorName.js'
 import PostList from '../../posts/PostList.js'
-import AboutForm from '../about/AboutForm.js'
+import Profile from '../profile/Profile.js'
 import {UserContext} from '../../../context/UserProvider'
 import styled from 'styled-components'
 
@@ -73,7 +73,12 @@ const UserHome = () => {
                         updateBlog={updateBlog} 
                         settings={blog.settings}
                     />
-                    <MainImg setting={blog?.settings?.img} imgUrl={blog?.img} parallax={blog?.settings?.parallax}>
+                    <MainImg 
+                        setting={blog?.settings?.img} 
+                        imgUrl={blog?.img} 
+                        parallax={blog?.settings?.parallax}
+                        titleAbove={blog?.settings?.titleAbove}
+                    >
                         <Button name='img' onClick={handleToggleModal}>Choose Image</Button>
                     </MainImg>
                     {
@@ -110,15 +115,15 @@ const UserHome = () => {
                         }
                         <PostList blogId={blog._id} openModal={handleToggleModal}/>
                     </PostContainer>
-                    {blog?.settings?.profile && <AboutForm/>}
+                    {blog?.settings?.profile && <Profile/>}
                 </ContentContainer>
                 <ButtonsContainer>
-                    <Link to={`/${blog?.url}`}>
-                        <Button primary alt style={{'margin-right': '3px'}}>
+                    <Link to={{pathname: `/${blog?.url}`, state: {preview: !blog?.published}}}>
+                        <Button primary alt={1} style={{'marginRight': '3px'}}>
                             {blog?.published ? 'View Blog' : 'Preview'}
                         </Button>
                     </Link>
-                    <Button primary onClick={handlePublish} style={{'margin-left': '3px'}}>
+                    <Button primary onClick={handlePublish} style={{'marginLeft': '3px'}}>
                         {blog?.published ? 'Unp' : 'P'}ublish
                     </Button>
                 </ButtonsContainer>
@@ -152,8 +157,8 @@ const Url = styled.div`
 `
 
 const Hr = styled.hr`
-    margin-top: 2px;
-    ${props => props.mid && 'width: 96%; margin: auto'}
+    ${props => props.mid && 'width: 96%'};
+    margin: ${props => props.mid ? '60px 0 40px 0' : '2px 0 0 0'};
 `
 
 const DotContainer = styled.div`
@@ -176,7 +181,7 @@ const TitleContainer = styled.div`
 const MainImg = styled.div`
     display: ${props => props.setting ? 'block' : 'none'};
     height: 600px;
-    margin: 10px 0;
+    margin: ${props => props.titleAbove ? '30px 0 20px 0' : '0 0 20px 0'};
     background-image: url(${props => props.imgUrl ? props.imgUrl : 'https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEzOTM2MX0'});
     background-repeat: no-repeat;
     background-size: cover;

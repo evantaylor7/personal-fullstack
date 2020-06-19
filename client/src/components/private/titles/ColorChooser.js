@@ -33,7 +33,7 @@ const ColorsContainer = styled.div`
     flex-direction: row;
     position: absolute;
     left: 50%;
-    margin-left: -90px;
+    margin-left: -122px;
     margin-top: -18px;
 
     ${props => props.title}:hover & {

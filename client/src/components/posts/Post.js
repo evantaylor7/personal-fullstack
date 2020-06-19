@@ -1,10 +1,12 @@
 import React, {useContext} from 'react'
+import {Link} from 'react-router-dom'
 // import DOMPurify from 'dompurify'
 import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
 
 const Post = props => {
-    const {_id, draft, title, authorName, date, content, img, openModal} = props
+    console.log(props)
+    const {_id, draft, title, authorName, date, content, img, openModal, readonly} = props
     const {getPost, deletePost} = useContext(UserContext)
 
     const handleOpenPostEditor = e => {
@@ -19,14 +21,23 @@ const Post = props => {
     // const blogSnippet = {__html: `${cleanCode.slice(snippetStart, snippetEnd)} ${cleanCode?.length > 190 ? ' ...' : ''}`} 
 
     return(
-        <Container>
-            <Title>{title}</Title>
-            <Date>{date}</Date>
-            {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
-            <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
-            <Button onClick={() => deletePost(_id)}>Delete</Button>
-            <Button>Preview</Button>
-        </Container>
+        <>
+            {!readonly ?
+                <Container>
+                    <Title>{title}</Title>
+                    <Date>{date}</Date>
+                    {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
+                    <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
+                    <Button onClick={() => deletePost(_id)}>Delete</Button>
+                    <Button>Preview</Button>
+                </Container>
+            :
+                <Link to={`/p/${_id}`}>
+                    <Title>{title}</Title>
+                    <Date>{date}</Date>
+                </Link>
+            }
+        </>
     )
 }
 

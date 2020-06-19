@@ -4,11 +4,14 @@ import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
 
 const PostList = props => {
-    const {blogId, openModal} = props
-    const {posts, getPosts} = useContext(UserContext)
+    const {blogId, openModal, readonly} = props
+    const {posts, getPosts, getPublicPosts} = useContext(UserContext)
 
     useEffect(() => {
-        blogId && getPosts(blogId)
+        blogId && readonly ?
+            getPublicPosts(blogId)
+        :
+            getPosts(blogId)
     }, [blogId])
 
     const drafts = posts?.filter(post => post.draft).map(post =>
@@ -24,15 +27,20 @@ const PostList = props => {
             {...post}
             key={post._id}
             openModal={openModal}
+            readonly={readonly}
         />
     )
 
     return(
         <Container>
-            <h2>Drafts</h2>
-            {drafts}
-            {!drafts[0] && <p>No Drafts</p>}
-            <h2>Published</h2>
+            {!readonly &&
+                <>
+                    <h2>Drafts</h2>
+                    {drafts}
+                    {!drafts[0] && <p>No Drafts</p>}
+                    <h2>Published</h2>
+                </>
+            }
             {published}
             {!published[0] && <p>No Published Posts</p>}
         </Container>
@@ -41,6 +49,4 @@ const PostList = props => {
 
 export default PostList
 
-const Container = styled.div`
-
-`
+const Container = styled.div``

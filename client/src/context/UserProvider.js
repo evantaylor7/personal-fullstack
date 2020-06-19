@@ -111,8 +111,8 @@ const UserProvider = props => {
 
     // BLOG POSTS:
     // get blog posts (one user)
-    const getPublicPosts = username => {
-        axios.get(`/posts/${username}`)
+    const getPublicPosts = blogId => {
+        axios.get(`/posts/${blogId}`)
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
@@ -171,7 +171,7 @@ const UserProvider = props => {
 
     // PROFILE:
     const getProfile = blogId => {
-        userAxios.get(`/api/profile/${blogId}`)
+        userAxios.get(`/profile/${blogId}`)
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
@@ -212,13 +212,20 @@ const UserProvider = props => {
     }
 
     const checkUrlEndpoints = endpoint => {
-        userAxios.get(`/api/blog/check/${endpoint}`)
-            .then(res => {
-                setUserState(prevUserState => ({
-                    ...prevUserState,
-                    urlCheck: res.data
-                }))
-            })
+        if(endpoint === '' || endpoint === 'dashboard' || endpoint === 'auth'){
+            setUserState(prevUserState => ({
+                ...prevUserState,
+                urlCheck: true
+            }))
+        } else {
+            userAxios.get(`/api/blog/check/${endpoint}`)
+                .then(res => {
+                    setUserState(prevUserState => ({
+                        ...prevUserState,
+                        urlCheck: res.data
+                    }))
+                })
+        }
     }
 
     const createBlog = () => {

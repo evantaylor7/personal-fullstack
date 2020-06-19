@@ -17,11 +17,22 @@ const PostEditor = props => {
                 apiKey={key}
                 value={value}
                 onBlur={save}
-                initialValue="<p>This is the initial content of the editor</p>"
                 init={{
                     content_style: 
                         'h1, h2, h3, h4, h5, h6 {font-weight: 200} body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; font-weight: 300}',
+                        setup : function(ed) {
+                            ed.on('keydown', function(evt) {
+                                console.debug('Key up event: ' + evt.keyCode);
+                                if (evt.keyCode == 9){ // tab pressed
+                                  ed.execCommand('mceInsertContent', false, '&emsp;&emsp;'); // inserts tab
+                                  evt.preventDefault();
+                                  evt.stopPropagation();
+                                  return false;
+                                }
+                            });
+                         },
                     resize: false,
+                    placeholder: 'Write your post here. Add images, line breaks, embed videos, and go nuts with emoticons.',
                     height: '100%',
                     browser_spellcheck: true,
                     contextmenu: false,

@@ -2,10 +2,10 @@ const express = require('express')
 const postRouter = express.Router()
 const Post = require('../models/post.js')
 
-// get blog posts by user
-postRouter.get('/:user', (req, res, next) => {
+// get blog posts by user's blogId
+postRouter.get('/:blogId', (req, res, next) => {
     Post.find(
-        {postedBy: req.params.user}, 
+        {blog: req.params.blogId}, 
         (err, posts) => {
             if(err){
                 res.status(500)

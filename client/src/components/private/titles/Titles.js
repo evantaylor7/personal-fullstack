@@ -135,7 +135,7 @@ const Titles = props => {
 export default Titles
 
 const Container = styled.div`
-    margin: 10px;
+    margin: ${props => !props.img ? '40px 0 0 0' : props.titleAbove ? '30px 0 40px' : '10px'};
     text-align: center;
     position: ${props => !props.titleAbove && props.img && 'absolute'};
     top: ${props => !props.titleAbove && props.img && '50%'};
@@ -146,9 +146,11 @@ const Container = styled.div`
 const Title = styled.div``
 
 const TitleContent = styled.p`
-    font-size: 30pt;
-    font-weight: 600;
+    font-size: 70px;
+    font-weight: 400;
     color: ${props => props.color};
+    display: inline-block;
+    padding: 2px 6px 6px 6px;
 
     &:hover {
         border-radius: 10px;
@@ -159,13 +161,31 @@ const TitleContent = styled.p`
 
 const TitleForm = styled.form``
 
-const TitleInput = styled.input``
+const TitleInput = styled.input`
+    border: none;
+    outline: none;
+    font-size: 70px;
+    font-weight: 400;
+    padding: 2px 6px 6px 6px;
+    width: 100%;
+    text-align: center;
+    border-radius: 4px;
+`
 
 const SubtitleContainer = styled.div`
     display: ${props => props.setting ? 'block' : 'none'};
+    margin-top: 4px;
 `
 
-const Subtitle = styled.div`
+const Subtitle = styled.div``
+
+const SubtitleContent = styled.h2`
+    display: inline-block;
+    color: ${props => props.color};
+    padding: 2px 6px 6px 6px;
+    font-weight: 600;
+    font-size: 30px;
+
     &:hover {
         border-radius: 10px;
         background-color: #b5d3e7;
@@ -173,19 +193,37 @@ const Subtitle = styled.div`
     }
 `
 
-const SubtitleContent = styled.h2`
-    color: ${props => props.color};
-`
-
 const SubtitleForm = styled.form``
 
-const SubtitleInput = styled.input``
+const SubtitleInput = styled.input`
+    padding: 2px 6px 6px 6px;
+    font-size: 30px;
+    font-weight: 600;
+    font-style: italic;
+    text-align: center;
+    border: none;
+    outline: none;
+    width: 100%;
+    border-radius: 4px;
+`
 
 const DescriptionContainer = styled.div`
     display: ${props => props.setting ? 'block' : 'none'};
 `
 
 const Description = styled.div`
+    margin-top: 10px;
+`
+
+const DescriptionContent = styled.p`
+    display: inline-block;
+    width: 800px;
+    margin: auto;
+    color: ${props => props.color};
+    word-break: break-word;
+    padding: 6px;
+    line-height: 22px;
+
     &:hover {
         border-radius: 10px;
         background-color: #b5d3e7;
@@ -193,13 +231,16 @@ const Description = styled.div`
     }
 `
 
-const DescriptionContent = styled.p`
-    max-width: 800px;
-    margin: auto;
-    color: ${props => props.color};
-    word-break: break-word;
-`
-
 const DescriptionForm = styled.form``
 
-const DescriptionInput = styled.textarea``
+const DescriptionInput = styled.textarea`
+    width: 800px;
+    height: 90px;
+    margin: 10px auto 0 auto;
+    padding: 6px;
+    border: none;
+    outline: none;
+    text-align: center;
+    resize: none;
+    border-radius: 4px;
+`

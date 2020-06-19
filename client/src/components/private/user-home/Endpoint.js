@@ -56,19 +56,28 @@ const Endpoint = () => {
                         onChange={handleUrlInput}
                         onKeyDown={noSpaces}
                     />
-                    {
-                    showResponse ?
-                        <>
-                            <Response type={urlCheck ? 'true' : 'false'}>
-                                {urlCheck ? 'X not available' : <ResSpan>&#10003; available</ResSpan>}
-                            </Response>
-                            {!urlCheck && <Button claim onClick={updateUrl}>claim domain</Button>}
-                        </>
-                    :
-                        <Button>
-                            Check Availability
-                        </Button>
-                    }
+                    <ResponseContainer>
+                        <Hidden>{urlInput}</Hidden>
+                        {
+                        showResponse ?
+                                <>
+                                    <Response type={urlCheck ? 'true' : 'false'}>
+                                        <>
+                                            {urlCheck ? 
+                                                'X not available' 
+                                            :
+                                                <ResSpan>&#10003; available</ResSpan>
+                                            }
+                                        </>
+                                    </Response>
+                                    {!urlCheck && <Button claim onClick={updateUrl}>claim domain</Button>}
+                                </>
+                                :
+                                <Button>
+                                Check Availability
+                            </Button>
+                        }
+                    </ResponseContainer>
                 </EndpointForm>
             :
                 <>
@@ -126,9 +135,14 @@ const EndpointInput = styled.input`
     color: grey;
 `
 
-const Response = styled.p`
+const ResponseContainer = styled.div`
     position: absolute;
-    margin-left: 100px;
+    display: flex;
+    margin-left: 20px;
+    pointer-events: none;
+`
+
+const Response = styled.p`
     font-size: 9pt;
     color: ${props => props.type === 'true' ? 'red' : 'green'};
 `
@@ -138,14 +152,19 @@ const ResSpan = styled.span`
     width: 64px;
 `
 
+const Hidden = styled.p`
+    z-index: -1;
+    visibility: hidden;
+`
+
 const Button = styled.button`
-    position: absolute;
-    margin-left: ${props => props.claim ? '180px' : '100px'};
+    ${props => props.claim && 'margin-left: 10px;'};
     border: none;
     background-color: white;
     color: #0066CC;
     font-size: 9pt;
     outline: none;
+    pointer-events: auto;
 
     &:hover {
         cursor: pointer;
