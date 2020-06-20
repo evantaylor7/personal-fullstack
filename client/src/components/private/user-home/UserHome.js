@@ -45,7 +45,7 @@ const UserHome = () => {
     }
 
     const handlePublish = () => {
-        blog?.url ?
+        blog?.blogUrl ?
             updateBlog({published: !blog?.published})
         :
             alert('You must set a url endpoint')
@@ -118,7 +118,7 @@ const UserHome = () => {
                     {blog?.settings?.profile && <Profile/>}
                 </ContentContainer>
                 <ButtonsContainer>
-                    <Link to={{pathname: `/${blog?.url}`, state: {preview: !blog?.published}}}>
+                    <Link to={{pathname: `/${blog?.blogUrl}`, state: {preview: !blog?.published}}}>
                         <Button primary alt={1} style={{'marginRight': '3px'}}>
                             {blog?.published ? 'View Blog' : 'Preview'}
                         </Button>
@@ -191,13 +191,13 @@ const MainImg = styled.div`
 
 const Button = styled.button`
     height: ${props => props.primary ? '40px' : '30px'};
+    font-size: ${props => props.primary ? '16px' : '12px'};
     padding: 5px;
     border-radius: 4px;
     border: solid 1px #214761;
     background-color: ${props => props.alt ? 'whitesmoke' : '#214761'};
     color: ${props => props.alt ? '#214761' : 'whitesmoke'};
     cursor: pointer;
-    ${props => props.primary && 'margin-top: 40px; font-size: 18pt'};
 `
 
 const ContentContainer = styled.div`
@@ -237,7 +237,7 @@ const PostsHeading = styled.h2`
 `
 
 const ButtonsContainer = styled.div`
-    margin: 40px 0 20px 0;
+    margin: 100px 0 20px 0;
     display: flex;
     justify-content: center
 `

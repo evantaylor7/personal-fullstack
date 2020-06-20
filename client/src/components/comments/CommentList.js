@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider.js'
 
 const CommentList = props => {
-    const {postId} = props
+    const {postId, postUser} = props
     const {getComments, comments} = useContext(UserContext)
 
     useEffect(() => {
@@ -14,6 +14,7 @@ const CommentList = props => {
     const Comments = comments.map(comment => 
         <Comment 
             key={comment._id}
+            postUser={postUser}
             {...comment}
         />
     )

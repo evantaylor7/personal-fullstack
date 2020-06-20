@@ -74,11 +74,11 @@ const UserProvider = props => {
     const logout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
-        setUserState({
-            ...initState,
+        setUserState(prevUserState => ({
+            ...prevUserState,
             user: {},
             token: ''
-        })
+        }))
     }
 
     const handleAuthError = errMsg => {
@@ -101,6 +101,18 @@ const UserProvider = props => {
         axios.get(`/blog/${blogUrl}`)
             .then(res => {
                 console.log(res.data)
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    blog: res.data
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
+    // get blog using blogId
+    const getBlogWithId = blogId => {
+        axios.get(`/blog/id/${blogId}`)
+            .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
                     blog: res.data
@@ -207,7 +219,6 @@ const UserProvider = props => {
                     ...prevUserState,
                     blog: res.data
                 }))
-                // getImage(res.data._id)
             })
             .catch(err => console.log(err))
     }
@@ -235,6 +246,7 @@ const UserProvider = props => {
     }
 
     const createBlog = () => {
+        console.log('ran')
         userAxios.post('/api/blog')
             .then(res => {
                 userState(prevUserState => ({
@@ -347,6 +359,7 @@ const UserProvider = props => {
     const deleteComment = commentId => {
         userAxios.delete(`/api/comments/${commentId}`)
             .then(res => {
+                console.log(res)
                 setUserState(prevUserState => ({
                     ...prevUserState,
                     comments: prevUserState.comments.filter(comment => comment._id !== commentId)
@@ -421,6 +434,7 @@ const UserProvider = props => {
                     logout,
                     resetAuthError,
                     getBlog,
+                    getBlogWithId,
                     getPublicPosts,
                     getPost,
                     getComments,

@@ -40,7 +40,7 @@ const Endpoint = () => {
         setShowResponse(true)
         setUrlInput(prevUrl)
         setToggleDomain(false)
-        updateBlog({url: ''})
+        updateBlog({blogUrl: ''})
     }
 
     return (

@@ -18,7 +18,7 @@ const CommentList = props => {
 
     const handleNameToggle = e => {
         e.preventDefault()
-        setNameToggle(true)
+        setNameToggle(prevNameToggle => !prevNameToggle)
     }
 
     const handleSubmit = e => {
@@ -30,21 +30,21 @@ const CommentList = props => {
         <Container>
             <Hr/>
             <CommentForm onSubmit={handleSubmit}>
-                {
-                token && !nameToggle ? 
-                    <NameContainer>
+                <NameContainer>
+                    {
+                    token && !nameToggle ? 
                         <PostingAs>Posting as <b>{user.username}</b></PostingAs>
-                        <Button onClick={handleNameToggle}>Change</Button>
-                    </NameContainer>
-                :
-                    <NameInput 
-                        type='text' 
-                        placeholder='Your name'
-                        value={commentInputs.postedBy} 
-                        name='postedBy' 
-                        onChange={handleChange}
-                    />
-                }
+                    :
+                        <NameInput 
+                            type='text' 
+                            placeholder='Your name'
+                            value={commentInputs.postedBy} 
+                            name='postedBy' 
+                            onChange={handleChange}
+                        />
+                    }
+                    <Button onClick={handleNameToggle}>{nameToggle ? 'Cancel' : 'Change'}</Button>
+                </NameContainer>
                 <CommentInput 
                     type='text'
                     placeholder='Write your comment here'
@@ -87,6 +87,7 @@ const Button = styled.button`
     margin-left: 4px;
     margin-bottom: -1px;
     border: none;
+    outline: none;
     background-color: white;
     color: #0066CC;
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const blogSchema = new Schema({
-    url: {
+    blogUrl: {
         type: String,
         required: true,
         unique: true

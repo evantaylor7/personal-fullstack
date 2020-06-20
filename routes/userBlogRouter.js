@@ -5,8 +5,9 @@ const Blog = require('../models/blog.js')
 // create blog
 userBlogRouter.post('/', (req, res, next) => {
     req.body.user = req.user._id
+    req.body.authorName = req.user.username
     req.body.username = req.user.username
-    req.body.url = `${req.user.username}sBlog`
+    req.body.blogUrl = `${req.user.username}sBlog`
     req.body.title = {content: `${req.user.username}'s Blog`, color: '#1d1d1d'}
     const newBlog = new Blog(req.body)
     newBlog.save((err, newBlog) => {
@@ -35,7 +36,7 @@ userBlogRouter.get('/', (req, res, next) => {
 // check blog url endpoints
 userBlogRouter.get('/check/:endpoint', async (req, res, next) => {
     try {
-        const existingUrl = await Blog.findOne({url: req.params.endpoint})
+        const existingUrl = await Blog.findOne({blogUrl: req.params.endpoint})
         if(existingUrl) {
             return res.status(200).send(true)
         } else {

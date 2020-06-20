@@ -9,7 +9,12 @@ import Profile from '../private/profile/Profile.js'
 const BlogDetail = () => {
     const location = useLocation()
     const {blogUrl} = useParams()
-    const {blog, blog: {settings, title, subtitle, description, img, published}, getBlog} = useContext(UserContext)
+    const {
+        token, 
+        blog, 
+        blog: {settings, title, subtitle, description, img, published}, 
+        getBlog
+    } = useContext(UserContext)
     
     useEffect(() => {
         getBlog(blogUrl)
@@ -20,7 +25,7 @@ const BlogDetail = () => {
     return (
         <>
             {
-            published || location?.state?.preview ?
+            published || (location?.state?.preview && token) ?
                 <Container>
                     <TitleContainer>
                         <TitlesContent titleAbove={settings?.titleAbove} img={settings?.img}>

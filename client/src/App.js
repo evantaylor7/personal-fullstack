@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
 import Navbar from './components/Navbar.js'
 import Home from './components/public/Home.js'
@@ -12,6 +12,12 @@ import ProtectedRoute from './ProtectedRoute.js'
 
 const App = () => {
     const {token} = useContext(UserContext)
+
+    // const [navToggle, setNavToggle] = useState(true)
+    // console.log(navToggle)
+    // const toggleNav = () => {
+    //     setNavToggle(prevNavToggle => !prevNavToggle)
+    // }
 
     return (
         <div>

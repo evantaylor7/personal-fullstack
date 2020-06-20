@@ -17,6 +17,7 @@ const PostEditor = props => {
                 apiKey={key}
                 value={value}
                 onBlur={save}
+                
                 init={{
                     content_style: 
                         'h1, h2, h3, h4, h5, h6 {font-weight: 200} body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; font-weight: 300}',
