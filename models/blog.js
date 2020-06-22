@@ -18,11 +18,6 @@ const blogSchema = new Schema({
         required: true
     },
     authorName: String,
-    title: {
-        type: Object,
-        default: {content: 'My Blog', color: '#1d1d1d'},
-        required: true,
-    },
     settings: {
         type: Object,
         default: {
@@ -35,14 +30,9 @@ const blogSchema = new Schema({
         },
         required: true
     },
-    subtitle: {
-        type: Object,
-        default: {content: '', color: '#1d1d1d'}
-    },
-    description: {
-        type: Object,
-        default: {content: '', color: '#1d1d1d'}
-    },
+    title: Object,
+    subtitle: Object,
+    description: Object,
     // storedImg: {
     //     data: Buffer,
     //     contentType: String

@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 
 const Home = props => {
     // const {toggleNav} = props
@@ -70,19 +70,28 @@ const TitleContainer = styled.div`
     width: 785px;
 `
 
+const fadeIn = keyframes`
+    from {opacity: 0}
+    to {opacity: 1}
+`
+
 const Title = styled.p`
+    opacity: 0;
     font-size: 200px;
     font-weight: 250;
     /* color: #3c3c3c; */
     color: white;
+    animation: ${fadeIn} 2s forwards;
 `
 
 const Subtitle = styled.p`
+    opacity: 0;
     font-size: 40px;
     font-style: italic;
     font-weight: 400;
     /* color: #3c3c3c; */
     color: white;
+    animation: ${fadeIn} 2s forwards .5s;
 `
 
 const SecondSection = styled.div`

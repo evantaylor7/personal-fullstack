@@ -2,21 +2,6 @@ import React, {useState, useEffect} from 'react'
 import ColorChooser from './ColorChooser.js'
 import styled from 'styled-components'
 
-// const initInputs = {
-//     title: {
-//         content: '',
-//         color: '#1d1d1d'
-//     },
-//     subtitle: {
-//         content: '',
-//         color: '#1d1d1d'
-//     },
-//     description: {
-//         content: '',
-//         color: '#1d1d1d'
-//     }
-// }
-
 const Titles = props => {
     const {title, subtitle, description, updateBlog, settings} = props
 
@@ -163,11 +148,12 @@ const TitleForm = styled.form``
 
 const TitleInput = styled.input`
     border: none;
+    border-bottom: solid black 1px;
     outline: none;
     font-size: 70px;
     font-weight: 400;
     padding: 2px 6px 6px 6px;
-    width: 100%;
+    width: 90%;
     text-align: center;
     border-radius: 4px;
 `
@@ -203,7 +189,7 @@ const SubtitleInput = styled.input`
     text-align: center;
     border: none;
     outline: none;
-    width: 100%;
+    width: 90%;
     border-radius: 4px;
 `
 

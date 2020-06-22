@@ -8,7 +8,6 @@ userBlogRouter.post('/', (req, res, next) => {
     req.body.authorName = req.user.username
     req.body.username = req.user.username
     req.body.blogUrl = `${req.user.username}sBlog`
-    req.body.title = {content: `${req.user.username}'s Blog`, color: '#1d1d1d'}
     const newBlog = new Blog(req.body)
     newBlog.save((err, newBlog) => {
         if(err){
