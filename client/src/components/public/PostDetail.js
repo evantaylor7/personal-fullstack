@@ -9,7 +9,8 @@ import styled from 'styled-components'
 const PostDetail = () => {
     const {postId} = useParams()
     const {
-        postDetail: {_id, title, authorName, date, content, user, blog: blogId}, 
+        postDetail,
+        postDetail: {_id, title, authorName, date, content, user, blog: blogId, draft}, 
         blog,
         getPost,
         getBlogWithId
@@ -39,7 +40,7 @@ const PostDetail = () => {
             :
                 <>
                     {
-                    _id ? 
+                    _id && !draft ? 
                         <Page>
                             <Container>
                                 <Title>{title}</Title>

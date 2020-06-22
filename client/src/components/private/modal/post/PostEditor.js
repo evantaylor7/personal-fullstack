@@ -1,37 +1,71 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
 import {Editor} from '@tinymce/tinymce-react'
 import styled from 'styled-components'
+import {UserContext, userAxios} from '../../../../context/UserProvider'
 
 const key = process.env.REACT_APP_TINY_KEY
 
 const PostEditor = props => {
-    const {onChange, value, save} = props
+    const {postId, onChange, value, save} = props
+    const {uploadImage} = useContext(UserContext)
+    console.log(value)
+    const [img, setImg] = useState(null)
 
     const handleEditorChange = (content, editor) => {
         onChange(content)
     }
 
+    // const handleImgChange = e => {
+    //     const imgFile = e.target.files[0]
+    //     imgFile && setImg({
+    //         file: imgFile,
+    //         url: URL.createObjectURL(imgFile)
+    //         // loaded: 0
+    //     })
+    // }
+
+    // const handleImgSubmit = e => {
+    //     const img = e.target.files[0]
+    //     const data = new FormData()
+    //     // data.append('imageName', `${img.file.name} ${Date.now()}`)
+    //     data.append('imageData', img.file)
+    //     uploadImage('posts', postId, data)
+    // }
+
     return (
         <Container>
             <Editor
                 apiKey={key}
-                value={value}
+                initialValue={value}
                 onBlur={save}
-                
                 init={{
                     content_style: 
                         'h1, h2, h3, h4, h5, h6 {font-weight: 200} body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; font-weight: 300}',
                         setup : function(ed) {
                             ed.on('keydown', function(evt) {
-                                console.debug('Key up event: ' + evt.keyCode);
-                                if (evt.keyCode == 9){ // tab pressed
-                                  ed.execCommand('mceInsertContent', false, '&emsp;&emsp;'); // inserts tab
-                                  evt.preventDefault();
-                                  evt.stopPropagation();
-                                  return false;
+                                console.debug('Key up event: ' + evt.keyCode)
+                                if (evt.keyCode == 9){
+                                    ed.execCommand('mceInsertContent', false, '&emsp;&emsp;')
+                                    evt.preventDefault()
+                                    evt.stopPropagation()
+                                    return false
                                 }
-                            });
-                         },
+                            })
+                        },
+                    images_upload_handler: postId => (
+                        function (blobInfo, success, failure) {
+                            let data = new FormData()
+                            data.append('file', blobInfo.blob(), blobInfo.filename())
+                            userAxios.put(`/api/image/posts/${postId}`, data)
+                                .then(function (res) {
+                                    console.log(res.data)
+                                    success(res.data.location)
+                                })
+                                .catch(function (err) {
+                                    failure('HTTP Error: ' + err.message)
+                                })
+                        }
+                    ),
                     resize: false,
                     placeholder: 'Write your post here. Add images, line breaks, embed videos, and go nuts with emoticons.',
                     height: '100%',

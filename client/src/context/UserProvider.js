@@ -465,4 +465,4 @@ const UserProvider = props => {
     )
 }
 
-export {UserContext, UserProvider}
+export {UserContext, userAxios, UserProvider}

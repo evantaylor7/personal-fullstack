@@ -17,7 +17,7 @@ const AuthorName = props => {
         e.preventDefault()
         updateBlog({authorName: input})
         editPosts({authorName: input})
-        toggle()
+        toggle(false)
     }
 
     return (

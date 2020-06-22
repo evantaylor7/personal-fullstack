@@ -36,7 +36,7 @@ const Home = props => {
                 </TitleContainer>
             </LandingContainer>
             <SecondSection>
-                <Content>Share with the world</Content>
+                <Content>Share your story with the world</Content>
                     <SignupLink to='/auth'>
                         Get Started
                     </SignupLink>

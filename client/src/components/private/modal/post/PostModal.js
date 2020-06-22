@@ -66,7 +66,7 @@ const PostModal = props => {
     const handlePostSubmit = (e, type) => {
         console.log(type)
         type === 'draft' ?
-            editPost(postDetail._id, inputs)
+            editPost(postDetail._id, {...inputs, draft: true})
         :
             editPost(postDetail._id, {...inputs, draft: false})
         
@@ -99,6 +99,7 @@ const PostModal = props => {
                         onBlur={save}
                     />
                     <PostEditor 
+                        postId={postDetail._id}
                         value={inputs.content} 
                         onChange={handleContentChange}
                         save={save}

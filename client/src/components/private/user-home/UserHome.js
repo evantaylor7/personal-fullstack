@@ -9,6 +9,7 @@ import PostList from '../../posts/PostList.js'
 import Profile from '../profile/Profile.js'
 import {UserContext} from '../../../context/UserProvider'
 import styled from 'styled-components'
+import ScrollToTop from '../../../ScrollToTop.js'
 
 const UserHome = () => {
     const {
@@ -21,7 +22,7 @@ const UserHome = () => {
 
     const [toggleModal, setToggleModal] = useState({img: false, post: false})
     const [toggleAuthorName, setToggleAuthorName] = useState(false)
-    console.log(toggleModal)
+    console.log(toggleAuthorName)
     useEffect(() => {
         getUserBlog()
     }, [])
@@ -35,8 +36,8 @@ const UserHome = () => {
         }))
     }
 
-    const handleAuthorNameToggle = () => {
-        setToggleAuthorName(prevState => !prevState)
+    const handleAuthorNameToggle = setting => {
+        setToggleAuthorName(setting)
     }
 
     const handleNewPost = e => {
@@ -56,6 +57,7 @@ const UserHome = () => {
 
     return (
         <Container>
+            {/* {blog?.img && <ScrollToTop/>} */}
             <Sidebar blog={blog} updateBlog={updateBlog}/>
             <BlogContainer>
                 <Url>
@@ -97,7 +99,7 @@ const UserHome = () => {
                         blog?.authorName && !toggleAuthorName ? 
                             <AuthorNameContainer>
                                 <AuthorName>{blog.authorName}</AuthorName> 
-                                <EditAuthorName onClick={handleAuthorNameToggle}>
+                                <EditAuthorName onClick={() => handleAuthorNameToggle(true)}>
                                     Change
                                 </EditAuthorName>
                             </AuthorNameContainer>
