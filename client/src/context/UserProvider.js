@@ -18,7 +18,6 @@ unsplashAxios.interceptors.request.use(config => {
     config.headers['Accept-Version'] = 'v1'
     return config
 })
-// ask if this is the best way to do this ^^
 
 const UserProvider = props => {
     const initState = {

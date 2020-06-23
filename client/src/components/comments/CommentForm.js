@@ -23,7 +23,12 @@ const CommentList = props => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        postComment(postId, commentInputs)
+        if(commentInputs.postedBy === ''){
+            postComment(postId, {content: commentInputs.content})
+        } else {
+            postComment(postId, commentInputs)
+        }
+        setCommentInputs({postedBy: '', content: ''})
     }
 
     return (
@@ -43,7 +48,12 @@ const CommentList = props => {
                             onChange={handleChange}
                         />
                     }
-                    <Button onClick={handleNameToggle}>{nameToggle ? 'Cancel' : 'Change'}</Button>
+                    {
+                    token && 
+                        <Button onClick={handleNameToggle}>
+                            {nameToggle ? 'Cancel' : 'Change'}
+                        </Button>
+                    }
                 </NameContainer>
                 <CommentInput 
                     type='text'
@@ -116,10 +126,11 @@ const CommentInput = styled.textarea`
 
 const Submit = styled.button`
     margin-top: 8px;
+    padding: 2px 10px;
     height: 24px;
-    width: 60px;
     border-radius: 4px;
     border: solid #a2a2a2 1px;
+    transition: .4s;
 
     &:hover {
         background-color: #dfdfdf;

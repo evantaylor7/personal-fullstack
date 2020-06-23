@@ -126,6 +126,10 @@ const Container = styled.div`
     top: ${props => !props.titleAbove && props.img && '50%'};
     left: ${props => !props.titleAbove && props.img && '50%'};
     transform: ${props => !props.titleAbove && props.img && 'translate(-50%, -50%)'};
+
+    @media (max-width: 1080px){
+        width: 90%
+    }
 `
 
 const Title = styled.div``
@@ -148,14 +152,14 @@ const TitleForm = styled.form``
 
 const TitleInput = styled.input`
     border: none;
-    border-bottom: solid black 1px;
+    border-bottom: solid darkgrey 1px;
     outline: none;
     font-size: 70px;
     font-weight: 400;
     padding: 2px 6px 6px 6px;
     width: 90%;
     text-align: center;
-    border-radius: 4px;
+    /* border-radius: 4px; */
 `
 
 const SubtitleContainer = styled.div`
@@ -229,4 +233,8 @@ const DescriptionInput = styled.textarea`
     text-align: center;
     resize: none;
     border-radius: 4px;
+
+    @media (max-width: 1080px){
+        width: 90%
+    }
 `

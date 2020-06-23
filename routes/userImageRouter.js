@@ -4,6 +4,9 @@ const Blog = require('../models/blog.js')
 const Profile = require('../models/profile.js')
 const Post = require('../models/post.js')
 const multer = require('multer')
+const fs = require('fs')
+const path = require('path')
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -27,17 +30,16 @@ const upload = multer({
     limits: {
         fileSize: 12000000
     },
-    fileFilter: fileFilter
+    fileFilter: fileFilter,
+    onError: function(err, next){
+        if(err){
+            res.status(500)
+            return next(err)
+        }
+    }
 })
 
 userImageRouter.put('/blog/:blogId', upload.single('imageData'), (req, res, next) => {
-        // if(err instanceof multer.MulterError){
-        //     res.status(500)
-        //     return next(err)
-        // } else if(err) {
-        //     res.status(500)
-        //     return next(Error('An error occured'))
-        // }      
     console.log(req.file)
     Blog.findOneAndUpdate(
         {_id: req.params.blogId},
@@ -98,5 +100,7 @@ userImageRouter.put('/posts/:postId', upload.single('imageData'), (req, res, nex
 //         }
 //     )
 // })
+
+// userImageRouter.delete('/delete/:imgPath', (req, res, next) => )
 
 module.exports = userImageRouter

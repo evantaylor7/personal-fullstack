@@ -1,5 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react'
-import {useParams, Redirect} from 'react-router-dom'
+import {useParams, Redirect, useLocation} from 'react-router-dom'
 import CommentList from '../comments/CommentList.js'
 import CommentForm from '../comments/CommentForm.js'
 import {UserContext} from '../../context/UserProvider.js'
@@ -8,6 +8,8 @@ import styled from 'styled-components'
 
 const PostDetail = () => {
     const {postId} = useParams()
+    const location = useLocation()
+
     const {
         postDetail,
         postDetail: {_id, title, authorName, date, content, user, blog: blogId, draft}, 
@@ -40,15 +42,20 @@ const PostDetail = () => {
             :
                 <>
                     {
-                    _id && !draft ? 
+                    (_id && !draft) || location?.state?.preview ? 
                         <Page>
                             <Container>
                                 <Title>{title}</Title>
                                 <Author><i>by</i><ToBlog onClick={blogRedirect}>{authorName}</ToBlog></Author>
                                 <Date>{date}</Date>
                                 <Content dangerouslySetInnerHTML={cleanCode}/>
-                                <CommentForm postId={postId}/>
-                                <CommentList postId={postId} postUser={user}/>
+                                {
+                                !location?.state?.preview &&
+                                    <>
+                                        <CommentForm postId={postId}/>
+                                        <CommentList postId={postId} postUser={user}/>
+                                    </>
+                                }
                             </Container>
                         </Page>
                     :
@@ -69,7 +76,7 @@ const Page = styled.div`
 `
 
 const Container = styled.div`
-    width: 1000px;
+    width: 944px;
     margin: auto;
     padding: 50px 30px;
     background-color: white;

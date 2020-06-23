@@ -35,7 +35,7 @@ const Auth = () => {
 
     return (
         <Container>
-            <h2>{authToggle ? 'Log In' : 'Sign Up'}</h2>
+            <AuthTitle>{authToggle ? 'Log In' : 'Sign Up'}</AuthTitle>
             {
             authToggle ?
                 <>
@@ -46,8 +46,10 @@ const Auth = () => {
                         handleSubmit={handleLogin}
                         errMsg={errMsg}
                     />
-                    <p>Don't have an account?</p>
-                    <button onClick={toggle}>Go to Sign Up</button>
+                    <ToggleContainer>
+                        <ToggleText>Don't have an account?</ToggleText>
+                        <ToggleButton onClick={toggle}>Go to Sign Up</ToggleButton>
+                    </ToggleContainer>
                 </>
             :
                 <>
@@ -58,8 +60,10 @@ const Auth = () => {
                         handleSubmit={handleSignup}
                         errMsg={errMsg}
                     />
-                    <p>Already have an account?</p>
-                    <button onClick={toggle}>Go to Log In</button>
+                    <ToggleContainer>
+                        <ToggleText>Already have an account?</ToggleText>
+                        <ToggleButton onClick={toggle}>Go to Log In</ToggleButton>
+                    </ToggleContainer>
                 </>
             }
         </Container>
@@ -69,6 +73,31 @@ const Auth = () => {
 export default Auth
 
 const Container = styled.div`
-    padding-top: 50px;
-    margin-left: 10px
+    padding-top: 80px;
+    text-align: center;
+`
+
+const AuthTitle = styled.h2`
+    margin-bottom: 10px;
+`
+
+const ToggleContainer = styled.div`
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const ToggleText = styled.p`
+    margin-right: 2px;
+`
+
+const ToggleButton = styled.button`
+    margin-left: 2px;
+    padding: 2px 4px;
+    outline: none;
+
+    &:hover {
+        cursor: pointer
+    }
 `

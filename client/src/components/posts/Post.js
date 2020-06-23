@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 // import DOMPurify from 'dompurify'
 import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
+import PostDetail from '../public/PostDetail'
 
 const Post = props => {
     console.log(props)
@@ -29,13 +30,15 @@ const Post = props => {
                     {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
                     <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
                     <Button onClick={() => deletePost(_id)}>Delete</Button>
-                    <Button>Preview</Button>
+                    <Preview to={{pathname: `/p/${_id}`, state: {preview: true}}}>Preview</Preview>
                 </Container>
             :
-                <Link to={`/p/${_id}`}>
-                    <Title>{title}</Title>
-                    <Date>{date}</Date>
-                </Link>
+                <PostLink to={`/p/${_id}`}>
+                    <Container>
+                        <Title>{title}</Title>
+                        <Date>{date}</Date>
+                    </Container>
+                </PostLink>
             }
         </>
     )
@@ -43,10 +46,27 @@ const Post = props => {
 
 export default Post
 
-const Container = styled.div``
+const Container = styled.div`
+    border: solid 1px #a1a1a1;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+    transition: box-shadow .4s;
+
+    &:hover {
+        box-shadow: 2px 2px 5px #606060
+    }
+`
 
 const Title = styled.h2``
 
 const Date = styled.p``
 
 const Button = styled.button``
+
+const Preview = styled(Link)``
+
+const PostLink = styled(Link)`
+    text-decoration: none;
+    color: #1d1d1d
+`

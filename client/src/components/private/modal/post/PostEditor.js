@@ -6,7 +6,7 @@ import {UserContext, userAxios} from '../../../../context/UserProvider'
 const key = process.env.REACT_APP_TINY_KEY
 
 const PostEditor = props => {
-    const {postId, onChange, value, save} = props
+    const {postId, onChange, value, save, toggleImgModal} = props
     const {uploadImage} = useContext(UserContext)
     console.log(value)
     const [img, setImg] = useState(null)
@@ -52,10 +52,11 @@ const PostEditor = props => {
                                 }
                             })
                         },
+                    file_picker_types: 'image',
                     images_upload_handler: postId => (
                         function (blobInfo, success, failure) {
                             let data = new FormData()
-                            data.append('file', blobInfo.blob(), blobInfo.filename())
+                            data.append('imageData', blobInfo.fileName())
                             userAxios.put(`/api/image/posts/${postId}`, data)
                                 .then(function (res) {
                                     console.log(res.data)
@@ -74,9 +75,9 @@ const PostEditor = props => {
                     menubar: true,
                     menu: {file: {title: 'File', items: 'preview | print'}},
                     plugins: [
-                    'quickbars advlist autolink lists link image hr emoticons charmap print preview',
-                    'searchreplace visualblocks code codesample fullscreen',
-                    'insertdatetime media table paste code help wordcount'
+                        'quickbars advlist autolink lists link image hr emoticons charmap print preview',
+                        'searchreplace visualblocks code codesample fullscreen',
+                        'insertdatetime media table paste code help wordcount'
                     ],
                     toolbar:
                         'undo redo | formatselect | bold italic underline backcolor | \

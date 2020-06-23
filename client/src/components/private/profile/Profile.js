@@ -139,5 +139,12 @@ const Blurb = styled.p`
 `
 
 const BlurbInput = styled.textarea`
-    margin-top: 10px
+    margin-top: 10px;
+    width: 300px;
+    max-width: 358px;
+    height: 100px;
+    max-height: 250px;
+    outline: none;
+    padding: 6px;
+    border-radius: 6px;
 `

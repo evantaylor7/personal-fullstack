@@ -39,7 +39,7 @@ const Comment = props => {
 				toggleForm ?
 					<EditForm onSubmit={handleEditSubmit}>
 						<EditInput type='text' value={editInput} onChange={handleChange}/>
-						<Edit>Save</Edit>
+						<Edit save>Save</Edit>
 					</EditForm>
 				:
                     <Content>{content}</Content>
@@ -65,14 +65,18 @@ export default Comment
 
 const Container = styled.div`
     margin-top: 20px;
-    width: 500px;
+	width: 522px;
+	border: solid 1px #777;
+	border-radius: 4px;
 `
 
 const NameDate = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #b5d3e7;
+	background-color: #b5d3e7;
+	padding: 4px 10px;
+	border-radius: 4px 4px 0 0;
 `
 
 const Name = styled.p``
@@ -82,7 +86,9 @@ const Date = styled.p`
     margin-left: 4px;
 `
 
-const ContentContainer = styled.div``
+const ContentContainer = styled.div`
+	padding: 10px;
+`
 
 const EditForm = styled.form``
 
@@ -97,6 +103,19 @@ const EditInput = styled.textarea`
     max-height: 600px;
 `
 
-const Content = styled.p``
+const Content = styled.p`
+	margin: 10px 0;
+`
 
-const Edit = styled.button``
+const Edit = styled.button`
+	margin: ${props => props.save ? '10px 10px 10px 0' : '10px 0 10px 10px'};
+	padding: 2px 10px;
+	border-radius: 4px;
+	border: solid #a2a2a2 1px;
+	transition: .4s;
+
+	&:hover {
+		background-color: #dfdfdf;
+		cursor: pointer;
+	}
+`

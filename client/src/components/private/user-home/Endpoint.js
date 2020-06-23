@@ -3,16 +3,17 @@ import styled from 'styled-components'
 import {UserContext} from '../../../context/UserProvider'
 
 const Endpoint = () => {
-    const {blog: {username, url}, urlCheck, checkUrlEndpoints, updateBlog} = useContext(UserContext)
+    const {blog: {username, blogUrl}, urlCheck, checkUrlEndpoints, updateBlog} = useContext(UserContext)
 
     const [urlInput, setUrlInput] = useState('')
     const [showResponse, setShowResponse] = useState(false)
     const [toggleDomain, setToggleDomain] = useState(false)
-    
+    console.log(urlInput)
+    console.log( blogUrl)
     useEffect(() => {
-        !showResponse && setUrlInput(url ? url : `${username}sBlog`)
-        url && setToggleDomain(true)
-    }, [username, url])
+        blogUrl && setToggleDomain(true)
+        blogUrl && setUrlInput(blogUrl)
+    }, [username, blogUrl])
 
     const handleUrlInput = e => {
         const {value} = e.target
@@ -32,7 +33,7 @@ const Endpoint = () => {
     }
 
     const updateUrl = () => {
-        updateBlog({url: urlInput.toLowerCase()})
+        updateBlog({blogUrl: urlInput.toLowerCase()})
         setToggleDomain(true)
     }
 
@@ -45,7 +46,7 @@ const Endpoint = () => {
 
     return (
         <Container>
-            <p>{`http://blogtopia.herokuapp.com/${toggleDomain ? url : ''}`}</p>
+            <p>{`http://blogtopia.herokuapp.com/${toggleDomain ? blogUrl : ''}`}</p>
             {
             !toggleDomain ?
                 <EndpointForm onSubmit={handleUrlCheck}>
@@ -82,7 +83,7 @@ const Endpoint = () => {
             :
                 <>
                     <CurrentDomain>is the address of your blog!</CurrentDomain>
-                    <EditDomainButton onClick={() => handleDomainEdit(url)}>Edit</EditDomainButton>
+                    <EditDomainButton onClick={() => handleDomainEdit(blogUrl)}>Edit</EditDomainButton>
                 </>
             }
         </Container>

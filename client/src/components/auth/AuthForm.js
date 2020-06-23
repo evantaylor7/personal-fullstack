@@ -18,40 +18,70 @@ const AuthForm = props => {
     }
 
     return (
-        <Container>
-            <form onSubmit={handleSubmit}>
-                <input
-                    name='username'
-                    type='text'
-                    placeholder='username'
-                    value={username}
-                    onChange={handleChange}
-                    onKeyDown={noSpaces}
-                    maxLength={15}
-                    autoFocus
-                />
-                <input
-                    name='password'
-                    type='password'
-                    placeholder='password'
-                    value={password}
-                    onChange={handleChange}
-                    onKeyDown={noSpaces}
-                    maxLength={20}
-                />
-                <button>{btnText}</button>
-                <ErrorMsg>{errMsg}</ErrorMsg>
-            </form>
-        </Container>
+        <Form onSubmit={handleSubmit}>
+            <Input
+                name='username'
+                type='text'
+                placeholder='username'
+                value={username}
+                onChange={handleChange}
+                onKeyDown={noSpaces}
+                maxLength={15}
+                autoFocus
+            />
+            <Input
+                name='password'
+                type='password'
+                placeholder='password'
+                value={password}
+                onChange={handleChange}
+                onKeyDown={noSpaces}
+                maxLength={20}
+            />
+            <SubmitButton>{btnText}</SubmitButton>
+            <ErrorMsg>{errMsg}</ErrorMsg>
+        </Form>
     )
 }
 
 export default AuthForm
 
-const Container = styled.div`
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin: auto;
+`
 
+const Input = styled.input`
+    margin-bottom: 10px;
+    padding: 6px;
+    border: none;
+    border-bottom: solid 1px black;
+    border-radius: 4px;
+    outline: none;
+    background-color: whitesmoke;
+    transition: .4s;
+
+    &:focus {
+        background-color: white;
+        border-radius: 0;
+    }
+`
+
+const SubmitButton = styled.button`
+    width: 80px;
+    margin: auto;
+    padding: 4px;
+    outline: none;
+    margin-top: 10px;
+
+    &:hover {
+        cursor: pointer
+    }
 `
 
 const ErrorMsg = styled.p`
-    color: red
+    color: red;
+    margin-top: 10px;
 `

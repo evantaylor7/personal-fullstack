@@ -33,6 +33,7 @@ const ImageModal = props => {
                 addPostImg(postId, {img: img})
         } else {
             const data = new FormData()
+
             // data.append('imageName', `${img.file.name} ${Date.now()}`)
             data.append('imageData', img.file)
             collection === 'blog' ? 

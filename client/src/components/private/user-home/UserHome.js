@@ -81,7 +81,7 @@ const UserHome = () => {
                         parallax={blog?.settings?.parallax}
                         titleAbove={blog?.settings?.titleAbove}
                     >
-                        <Button name='img' onClick={handleToggleModal}>Choose Image</Button>
+                        <Button image name='img' onClick={handleToggleModal}>Choose Image</Button>
                     </MainImg>
                     {
                     toggleModal?.img && 
@@ -106,8 +106,10 @@ const UserHome = () => {
                         : 
                             <AuthorNameInput toggle={handleAuthorNameToggle}/>
                         }
-                        <PostsHeading>Your Posts</PostsHeading>
-                        <Button name='post' onClick={handleNewPost}>Make New Post</Button>
+                        <PostHeaderContainer>
+                            <PostsHeader>Your Posts</PostsHeader>
+                            <Button primary name='post' onClick={handleNewPost}>Make New Post</Button>
+                        </PostHeaderContainer>
                         {
                         toggleModal?.post &&
                             <Modal
@@ -194,24 +196,31 @@ const MainImg = styled.div`
 const Button = styled.button`
     height: ${props => props.primary ? '40px' : '30px'};
     font-size: ${props => props.primary ? '16px' : '12px'};
-    padding: 5px;
+    padding: 4px 8px;
     border-radius: 4px;
     border: solid 1px #214761;
     background-color: ${props => props.alt ? 'whitesmoke' : '#214761'};
     color: ${props => props.alt ? '#214761' : 'whitesmoke'};
     cursor: pointer;
+    ${props => props.image && 'margin: 4px'};
 `
 
 const ContentContainer = styled.div`
     display: ${props => props.profile === 'true' ? 'grid' : 'block'};
-    text-align: center;
+    /* text-align: center; */
     grid-template-columns: auto 400px;
     padding-top: 20px;
+    padding-left: 20px;
+
+    @media (max-width: 1100px){
+        display: block
+    }
 `
 
 const PostContainer = styled.div`
     grid-column: 1 / 2;
-    justify-self: center;
+    /* justify-self: center; */
+    width: 96%;
 `
 
 const AuthorNameContainer = styled.div`
@@ -234,9 +243,14 @@ const EditAuthorName = styled.button`
     cursor: pointer;
 `
 
-const PostsHeading = styled.h2`
-    margin-top: 10px;
+const PostHeaderContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
 `
+
+const PostsHeader = styled.h1``
 
 const ButtonsContainer = styled.div`
     margin: 100px 0 20px 0;

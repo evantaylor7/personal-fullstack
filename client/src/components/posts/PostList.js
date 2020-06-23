@@ -35,10 +35,10 @@ const PostList = props => {
         <Container>
             {!readonly &&
                 <>
-                    <h2>Drafts</h2>
+                    <PostType>Drafts</PostType>
                     {drafts}
                     {!drafts[0] && <p>No Drafts</p>}
-                    <h2>Published</h2>
+                    <PostType>Published</PostType>
                 </>
             }
             {published}
@@ -50,3 +50,7 @@ const PostList = props => {
 export default PostList
 
 const Container = styled.div``
+
+const PostType = styled.h2`
+    margin: 20px 0;
+`

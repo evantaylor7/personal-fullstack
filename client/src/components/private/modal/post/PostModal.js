@@ -24,10 +24,12 @@ const PostModal = props => {
     const [inputs, setInputs] = useState(initInputs)
     const [saveDisplay, setSaveDisplay] = useState(false)
     const [imgModal, setImgModal] = useState(false)
+    const [intId, setIntId] = useState(null)
     console.log(inputs)
 
+
     useEffect(() => {
-        setInputs({title: postDetail?.title || '', authorName: authorName, content: postDetail.content || {}})
+        setInputs({title: postDetail?.title || '', authorName: authorName, content: postDetail.content || ''})
     }, [blog, postDetail])
 
     const handleTitleChange = e => {
@@ -48,7 +50,10 @@ const PostModal = props => {
     }
 
     const save = () => {
-        if(!inputs.title && !inputs.content){
+        console.log('saved')
+        // console.log(inputs)
+        const { title, content } = inputs
+        if(!title && !content){
             return
         } else {
             setSaveDisplay(true)
@@ -58,6 +63,18 @@ const PostModal = props => {
                 postNew({...inputs, blog: blogId})
         }
     }
+
+    // useEffect(() => {
+        
+    //     const intId = setInterval(save, 3000)
+    //     setIntId(intId)
+
+    //     return () => {
+    //         clearInterval(intId)
+    //         setIntId(null)
+    //     }
+    // }, [])
+    // [blog, postDetail]
 
     const handleImgModal = () => {
         setImgModal(prevImgModal => !prevImgModal)
@@ -103,6 +120,7 @@ const PostModal = props => {
                         value={inputs.content} 
                         onChange={handleContentChange}
                         save={save}
+                        toggleImgModal={handleImgModal}
                     />
                 </RightDiv>
             </ContentContainer>
