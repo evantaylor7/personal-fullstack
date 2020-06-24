@@ -58,6 +58,7 @@ const NavBox = styled.div`
 const Button = styled.p`
     &:hover {
         cursor: pointer;
+        border-bottom: solid 1px black;
     }
 `
 
@@ -68,7 +69,7 @@ const Home = styled(NavLink)`
     font-size: ${props => props.title && '22px'};
 
     &:hover {
-        border-bottom: solid 1px black
+        ${props => !props.title && 'border-bottom: solid 1px black'}
     }
 `
 
@@ -76,4 +77,8 @@ const SignUp = styled(NavLink)`
     text-decoration: none;
     color: #1d1d1d;
     padding: 2px;
+
+    &:hover {
+        border-bottom: solid 1px black
+    }
 `

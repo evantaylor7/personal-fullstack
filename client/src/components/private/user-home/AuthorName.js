@@ -47,7 +47,18 @@ const Label = styled.label``
 const Input = styled.input`
     width: 200px;
     margin: auto;
+    padding: 4px 8px;
     margin-top: 6px;
+    border: none;
+    border-bottom: solid 1px black;
+    border-radius: 4px;
+    background-color: whitesmoke;
+    transition: .4s;
+
+    &:focus {
+        background-color: white;
+        border-radius: 0;
+    }
 `
 
 const Save = styled.button`

@@ -40,18 +40,18 @@ const PostEditor = props => {
                 onBlur={save}
                 init={{
                     content_style: 
-                        'h1, h2, h3, h4, h5, h6 {font-weight: 200} body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; font-weight: 300}',
-                        setup : function(ed) {
-                            ed.on('keydown', function(evt) {
-                                console.debug('Key up event: ' + evt.keyCode)
-                                if (evt.keyCode == 9){
-                                    ed.execCommand('mceInsertContent', false, '&emsp;&emsp;')
-                                    evt.preventDefault()
-                                    evt.stopPropagation()
-                                    return false
-                                }
-                            })
-                        },
+                        'h1, h2, h3, h4, h5, h6 {font-weight: 200} body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; font-weight: 300} p > img {max-width: 100%; height: 100%;} p {font-weight: 300; line-height: 1.8em;} p > span {font-weight: 300; line-height: 1.8em;}',
+                    setup : function(ed) {
+                        ed.on('keydown', function(evt) {
+                            console.debug('Key up event: ' + evt.keyCode)
+                            if (evt.keyCode == 9){
+                                ed.execCommand('mceInsertContent', false, '&emsp;&emsp;')
+                                evt.preventDefault()
+                                evt.stopPropagation()
+                                return false
+                            }
+                        })
+                    },
                     file_picker_types: 'image',
                     images_upload_handler: postId => (
                         function (blobInfo, success, failure) {
@@ -68,7 +68,7 @@ const PostEditor = props => {
                         }
                     ),
                     resize: false,
-                    placeholder: 'Write your post here. Add images, line breaks, embed videos, and go nuts with emoticons.',
+                    placeholder: 'Write your post here. Add images, line breaks, emoticons, etc. Press "shift + enter" to start a new paragraph without a space.',
                     height: '100%',
                     browser_spellcheck: true,
                     contextmenu: false,
@@ -93,7 +93,7 @@ const PostEditor = props => {
 export default PostEditor
 
 const Container = styled.div`
-    width: 96%;
-    height: calc(100% - 84px);
+    width: 100%;
+    height: 100%;
     margin: auto;
 `

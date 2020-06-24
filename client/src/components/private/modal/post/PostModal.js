@@ -56,10 +56,8 @@ const PostModal = props => {
         }))
     }
 
-    const save = (inputs = inputs) => {
-        console.log(inputs)
-        // console.log(inputs)
-        const { title, content } = inputs
+    const save = () => {
+        const {title, content} = inputs
         if(!title && !content){
             console.log("didn't save")
             return
@@ -73,16 +71,16 @@ const PostModal = props => {
         }
     }
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        const intId = setInterval(() => save(inputs), 3000)
-        setIntId(intId)
+    //     const intId = setInterval(() => save(inputs), 3000)
+    //     setIntId(intId)
 
-        return () => {
-            clearInterval(intId)
-            setIntId(null)
-        }
-    }, [])
+    //     return () => {
+    //         clearInterval(intId)
+    //         setIntId(null)
+    //     }
+    // }, [])
 
     const handleImgModal = () => {
         setImgModal(prevImgModal => !prevImgModal)
@@ -149,7 +147,9 @@ const PostModal = props => {
                 <Preview onClick={handleTogglePreviewModal}>Preview</Preview>
                 {togglePreviewModal && 
                     <PreviewModal onClick={handleTogglePreviewModal}>
-                        <Close>X</Close>
+                        <PreviewHeader>
+                            <Close>X</Close>
+                        </PreviewHeader>
                         <PostDetail 
                             postId={postDetail._id} 
                             preview={true} 
@@ -192,9 +192,12 @@ const Tab = styled.div`
     background-color: ${props => props.selected ? '#214761' : '#b5d3e7'};
     padding: 10px;
     padding-left: 20px;
+    transition: .4s;
 
     &:hover {
-        cursor: pointer
+        cursor: pointer;
+        background-color: #214761;
+        color: whitesmoke;
     }
 `
 
@@ -249,16 +252,36 @@ const PreviewModal = styled.div`
     z-index: 2;
 `
 
+const PreviewHeader = styled.div`
+    background-color: white;
+    position: absolute;
+    width: 944px;
+    height: 44px;
+    left: 50%;
+    margin-left: -472px;
+    top: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    @media (max-width: 960px){
+        width: 96%;
+        margin-left: 0;
+        left: 2%
+    }
+`
+
 const Close = styled.p`
-    color: white;
-    font-size: 30px;
-    width: 24px;
-    margin-left: auto;
-    margin-top: 10px;
-    margin-right: 10px;
+    font-size: 26px;
+    padding: 2px 8px;
+    margin-right: 6px;
+    border-radius: 4px;
+    transition: .4s;
 
     &:hover {
         cursor: pointer;
+        background-color: #214761;
+        color: whitesmoke;
     }
 `
 

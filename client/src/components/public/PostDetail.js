@@ -79,17 +79,17 @@ export default PostDetail
 const Page = styled.div`
     background-color: whitesmoke;
     width: ${props => props.preview ? '944px' : '100%'};
-    ${props => props.preview && 'height: 90%; z-index: 3; overflow: scroll; margin: auto'};
+    ${props => props.preview && 'height: 90%; z-index: 3; overflow: scroll; margin: 8vh auto auto'};
 
-    @media (max-width: 944px){
-        width: 100%
+    @media (max-width: 960px){
+        width: ${props => props.preview ? '96%' : '100%'}
     }
 `
 
 const Container = styled.div`
     width: 944px;
     margin: auto;
-    padding: ${props => props.preview ? '0 30px' : '50px 30px'};
+    padding: ${props => props.preview ? '40px 30px' : '60px 30px'};
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -99,7 +99,7 @@ const Container = styled.div`
         width: 100%
     }
     @media (max-width: 500px){
-        padding: 50px 10px
+        padding: 40px 10px
     }
 `
 
@@ -129,7 +129,21 @@ const Date = styled.p`
 `
 
 const Content = styled.div`
-    font-weight: 300;
     display: grid;
     grid-gap: 10px;
+    
+    > p {
+        font-weight: 300;
+        line-height: 1.8em;
+    }
+
+    > p > span {
+        font-weight: 300;
+        line-height: 1.8em;
+    }
+
+    > p > img {
+        max-width: 100%;
+        height: 100%;
+    }
 `

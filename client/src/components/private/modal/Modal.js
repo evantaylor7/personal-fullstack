@@ -85,9 +85,14 @@ const CancelButton = styled.button`
     font-size: 20px;
     outline: none;
     margin-right: 5px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    transition: .4s;
 
     &:hover {
-        cursor: pointer
+        cursor: pointer;
+        background-color: whitesmoke;
+        color: #214761;
     }
 `
 
