@@ -58,6 +58,7 @@ const UserHome = () => {
     return (
         <Container>
             {/* {blog?.img && <ScrollToTop/>} */}
+            <ScrollToTop/>
             <Sidebar blog={blog} updateBlog={updateBlog}/>
             <BlogContainer>
                 <Url>
@@ -161,8 +162,8 @@ const Url = styled.div`
 `
 
 const Hr = styled.hr`
-    ${props => props.mid && 'width: 96%'};
-    margin: ${props => props.mid ? '60px 0 40px 0' : '2px 0 0 0'};
+    ${props => props.mid && 'width: 90%'};
+    margin: ${props => props.mid ? '60px auto 40px auto' : '2px 0 0 0'};
 `
 
 const DotContainer = styled.div`
@@ -199,10 +200,16 @@ const Button = styled.button`
     padding: 4px 8px;
     border-radius: 4px;
     border: solid 1px #214761;
-    background-color: ${props => props.alt ? 'whitesmoke' : '#214761'};
+    background-color: ${props => props.alt ? 'white' : '#214761'};
     color: ${props => props.alt ? '#214761' : 'whitesmoke'};
-    cursor: pointer;
     ${props => props.image && 'margin: 4px'};
+    transition: .4s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: ${props => props.alt ? '#214761' : '#3a5b71'};
+        color: whitesmoke;
+    }
 `
 
 const ContentContainer = styled.div`

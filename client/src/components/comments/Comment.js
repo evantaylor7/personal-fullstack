@@ -32,7 +32,7 @@ const Comment = props => {
         <Container>
             <NameDate>
                 <Name><b>{postedBy}</b></Name>
-                <Date>posted on {date}</Date>
+                <Date>{date}</Date>
             </NameDate>
             <ContentContainer>
                 {
@@ -68,6 +68,10 @@ const Container = styled.div`
 	width: 522px;
 	border: solid 1px #777;
 	border-radius: 4px;
+
+	@media (max-width: 550px){
+        width: 100%;
+    }
 `
 
 const NameDate = styled.div`
@@ -100,7 +104,11 @@ const EditInput = styled.textarea`
     height: 100px;
     width: 500px;
     max-width: 700px;
-    max-height: 600px;
+	max-height: 600px;
+	
+	@media (max-width: 550px){
+        width: 100%
+    }
 `
 
 const Content = styled.p`

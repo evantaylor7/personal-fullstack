@@ -128,11 +128,18 @@ const Container = styled.div`
     transform: ${props => !props.titleAbove && props.img && 'translate(-50%, -50%)'};
 
     @media (max-width: 1080px){
-        width: 90%
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
     }
 `
 
-const Title = styled.div``
+const Title = styled.div`
+    @media (max-width: 1080px){
+        width: 90%;
+        margin: auto
+    }
+`
 
 const TitleContent = styled.p`
     font-size: 70px;
@@ -152,14 +159,12 @@ const TitleForm = styled.form``
 
 const TitleInput = styled.input`
     border: none;
-    border-bottom: solid darkgrey 1px;
     outline: none;
     font-size: 70px;
     font-weight: 400;
     padding: 2px 6px 6px 6px;
     width: 90%;
     text-align: center;
-    /* border-radius: 4px; */
 `
 
 const SubtitleContainer = styled.div`
@@ -167,7 +172,12 @@ const SubtitleContainer = styled.div`
     margin-top: 4px;
 `
 
-const Subtitle = styled.div``
+const Subtitle = styled.div`
+    @media (max-width: 1080px){
+        width: 90%;
+        margin: auto
+    }
+`
 
 const SubtitleContent = styled.h2`
     display: inline-block;
@@ -188,7 +198,7 @@ const SubtitleForm = styled.form``
 const SubtitleInput = styled.input`
     padding: 2px 6px 6px 6px;
     font-size: 30px;
-    font-weight: 600;
+    /* font-weight: 600; */
     font-style: italic;
     text-align: center;
     border: none;
@@ -218,6 +228,11 @@ const DescriptionContent = styled.p`
         border-radius: 10px;
         background-color: #b5d3e7;
         cursor: pointer;
+    }
+
+    @media (max-width: 1080px){
+        width: 90%;
+        margin: auto
     }
 `
 

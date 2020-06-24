@@ -43,7 +43,6 @@ const Modal = props => {
 export default Modal
 
 const ModalContainer = styled.div`
-    /* display: ${props => props.toggle ? 'block' : 'none'}; */
     position: fixed;
     z-index: ${props => props.name === 'img' ? 3 : 2};
     left: 0;

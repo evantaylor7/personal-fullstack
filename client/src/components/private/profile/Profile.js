@@ -37,7 +37,7 @@ const Profile = props => {
     }
 
     return (
-        <Container>
+        <Container readonly={readonly}>
             <AboutHeader>About the Author</AboutHeader>
             {blog?.authorName && <AuthorName>{blog.authorName}</AuthorName>}
             <ImageContainer img={profile?.img ? profile.img : DefaultAvatar}>
@@ -85,6 +85,19 @@ const Container = styled.div`
     border-left: solid rgb(154, 154, 154) 1px;
     width: 100%;
     padding: 0 20px;
+
+    @media (max-width: 1100px){
+        width: 400px;
+        margin: auto;
+        border-left: ${props => !props.readonly && 'none'};
+    }
+    @media (max-width: 900px){
+        border-left: none;
+    }
+    @media (max-width: 400px){
+        width: 100%;
+        padding: 0
+    }
 `
 
 const AboutHeader = styled.h2`
@@ -102,6 +115,11 @@ const ImageContainer = styled.div`
     background-repeat: no-repeat;
     width: 100%;
     height: 360px;
+
+    @media (max-width: 400px){
+        height: 0;
+        padding-top: 100%
+    }
 `
 
 const ImageLabel = styled.label`

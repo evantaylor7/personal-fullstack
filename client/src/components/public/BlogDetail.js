@@ -9,7 +9,7 @@ import Profile from '../private/profile/Profile.js'
 const BlogDetail = () => {
     const location = useLocation()
     const {blogUrl} = useParams()
-    
+
     const {
         token, 
         blog, 
@@ -130,12 +130,18 @@ const ContentContainer = styled.div`
     display: ${props => props.profile ? 'grid' : 'block'};
     grid-template-columns: auto 400px;
     padding-top: 20px;
+
+    @media (max-width: 900px){
+        display: block;
+    }
 `
 
 const PostContainer = styled.div`
     grid-column: 1 / 2;
     justify-self: center;
     width: 96%;
+    margin-left: auto;
+    margin-right: auto;
 `
 
 const PostsHeading = styled.h1`

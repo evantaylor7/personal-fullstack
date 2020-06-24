@@ -22,6 +22,28 @@ const PostList = props => {
         />
     )
 
+    // const reduced = posts?.reduce((fin, cur) => {
+    //     if(cur.draft){
+    //         fin.drafts.push(
+    //             <Post
+    //             {...cur}
+    //             key={cur._id}
+    //             openModal={openModal}
+    //         />
+    //         )
+    //     } else {
+    //         fin.published.push(
+    //             <Post
+    //             {...cur}
+    //             key={cur._id}
+    //             openModal={openModal}
+    //             readonly={readonly}
+    //         />
+    //         )
+    //     }
+    //     return fin
+    // }, {drafts: [], published: []})
+
     const published = posts?.filter(post => !post.draft).map(post =>
         <Post
             {...post}

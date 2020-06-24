@@ -7,7 +7,7 @@ const CommentList = props => {
     const {user, token, postComment} = useContext(UserContext)
     const [commentInputs, setCommentInputs] = useState({postedBy: '', content: ''})
     const [nameToggle, setNameToggle] = useState(false)
-
+    console.log(commentInputs)
     const handleChange = e => {
         const {name, value} = e.target
         setCommentInputs(prevCommentInputs => ({
@@ -23,7 +23,7 @@ const CommentList = props => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if(commentInputs.postedBy === ''){
+        if((commentInputs.postedBy === '' && !token) || (commentInputs.postedBy === '' && nameToggle)){
             postComment(postId, {content: commentInputs.content})
         } else {
             postComment(postId, commentInputs)
@@ -38,7 +38,7 @@ const CommentList = props => {
                 <NameContainer>
                     {
                     token && !nameToggle ? 
-                        <PostingAs>Posting as <b>{user.username}</b></PostingAs>
+                        <PostingAs>Posting as <B>{user.username}</B></PostingAs>
                     :
                         <NameInput 
                             type='text' 
@@ -46,6 +46,7 @@ const CommentList = props => {
                             value={commentInputs.postedBy} 
                             name='postedBy' 
                             onChange={handleChange}
+                            maxLength={15}
                         />
                     }
                     {
@@ -93,6 +94,10 @@ const PostingAs = styled.p`
     margin-right: 4px;
 `
 
+const B = styled.span`
+    font-weight: 500;
+`
+
 const Button = styled.button`
     margin-left: 4px;
     margin-bottom: -1px;
@@ -122,6 +127,10 @@ const CommentInput = styled.textarea`
     width: 500px;
     max-width: 700px;
     max-height: 600px;
+
+    @media (max-width: 550px){
+        width: 98%
+    }
 `
 
 const Submit = styled.button`

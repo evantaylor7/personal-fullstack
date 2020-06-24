@@ -54,9 +54,6 @@ const HomePage = styled.div`
 
 const LandingContainer = styled.div`
     height: calc(100vh - 40px);
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
     background-image: url('https://images.unsplash.com/photo-1505682634904-d7c8d95cdc50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80');
     background-position: center;
     background-size: cover;
@@ -68,6 +65,10 @@ const TitleContainer = styled.div`
     padding-top: 40px;
     margin-left: 40px;
     width: 785px;
+
+    @media (max-width: 860px){
+        width: calc(100% - 40px);
+    }
 `
 
 const fadeIn = keyframes`
@@ -82,6 +83,25 @@ const Title = styled.p`
     /* color: #3c3c3c; */
     color: white;
     animation: ${fadeIn} 2s forwards;
+
+    @media (max-width: 860px){
+        font-size: 160px;
+    }
+    @media (max-width: 690px){
+        font-size: 140px;
+    }
+    @media (max-width: 600px){
+        font-size: 120px;
+    }
+    @media (max-width: 530px){
+        font-size: 100px;
+    }
+    @media (max-width: 440px){
+        font-size: 80px;
+    }
+    @media (max-width: 370px){
+        font-size: 64px;
+    }
 `
 
 const Subtitle = styled.p`
@@ -92,14 +112,42 @@ const Subtitle = styled.p`
     /* color: #3c3c3c; */
     color: white;
     animation: ${fadeIn} 2s forwards .5s;
+
+    @media (max-width: 860px){
+        font-size: 36px;
+    }
+    @media (max-width: 600px){
+        font-size: 30px;
+    }
+    @media (max-width: 530px){
+        font-size: 26px;
+    }
+    @media (max-width: 440px){
+        font-size: 24px;
+    }
+    @media (max-width: 370px){
+        font-size: 20px;
+    }
 `
 
 const SecondSection = styled.div`
-    margin: 30px;
+    margin: 30px 0;
     font-size: 26px;
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    @media (max-width: 440px){
+        font-size: 22px;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        margin: -100px 0 0 0;
+        color: white;
+    }
+    @media (max-width: 350px){
+        font-size: 18px;
+    }
 `
 
 const Content = styled.p``
@@ -112,4 +160,11 @@ const SignupLink = styled(Link)`
     padding: 10px;
     background-color: #214761;
     border-radius: 30px;
+
+    @media (max-width: 440px){
+        font-size: 20px;
+    }
+    @media (max-width: 350px){
+        font-size: 18px;
+    }
 `

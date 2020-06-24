@@ -8,7 +8,7 @@ import './styles.css'
 
 ReactDOM.render (
     <BrowserRouter>
-        <ScrollToTop/>
+        {/* <ScrollToTop/> */}
         <UserProvider>
             <App/>
         </UserProvider>

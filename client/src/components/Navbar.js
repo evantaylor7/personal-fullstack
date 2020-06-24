@@ -13,13 +13,13 @@ const Navbar = () => {
                 token ?
                     <>
                         <Home activeStyle={{borderBottom: 'solid black 1px'}} to='/dashboard'>Dashboard</Home>
-                        <Home to='/dashboard' title><i>Blogtopia</i></Home>
+                        <Home to='/dashboard' title={1}><i>Blogtopia</i></Home>
                         <Button onClick={() => logout()}>Log Out</Button>
                     </>
                 :
                     <>
                         <Home activeStyle={{borderBottom: 'solid black 1px'}} exact to='/'>Home</Home>
-                        <Home exact to='/' title><i>Blogtopia</i></Home>
+                        <Home exact to='/' title={1}><i>Blogtopia</i></Home>
                         <SignUp activeStyle={{borderBottom: 'solid black 1px'}} to='/auth'>Sign Up</SignUp>
                     </>
                 }
@@ -36,7 +36,6 @@ const Container = styled.div`
     position: fixed;
     width: 100%;
     background-color: white;
-
 `
 
 const NavBox = styled.div`
@@ -46,6 +45,14 @@ const NavBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 700px){
+        width: 100%;
+        padding: 0 40px;
+    }
+    @media (max-width: 440px){
+        padding: 0 20px;
+    }
 `
 
 const Button = styled.p`

@@ -28,4 +28,8 @@ const CommentList = props => {
 
 export default CommentList
 
-const Container = styled.div``
+const Container = styled.div`
+    @media (max-width: 550px){
+        width: 100%
+    }
+`

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {Link} from 'react-router-dom'
 // import DOMPurify from 'dompurify'
 import styled from 'styled-components'
@@ -10,9 +10,15 @@ const Post = props => {
     const {_id, draft, title, authorName, date, content, img, openModal, readonly} = props
     const {getPost, deletePost} = useContext(UserContext)
 
+    const [toggleModal, setToggleModal] = useState(false)
+    console.log(toggleModal)
     const handleOpenPostEditor = e => {
         getPost(_id)
         openModal(e)
+    }
+
+    const handleModalToggle = () => {
+        setToggleModal(prevToggle => !prevToggle)
     }
 
     // const cleanCode = DOMPurify.sanitize(content)
@@ -28,9 +34,17 @@ const Post = props => {
                     <Title>{title}</Title>
                     <Date>{date}</Date>
                     {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
-                    <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
-                    <Button onClick={() => deletePost(_id)}>Delete</Button>
-                    <Preview to={{pathname: `/p/${_id}`, state: {preview: true}}}>Preview</Preview>
+                    <ButtonsContainer>
+                        <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
+                        <Button onClick={handleModalToggle}>Preview</Button>
+                        <Button delete onClick={() => deletePost(_id)}>Delete</Button>
+                    </ButtonsContainer>
+                    {toggleModal && 
+                        <PreviewModal onClick={handleModalToggle}>
+                            <Close>X</Close>
+                            <PostDetail postId={_id} preview={true} toggleModal={handleModalToggle}/>
+                        </PreviewModal>
+                    }
                 </Container>
             :
                 <PostLink to={`/p/${_id}`}>
@@ -50,8 +64,9 @@ const Container = styled.div`
     border: solid 1px #a1a1a1;
     border-radius: 4px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin: 0 auto 20px auto;
     transition: box-shadow .4s;
+    /* position: relative; */
 
     &:hover {
         box-shadow: 2px 2px 5px #606060
@@ -62,9 +77,49 @@ const Title = styled.h2``
 
 const Date = styled.p``
 
-const Button = styled.button``
+const ButtonsContainer = styled.div`
+    display: flex;
+    margin-top: 10px;
+`
 
-const Preview = styled(Link)``
+const Button = styled.button`
+    margin-right: 4px;
+    padding: 2px 4px;
+    background-color: white;
+    border: solid 1px ${props => props.delete ? 'red' : '#214761'};
+    border-radius: 4px;
+    color: ${props => props.delete ? 'red' : '#214761'};
+    transition: .4s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: ${props => props.delete ? 'red' : '#214761'};
+        color: whitesmoke;
+    }
+`
+
+const PreviewModal = styled.div`
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 2;
+`
+
+const Close = styled.p`
+    color: white;
+    font-size: 30px;
+    width: 24px;
+    margin-left: auto;
+    margin-top: 8px;
+    margin-right: 8px;
+
+    &:hover {
+        cursor: pointer;
+    }
+`
 
 const PostLink = styled(Link)`
     text-decoration: none;

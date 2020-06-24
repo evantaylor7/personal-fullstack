@@ -1,11 +1,12 @@
-import React, {useContext, useState} from 'react'
-import {Switch, Route, Redirect} from 'react-router-dom'
+import React, {useContext, useEffect, useState} from 'react'
+import {Switch, Route, Redirect, useHistory} from 'react-router-dom'
 import Navbar from './components/Navbar.js'
 import Home from './components/public/Home.js'
 import Auth from './components/auth/Auth.js'
 import UserHome from './components/private/user-home/UserHome.js'
 import BlogDetail from './components/public/BlogDetail.js'
 import PostDetail from './components/public/PostDetail.js'
+import ScrollToTop from './ScrollToTop.js'
 import {UserContext} from './context/UserProvider.js'
 
 import ProtectedRoute from './ProtectedRoute.js'
@@ -18,10 +19,24 @@ const App = () => {
     // const toggleNav = () => {
     //     setNavToggle(prevNavToggle => !prevNavToggle)
     // }
+    const history = useHistory()
+
+    const {blog} = useContext(UserContext)
+
+    useEffect(() => {
+        // const unlisten = history.listen(() => {
+        //     window.scrollTo(0, 0)
+        // })
+        window.scrollTo(0, 0)
+        // return () => {
+        //     unlisten()
+        // }
+    }, [blog.title])
 
     return (
         <div>
             <Navbar/>
+            {/* <ScrollToTop/> */}
             <Switch>
                 <Route
                     exact path='/'

@@ -1,15 +1,15 @@
 import React, {useEffect, useContext, useState} from 'react'
-import {useParams, Redirect, useLocation} from 'react-router-dom'
+import {useParams, Redirect} from 'react-router-dom'
 import CommentList from '../comments/CommentList.js'
 import CommentForm from '../comments/CommentForm.js'
 import {UserContext} from '../../context/UserProvider.js'
 import DOMPurify from 'dompurify'
 import styled from 'styled-components'
 
-const PostDetail = () => {
+const PostDetail = props => {
+    const {postId: propsPostId, preview, toggleModal} = props
     const {postId} = useParams()
-    const location = useLocation()
-
+    console.log(props)
     const {
         postDetail,
         postDetail: {_id, title, authorName, date, content, user, blog: blogId, draft}, 
@@ -23,7 +23,7 @@ const PostDetail = () => {
     console.log(content)
 
     useEffect(() => {
-        getPost(postId)
+        getPost(postId || propsPostId)
     }, [blog.blogUrl])
 
     const blogRedirect = () => {
@@ -31,10 +31,15 @@ const PostDetail = () => {
         setRedirect(true)
     }
 
+    const handleModalToggle = () => {
+        toggleModal && toggleModal(true)
+    }
+
     const cleanCode = {__html: DOMPurify.sanitize(content)}
 
     console.log(redirect)
     console.log(blog.blogUrl)
+
     return (
         <>
             {redirect && blog?.blogUrl ?
@@ -42,15 +47,15 @@ const PostDetail = () => {
             :
                 <>
                     {
-                    (_id && !draft) || location?.state?.preview ? 
-                        <Page>
-                            <Container>
+                    (_id && !draft) || preview ? 
+                        <Page preview={preview} onClick={handleModalToggle}>
+                            <Container preview={preview}>
                                 <Title>{title}</Title>
                                 <Author><i>by</i><ToBlog onClick={blogRedirect}>{authorName}</ToBlog></Author>
                                 <Date>{date}</Date>
                                 <Content dangerouslySetInnerHTML={cleanCode}/>
                                 {
-                                !location?.state?.preview &&
+                                !preview &&
                                     <>
                                         <CommentForm postId={postId}/>
                                         <CommentList postId={postId} postUser={user}/>
@@ -73,16 +78,29 @@ export default PostDetail
 
 const Page = styled.div`
     background-color: whitesmoke;
+    width: ${props => props.preview ? '944px' : '100%'};
+    ${props => props.preview && 'height: 90%; z-index: 3; overflow: scroll; margin: auto'};
+
+    @media (max-width: 944px){
+        width: 100%
+    }
 `
 
 const Container = styled.div`
     width: 944px;
     margin: auto;
-    padding: 50px 30px;
+    padding: ${props => props.preview ? '0 30px' : '50px 30px'};
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media (max-width: 944px){
+        width: 100%
+    }
+    @media (max-width: 500px){
+        padding: 50px 10px
+    }
 `
 
 const Title = styled.p`
