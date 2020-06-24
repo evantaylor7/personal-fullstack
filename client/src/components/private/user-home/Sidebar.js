@@ -23,53 +23,60 @@ const Sidebar = props => {
     
     return (
         <Container>
-            <Header>Title Elements</Header>
-            <SidebarButton onClick={changeSettings} name='subtitle' active={settings?.subtitle}>
-                {settings?.subtitle ? 'Remove Subtitle' : 'Add Subtitle'}
-            </SidebarButton>
-            <SidebarButton onClick={changeSettings} name='description' active={settings?.description}>
-                {settings?.description ? 'Remove Description' : 'Add Description'}
-            </SidebarButton>
-            <SidebarButton onClick={changeSettings} name='img' active={settings?.img}>
-                {settings?.img ? 'Remove Image' : 'Add Image'}
-            </SidebarButton>
-            <Header disabled={!settings?.img}>Title Placement</Header>
-            <div>
+            <LeftColumn>
+                <Header>Title Elements</Header>
+                <SidebarButton onClick={changeSettings} name='subtitle' active={settings?.subtitle}>
+                    {settings?.subtitle ? 'Remove Subtitle' : 'Add Subtitle'}
+                </SidebarButton>
+                <SidebarButton onClick={changeSettings} name='description' active={settings?.description}>
+                    {settings?.description ? 'Remove Description' : 'Add Description'}
+                </SidebarButton>
+                <SidebarButton onClick={changeSettings} name='img' active={settings?.img}>
+                    {settings?.img ? 'Remove Image' : 'Add Image'}
+                </SidebarButton>
+                <Header disabled={!settings?.img}>Title Placement</Header>
+                <div>
+                    <SidebarButton 
+                        select 
+                        active={settings?.titleAbove} 
+                        onClick={() => changeStyleSetting(true)}
+                        disabled={!settings?.img}
+                    >
+                        Above
+                    </SidebarButton>
+                    <SidebarButton 
+                        select 
+                        active={!settings?.titleAbove} 
+                        onClick={() => changeStyleSetting(false)}
+                        disabled={!settings?.img}
+                    >
+                        Overlay
+                    </SidebarButton>
+                </div>
+            </LeftColumn>
+            <RightColumn>
+                <Header disabled={!settings?.img}>Image Style</Header>
                 <SidebarButton 
-                    select 
-                    active={settings?.titleAbove} 
-                    onClick={() => changeStyleSetting(true)}
+                    onClick={changeSettings} 
+                    name='parallax' 
+                    active={settings?.parallax} 
                     disabled={!settings?.img}
                 >
-                    Above
+                    {settings?.parallax ? 'Remove Parallax' : 'Add Parallax'}
                 </SidebarButton>
+                {
+                settings?.parallax && settings?.img && 
+                    <ParallaxText>scroll to see effect <Arrow>&#x279C;</Arrow></ParallaxText>
+                }
+                <Header>Author Profile</Header>
                 <SidebarButton 
-                    select 
-                    active={!settings?.titleAbove} 
-                    onClick={() => changeStyleSetting(false)}
-                    disabled={!settings?.img}
+                    onClick={changeSettings}
+                    name='profile'
+                    active={settings?.profile}
                 >
-                    Overlay
+                    {settings?.profile ? 'Remove Profile' : 'Add Profile'}
                 </SidebarButton>
-            </div>
-            <Header disabled={!settings?.img}>Image Style</Header>
-            <SidebarButton 
-                onClick={changeSettings} 
-                name='parallax' 
-                active={settings?.parallax} 
-                disabled={!settings?.img}
-            >
-                {settings?.parallax ? 'Remove Parallax' : 'Add Parallax'}
-            </SidebarButton>
-            {settings?.parallax && settings?.img && <ParallaxText>scroll to see effect &#x279C;</ParallaxText>}
-            <Header>Author Profile</Header>
-            <SidebarButton 
-                onClick={changeSettings}
-                name='profile'
-                active={settings?.profile}
-            >
-                {settings?.profile ? 'Remove Profile' : 'Add Profile'}
-            </SidebarButton>
+            </RightColumn>
         </Container>
     )
 }
@@ -86,10 +93,35 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* border: 1px solid lightgrey; */
     border-radius: 4px;
     box-shadow: 2px 2px 3px #a2a2a2;
     overflow: auto;
+
+    @media (max-width: 650px){
+        position: fixed;
+        display: grid;
+        text-align: center;
+        grid-template-columns: repeat(2, 1fr);
+        z-index: 2;
+        margin: 0;
+        bottom: 0;
+        width: 100%;
+        height: 160px;
+        padding-top: 0;
+        border-top: solid 2px darkgrey;
+        background-color: whitesmoke;
+    }
+`
+
+const LeftColumn = styled.div`
+    text-align: center;
+
+    @media (max-width: 650px){
+        grid-column: 1 / 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 `
 
 const Header = styled.p`
@@ -112,7 +144,21 @@ const SidebarButton = styled.button`
     }
 `
 
+const RightColumn = styled.div`
+    text-align: center;
+
+    @media (max-width: 650px){
+        grid-column: 2 / 3;
+    }
+`
+
 const ParallaxText = styled.p`
     font-style: italic;
     font-size: 11pt;
+`
+
+const Arrow = styled.span`
+    @media (max-width: 650px){
+        display: none
+    }
 `

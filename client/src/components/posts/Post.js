@@ -10,16 +10,24 @@ const Post = props => {
     const {_id, draft, title, authorName, date, content, img, openModal, readonly} = props
     const {getPost, deletePost} = useContext(UserContext)
 
-    const [toggleModal, setToggleModal] = useState(false)
-    console.log(toggleModal)
+    const [previewModal, setPreviewModal] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false)
+    console.log(previewModal)
     const handleOpenPostEditor = e => {
         getPost(_id)
         openModal(e)
     }
 
-    const handleModalToggle = () => {
-        setToggleModal(prevToggle => !prevToggle)
+    const handlePreview = () => {
+        setPreviewModal(prevToggle => !prevToggle)
     }
+
+    const handleDelete = () => {
+        deletePost(_id)
+        setDeleteModal(false)
+    }
+
+    // <Button delete onClick={() => deletePost(_id)}>Delete</Button>
 
     // const cleanCode = DOMPurify.sanitize(content)
     // const snippetStart = cleanCode.search('<p>')
@@ -36,16 +44,34 @@ const Post = props => {
                     {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
                     <ButtonsContainer>
                         <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
-                        <Button onClick={handleModalToggle}>Preview</Button>
-                        <Button delete onClick={() => deletePost(_id)}>Delete</Button>
+                        <Button onClick={handlePreview}>Preview</Button>
+                        <Button delete onClick={() => setDeleteModal(true)}>Delete</Button>
                     </ButtonsContainer>
-                    {toggleModal && 
-                        <PreviewModal onClick={handleModalToggle}>
+                    {
+                    previewModal && 
+                        <Modal onClick={handlePreview}>
                             <PreviewHeader>
                                 <Close>X</Close>
                             </PreviewHeader>
-                            <PostDetail postId={_id} preview={true} toggleModal={handleModalToggle}/>
-                        </PreviewModal>
+                            <PostDetail postId={_id} preview={true} toggleModal={handlePreview}/>
+                        </Modal>
+                    }
+                    {
+                    deleteModal &&
+                        <Modal>
+                            <DeleteConfirm>
+                                <DeleteClose onClick={() => setDeleteModal(false)}>X</DeleteClose>
+                                <Content>
+                                    <DeleteText>
+                                        Are you sure you want to delete this {draft ? 'draft' : 'post'}?
+                                    </DeleteText>
+                                    <DeleteButtons>
+                                        <DeleteButton onClick={() => setDeleteModal(false)}>Cancel</DeleteButton>
+                                        <DeleteButton confirm onClick={handleDelete}>Confirm</DeleteButton>
+                                    </DeleteButtons>
+                                </Content>
+                            </DeleteConfirm>
+                        </Modal>
                     }
                 </Container>
             :
@@ -88,19 +114,19 @@ const Button = styled.button`
     margin-right: 4px;
     padding: 2px 4px;
     background-color: white;
-    border: solid 1px ${props => props.delete ? 'red' : '#214761'};
+    border: solid 1px ${props => props.delete ? '#c40000' : '#214761'};
     border-radius: 4px;
-    color: ${props => props.delete ? 'red' : '#214761'};
+    color: ${props => props.delete ? '#c40000' : '#214761'};
     transition: .4s;
 
     &:hover {
         cursor: pointer;
-        background-color: ${props => props.delete ? 'red' : '#214761'};
+        background-color: ${props => props.delete ? '#c40000' : '#214761'};
         color: whitesmoke;
     }
 `
 
-const PreviewModal = styled.div`
+const Modal = styled.div`
     position: fixed;
     left: 0;
     top: 0;
@@ -130,15 +156,80 @@ const PreviewHeader = styled.div`
 `
 
 const Close = styled.p`
-    font-size: 26px;
     padding: 2px 8px;
     margin-right: 6px;
-    border-radius: 4px;
+    border-radius: 16px;
+    font-size: 24px;    
     transition: .4s;
 
     &:hover {
         cursor: pointer;
         background-color: #214761;
+        color: whitesmoke;
+    }
+`
+
+const DeleteConfirm = styled.div`
+    width: 500px;
+    height: 200px;
+    margin: auto;
+    margin-top: calc(50vh - 150px);
+    background-color: white;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 550px){
+        width: 96%;
+    }
+`
+
+const DeleteClose = styled.p`
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px;
+    border-radius: 16px;
+    font-size: 24px;
+    padding: 2px 8px;
+    transition: .4s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #214761;
+        color: whitesmoke;
+    }
+`
+
+const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const DeleteText = styled.p`
+    font-size: 20px;
+    margin-bottom: 20px;
+`
+
+const DeleteButtons = styled.div``
+
+const DeleteButton = styled.button`
+    ${props => props.confirm ? 'margin-left: 10px' : 'margin-right: 10px'};
+    padding: 4px 10px;
+    background-color: white;
+    border: solid 1px ${props => props.confirm ? '#c40000' : '#214761'};
+    border-radius: 4px;
+    color: ${props => props.confirm ? '#c40000' : '#214761'};
+    font-size: 18px;
+    transition: .4s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: ${props => props.confirm ? '#c40000' : '#214761'};
         color: whitesmoke;
     }
 `

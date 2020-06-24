@@ -46,7 +46,7 @@ const Endpoint = () => {
 
     return (
         <Container>
-            <p>{`http://blogtopia.herokuapp.com/${toggleDomain ? blogUrl : ''}`}</p>
+            <Domain>{`https://blogtopia.herokuapp.com/${toggleDomain ? blogUrl : ''}`}</Domain>
             {
             !toggleDomain ?
                 <EndpointForm onSubmit={handleUrlCheck}>
@@ -61,30 +61,28 @@ const Endpoint = () => {
                         <Hidden>{urlInput}</Hidden>
                         {
                         showResponse ?
-                                <>
-                                    <Response type={urlCheck ? 'true' : 'false'}>
-                                        <>
-                                            {urlCheck ? 
-                                                'X not available' 
-                                            :
-                                                <ResSpan>&#10003; available</ResSpan>
-                                            }
-                                        </>
-                                    </Response>
-                                    {!urlCheck && <Button claim onClick={updateUrl}>claim domain</Button>}
-                                </>
-                                :
-                                <Button>
-                                Check Availability
-                            </Button>
+                            <>
+                                <Response type={urlCheck ? 'true' : 'false'}>
+                                    <>
+                                        {urlCheck ? 
+                                            'X not available' 
+                                        :
+                                            <ResSpan>&#10003; available</ResSpan>
+                                        }
+                                    </>
+                                </Response>
+                                {!urlCheck && <Button claim onClick={updateUrl}>claim domain</Button>}
+                            </>
+                        :
+                            <Button>Check Availability</Button>
                         }
                     </ResponseContainer>
                 </EndpointForm>
             :
-                <>
+                <CurrentDomainContainer>
                     <CurrentDomain>is the address of your blog!</CurrentDomain>
                     <EditDomainButton onClick={() => handleDomainEdit(blogUrl)}>Edit</EditDomainButton>
-                </>
+                </CurrentDomainContainer>
             }
         </Container>
     )
@@ -94,13 +92,88 @@ export default Endpoint
 
 const Container = styled.div`
     height: 24px;
-    width: 80%;
+    width: 90%;
     border: solid lightgrey 1px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     padding-left: 14px;
     font-size: 10pt;
+
+    @media (max-width: 918px){
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+        height: 38px;
+        width: 86%;
+        margin: 12px 4px 12px 0;
+    }
+`
+
+const Domain = styled.p`
+    word-break: break-word;
+
+    @media (max-width: 918px){
+        margin-top: 3px;
+    }
+`
+
+const EndpointForm = styled.form`
+    width: calc(100% - 10px);
+    display: flex;
+    align-items: center;
+`
+
+const EndpointInput = styled.input`
+    width: calc(100% - 10px);
+    border: none;
+    outline: none;
+    color: grey;
+    grid-row: 1 / 2;
+`
+
+const ResponseContainer = styled.div`
+    position: absolute;
+    display: flex;
+    margin-left: 20px;
+    pointer-events: none;
+`
+
+const Hidden = styled.p`
+    z-index: -1;
+    visibility: hidden;
+`
+
+const Response = styled.p`
+    font-size: 9pt;
+    color: ${props => props.type === 'true' ? 'red' : 'green'};
+    margin-top: 1px;
+`
+
+const ResSpan = styled.span`
+    display: flex;
+    width: 64px;
+`
+
+const Button = styled.button`
+    ${props => props.claim && 'margin-left: 10px;'};
+    border: none;
+    background-color: white;
+    color: #0066CC;
+    font-size: 9pt;
+    outline: none;
+    pointer-events: auto;
+
+    &:hover {
+        cursor: pointer;
+    }
+`
+
+const CurrentDomainContainer = styled.div`
+    display: flex;
+
+    @media (max-width: 918px){
+        margin-bottom: 20px;
+    }
 `
 
 const CurrentDomain = styled.p`
@@ -117,56 +190,6 @@ const EditDomainButton = styled.button`
     color: #0066CC;
     font-size: 9pt;
     outline: none;
-
-    &:hover {
-        cursor: pointer;
-    }
-`
-
-const EndpointForm = styled.form`
-    width: calc(100% - 10px);
-    display: flex;
-    align-items: center;
-`
-
-const EndpointInput = styled.input`
-    width: calc(100% - 10px);
-    border: none;
-    outline: none;
-    color: grey;
-`
-
-const ResponseContainer = styled.div`
-    position: absolute;
-    display: flex;
-    margin-left: 20px;
-    pointer-events: none;
-`
-
-const Response = styled.p`
-    font-size: 9pt;
-    color: ${props => props.type === 'true' ? 'red' : 'green'};
-    margin-top: 1px;
-`
-
-const ResSpan = styled.span`
-    display: flex;
-    width: 64px;
-`
-
-const Hidden = styled.p`
-    z-index: -1;
-    visibility: hidden;
-`
-
-const Button = styled.button`
-    ${props => props.claim && 'margin-left: 10px;'};
-    border: none;
-    background-color: white;
-    color: #0066CC;
-    font-size: 9pt;
-    outline: none;
-    pointer-events: auto;
 
     &:hover {
         cursor: pointer;

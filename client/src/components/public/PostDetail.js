@@ -146,4 +146,12 @@ const Content = styled.div`
         max-width: 100%;
         height: 100%;
     }
+
+    > blockquote {
+        font-weight: 300;
+        line-height: 1.8em;
+        border-left: 2px solid #ccc;
+        margin-left: 1.5rem;
+        padding-left: 1rem;
+    }
 `

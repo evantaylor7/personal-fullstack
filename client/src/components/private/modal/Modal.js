@@ -82,11 +82,11 @@ const CancelButton = styled.button`
     border: none;
     background-color: inherit;
     color: whitesmoke;
-    font-size: 20px;
     outline: none;
-    margin-right: 5px;
-    padding: 2px 4px;
-    border-radius: 2px;
+    margin-right: -8px;
+    font-size: 24px;
+    padding: 2px 8px;
+    border-radius: 20px;
     transition: .4s;
 
     &:hover {

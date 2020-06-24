@@ -57,8 +57,6 @@ const UserHome = () => {
 
     return (
         <Container>
-            {/* {blog?.img && <ScrollToTop/>} */}
-            <ScrollToTop/>
             <Sidebar blog={blog} updateBlog={updateBlog}/>
             <BlogContainer>
                 <Url>
@@ -144,6 +142,11 @@ const Container = styled.div`
     grid-template-columns: 220px auto;
     padding-top: 40px;
     background-color: whitesmoke;
+
+    @media (max-width: 650px){
+        display: block;
+        margin-bottom: 170px;
+    }
 `
 
 const BlogContainer = styled.div`
@@ -153,6 +156,10 @@ const BlogContainer = styled.div`
     margin: 10px;
     margin-left: 0;
     background-color: white;
+
+    @media (max-width: 650px){
+        margin: 10px auto
+    }
 `
 
 const Url = styled.div`
@@ -192,6 +199,10 @@ const MainImg = styled.div`
     background-size: cover;
     background-position: ${props => props.parallax ? '110px center' : 'center'};
     background-attachment: ${props => props.parallax && 'fixed'};
+
+    @media (max-width: 650px){
+        background-position: center;
+    }
 `
 
 const Button = styled.button`
@@ -222,12 +233,19 @@ const ContentContainer = styled.div`
     @media (max-width: 1100px){
         display: block
     }
+    @media (max-width: 650px){
+        padding-left: 0
+    }
 `
 
 const PostContainer = styled.div`
     grid-column: 1 / 2;
     /* justify-self: center; */
     width: 96%;
+
+    @media (max-width: 650px){
+        margin: auto
+    }
 `
 
 const AuthorNameContainer = styled.div`

@@ -176,16 +176,28 @@ const Container = styled.div`
 
 const ContentContainer = styled.div`
     display: grid;
-    grid-template-columns: 160px auto;
+    grid-template-columns: 140px auto;
     position: relative;
     height: 100%;
     overflow: auto;
+
+    @media (max-width: 700px){
+        grid-template-columns: 100px auto;
+    }
+    @media (max-width: 600px){
+        display: block;
+    }
 `
 
 const LeftDiv = styled.div`
     grid-column: 1 / 2;
     background-color: #b5d3e7;
     border-top: solid 1px whitesmoke;
+
+    @media (max-width: 600px){
+        display: flex;
+        justify-content: center;
+    }
 `
 
 const Tab = styled.div`
@@ -199,6 +211,11 @@ const Tab = styled.div`
         background-color: #214761;
         color: whitesmoke;
     }
+
+    @media (max-width: 600px){
+        width: 100%;
+        text-align: center;
+    }
 `
 
 const TabContent = styled.p`
@@ -209,9 +226,10 @@ const TabContent = styled.p`
 
 const RightDiv = styled.div`
     grid-column: 2 / -1;
-    /* overflow: auto; */
-    /* padding: 20px; */
-    /* padding-top: 10px; */
+
+    @media (max-width: 600px){
+        height: calc(100% - 39px);
+    }
 `
 
 const Footer = styled.div`
@@ -239,6 +257,9 @@ const Preview = styled.button`
         cursor: pointer;
         background-color: #214761;
         color: whitesmoke;
+    }
+    @media (max-width: 350px){
+        margin-left: 10px;
     }
 `
 
@@ -306,6 +327,11 @@ const Submit = styled.button`
         background-color: ${props => props.draft ? '#214761' : '#3a5b71'};
         color: whitesmoke;
     }
+
+    @media (max-width: 350px){
+        font-size: 12px;
+        margin-right: ${props => props.draft ? '4px' : '10px'};
+    }
 `
 
 const SavedAlert = styled.p`
@@ -313,4 +339,8 @@ const SavedAlert = styled.p`
     font-size: 11pt;
     margin-right: 10px;
     color: green;
+
+    @media (max-width: 350px){
+        margin-right: 4px
+    }
 `

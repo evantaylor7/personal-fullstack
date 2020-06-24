@@ -64,6 +64,11 @@ const Input = styled.input`
     padding: 10px;
     border-radius: 4px;
     border: solid 1px black;
+
+    @media (max-width: 600px){
+        width: calc(100% - 10px);
+        margin: 0 5px 5px 5px
+    }
 `
 
 const ImgListContainer = styled.div`

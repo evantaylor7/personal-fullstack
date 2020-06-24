@@ -135,6 +135,11 @@ const ImageLabel = styled.label`
         background-color: rgba(0, 0, 0, .4);
         cursor: pointer
     }
+    @media (max-width: 400px){
+        height: 0;
+        padding-bottom: 100%;
+        margin-top: -100%
+    }
 `
 
 const ImgInput = styled.input`
@@ -149,6 +154,11 @@ const ImgText = styled.p`
 
     ${ImageLabel}:hover & {
         opacity: 1
+    }
+    @media (max-width: 400px){
+        margin-top: 100%;
+        opacity: 1;
+        ::before {content: 'Tap to '}
     }
 `
 

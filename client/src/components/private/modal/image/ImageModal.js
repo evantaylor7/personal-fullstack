@@ -83,17 +83,26 @@ const Container = styled.div`
 
 const ContentContainer = styled.div`
     display: grid;
-    grid-template-columns: 160px auto;
+    grid-template-columns: 140px auto;
     position: relative;
     min-height: 0;
     height: 100%;
     overflow: auto;
+
+    @media (max-width: 600px){
+        display: block;
+    }
 `
 
 const LeftDiv = styled.div`
     grid-column: 1 / 2;
     background-color: #b5d3e7;
     border-top: solid 1px whitesmoke;
+
+    @media (max-width: 600px){
+        display: flex;
+        justify-content: center;
+    }
 `
 
 const RightDiv = styled.div`
@@ -107,9 +116,17 @@ const Tab = styled.div`
     background-color: ${props => props.selected ? '#214761' : '#b5d3e7'};
     padding: 10px;
     padding-left: 20px;
+    transition: .4s;
 
     &:hover {
-        cursor: pointer
+        cursor: pointer;
+        background-color: #214761;
+        color: whitesmoke;
+    }
+
+    @media (max-width: 600px){
+        width: 100%;
+        text-align: center;
     }
 `
 
