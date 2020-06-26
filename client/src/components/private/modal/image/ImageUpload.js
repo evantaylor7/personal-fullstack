@@ -1,16 +1,22 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 
 const ImageUpload = props => {
     const {handleImgChange, img} = props
+    const [error, setError] = useState(null)
     
     const handleChange = e => {
         const imgFile = e.target.files[0]
-        imgFile && handleImgChange({
-            file: imgFile,
-            url: URL.createObjectURL(imgFile)
-            // loaded: 0
-        })
+        if(imgFile.size > 12000000){
+            setError('Image file is too large.')
+        } else {
+            setError(null)
+            imgFile && handleImgChange({
+                file: imgFile,
+                url: URL.createObjectURL(imgFile)
+                // loaded: 0
+            })
+        }
     }
 
     return (
@@ -23,6 +29,7 @@ const ImageUpload = props => {
                     onChange={handleChange}
                 />
             </Label>
+            {error !== '' && <ErrorMessage>{error}</ErrorMessage>}
             {img?.url && <ImgPreview src={img.url}/>}
         </Container>
     )
@@ -50,6 +57,10 @@ const Label = styled.label`
 
 const UploadInput = styled.input`
     display: none;
+`
+
+const ErrorMessage = styled.p`
+    color: red;
 `
 
 const ImgPreview = styled.img`

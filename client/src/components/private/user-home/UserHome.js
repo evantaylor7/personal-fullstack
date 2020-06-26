@@ -208,6 +208,7 @@ const Container = styled.div`
 
 const BlogContainer = styled.div`
     grid-column: 2 / -1;
+    max-width: 1200px;
     border: solid lightgrey 1px;
     border-radius: 6px;
     margin: 10px;
@@ -264,6 +265,9 @@ const MainImg = styled.div`
     @media (max-width: 650px){
         background-position: center;
     }
+    @media (max-width: 900px){
+        height: 70vh
+    }
 `
 
 const Button = styled.button`
@@ -291,7 +295,7 @@ const ContentContainer = styled.div`
     padding-top: 20px;
     padding-left: 20px;
 
-    @media (max-width: 1100px){
+    @media (max-width: 1200px){
         display: block
     }
     @media (max-width: 650px){
@@ -303,9 +307,13 @@ const PostContainer = styled.div`
     grid-column: 1 / 2;
     /* justify-self: center; */
     width: 96%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 
     @media (max-width: 650px){
-        margin: auto
+        margin-left: auto;
+        margin-right: auto;
     }
 `
 

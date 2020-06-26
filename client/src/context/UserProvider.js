@@ -127,7 +127,7 @@ const UserProvider = props => {
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    posts: res.data
+                    posts: res.data.reverse()
                 }))
             })
             .catch(err => console.log(err))
@@ -196,6 +196,8 @@ const UserProvider = props => {
     // TOKEN NEEDED -->
 
     // IMAGES:
+    // internal:
+    // updates existing data
     const uploadImage = (dest, id, imgData) => {
         console.log('ran')
         userAxios.put(`/api/image/${dest}/${id}`, imgData)
@@ -203,7 +205,36 @@ const UserProvider = props => {
                 console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    [dest === 'posts' ? 'postDetail' : dest]: res.data
+                    [(dest === 'posts' || dest === 'post-preview') ? 'postDetail' : dest]: res.data,
+                }))
+                dest === 'post-preview' && getPosts(userState.blog._id)
+            })
+            .catch(err => console.log(err))
+    }
+
+    // creates new post through image route
+    const newPostImg = (blogId, img) => {
+        userAxios.post(`/api/image/posts/${blogId}`, img)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    postDetail: res.data
+                }))
+                getPosts(userState.blog._id)
+            })
+            .catch(err => console.log(err))
+    }
+
+    // external:
+    // add unsplash image to post
+    const addPostImg = imgObj => {
+        console.log(imgObj)
+        userAxios.put('/api/posts/add-img', imgObj)
+            .then(res => {
+                setUserState(prevUserState => ({
+                    ...prevUserState,
+                    postDetail: res.data,
+                    posts: prevUserState.posts.map(post => post._id === imgObj.postId ? res.data : post)
                 }))
             })
             .catch(err => console.log(err))
@@ -282,7 +313,7 @@ const UserProvider = props => {
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    posts: res.data
+                    posts: res.data.reverse()
                 }))
             })
             .catch(err => console.log(err))
@@ -308,20 +339,6 @@ const UserProvider = props => {
                     ...prevUserState,
                     postDetail: res.data,
                     posts: prevUserState.posts.map(post => post._id === postId ? res.data : post)
-                }))
-            })
-            .catch(err => console.log(err))
-    }
-
-    // add unsplash image to post
-    const addPostImg = imgObj => {
-        console.log(imgObj)
-        userAxios.put('/api/posts/add-img', imgObj)
-            .then(res => {
-                setUserState(prevUserState => ({
-                    ...prevUserState,
-                    postDetail: res.data,
-                    posts: prevUserState.posts.map(post => post._id ? res.data : post)
                 }))
             })
             .catch(err => console.log(err))
@@ -440,6 +457,8 @@ const UserProvider = props => {
                     postComment,
                     getProfile,
                     uploadImage,
+                    newPostImg,
+                    addPostImg,
                     getUserBlog,
                     checkUrlEndpoints,
                     updateBlog,
@@ -447,7 +466,6 @@ const UserProvider = props => {
                     getPosts,
                     postNew,
                     editPost,
-                    addPostImg,
                     editPosts,
                     deletePost,
                     deleteComment,

@@ -86,12 +86,12 @@ const Container = styled.div`
     width: 100%;
     padding: 0 20px;
 
-    @media (max-width: 1100px){
+    @media (max-width: 1200px){
         width: 400px;
         margin: auto;
         border-left: ${props => !props.readonly && 'none'};
     }
-    @media (max-width: 900px){
+    @media (max-width: 1000px){
         border-left: none;
     }
     @media (max-width: 400px){

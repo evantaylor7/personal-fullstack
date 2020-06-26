@@ -7,7 +7,6 @@ const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
 
-
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads')
@@ -73,15 +72,57 @@ userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, n
     )
 })
 
+// add title image (update existing post)
 userImageRouter.put('/posts/:postId', upload.single('imageData'), (req, res, next) => {
+    req.body.img = `http://localhost:3000/${req.file.path}`
+    // *** needs to be changed for deployment ***
     if(!req.params.postId){
         req.body.postId === ''
     }
     console.log(req.params.postId)
     Post.findOneAndUpdate(
         {_id: req.params.postId},
-        {titleImg: req.file.path},
+        {titleImg: req.body.img},
         {upsert: true, new: true},
+        (err, post) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(post)
+        }
+    )
+})
+
+const createDate = () => {
+    const month = new Date().toLocaleString('default', { month: 'long' })
+    const dateArr = Date().split(' ')
+    return `${month} ${dateArr[2]}, ${dateArr[3]}`
+}
+
+// add title image (create new post)
+userImageRouter.post('/posts/:blogId', upload.single('imageData'), (req, res, next) => {
+    req.body.user = req.user._id
+    req.body.postedBy = req.user.username
+    req.body.date = createDate()
+    req.body.blog = req.params.blogId
+    req.body.titleImg = req.file.path
+    const newPost = new Post(req.body)
+    newPost.save((err, newPost) => {
+        if(err){
+            res.status(500)
+            return next(err)
+        }
+        return res.status(201).send(newPost)
+    })
+})
+
+// add preview image
+userImageRouter.put('/post-preview/:postId', upload.single('imageData'), (req, res, next) => {
+    Post.findOneAndUpdate(
+        {_id: req.params.postId},
+        {previewImg: req.file.path},
+        {new: true},
         (err, post) => {
             if(err){
                 res.status(500)

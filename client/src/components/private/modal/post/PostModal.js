@@ -104,6 +104,10 @@ const PostModal = props => {
         setImgModal(prevImgModal => !prevImgModal)
     }
 
+    const handleRemoveImg = () => {
+        editPost(postDetail._id, {titleImg: ''})
+    }
+
     const handleTogglePreviewModal = () => {
         setTogglPreviewModal(prevToggle => !prevToggle)
     }
@@ -142,6 +146,7 @@ const PostModal = props => {
                             save={save}
                             handleImgModal={handleImgModal}
                             titleImg={postDetail?.titleImg}
+                            removeImg={handleRemoveImg}
                         />
                     :
                         <PostEditor 

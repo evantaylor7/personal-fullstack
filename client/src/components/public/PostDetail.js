@@ -12,7 +12,7 @@ const PostDetail = props => {
     console.log(props)
     const {
         postDetail,
-        postDetail: {_id, title, authorName, date, content, user, blog: blogId, draft}, 
+        postDetail: {_id, titleImg, title, authorName, date, content, user, blog: blogId, draft}, 
         blog,
         getPost,
         getBlogWithId
@@ -46,9 +46,14 @@ const PostDetail = props => {
                 <Redirect to={`/${blog?.blogUrl}`}/>
             :
                 <>
-                    {
-                    (_id && !draft) || preview ? 
+                    {(_id && !draft) || preview ? 
                         <Page preview={preview} onClick={handleModalToggle}>
+                            {
+                            titleImg && 
+                                <TitleImgContainer preview={preview}>
+                                    <TitleImg src={titleImg}></TitleImg>
+                                </TitleImgContainer>
+                            }
                             <Container preview={preview}>
                                 <Title>{title}</Title>
                                 <Author><i>by</i><ToBlog onClick={blogRedirect}>{authorName}</ToBlog></Author>
@@ -99,7 +104,31 @@ const Container = styled.div`
         width: 100%
     }
     @media (max-width: 500px){
-        padding: 40px 10px
+        padding: ${props => props.preview ? '40px 10px' : '60px 10px'};
+    }
+`
+
+const TitleImgContainer = styled.div`
+    width: 944px;
+    margin: auto;
+    padding-top: ${props => props.preview ? '0' : '40px'};
+
+    @media (max-width: 944px){
+        width: 100%
+    }
+`
+
+const TitleImg = styled.div`
+    width: 100%;
+    height: 400px;
+    background-image: url(${props => props.src});
+    /* *** problem needs to be changed for deploy *** */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    @media (max-width: 944px){
+        height: 55vh;
     }
 `
 
@@ -107,6 +136,11 @@ const Title = styled.p`
     font-size: 60px;
     font-weight: 200;
     margin-bottom: 10px;
+    text-align: center;
+
+    @media (max-width: 480px){
+        font-size: 50px;
+    }
 `
 
 const Author = styled.div`

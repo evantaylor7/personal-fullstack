@@ -24,7 +24,7 @@ const BlogDetail = () => {
     console.log(blog)
 
     return (
-        <>
+        <Page>
             {
             published || (location?.state?.preview && token) ?
                 <Container>
@@ -60,20 +60,31 @@ const BlogDetail = () => {
                     </ContentContainer>
                 </Container>
             :
-                <DoesNotExist>
-                    <DNEText>This blog has yet to be published.</DNEText>
-                    <Link to='/auth'> Get Started</Link>
-                    <DNEText>to claim this domain!</DNEText>
-                </DoesNotExist>
+                <>
+                    <DoesNotExist>
+                        {'This blog has yet to be published. '}
+                    </DoesNotExist>
+                    <LinkToSignup>
+                        <Link to='/auth'>Get Started</Link> 
+                        {' to claim this domain!'}
+                    </LinkToSignup>
+                </>
             }
-        </>
+        </Page>
     )
 }
 
 export default BlogDetail
 
+const Page = styled.div`
+    background-color: whitesmoke;
+`
+
 const Container = styled.div`
     padding: 40px 0;
+    max-width: 1200px;
+    margin: auto;
+    background-color: white;
 `
 
 const TitleContainer = styled.div`
@@ -91,15 +102,29 @@ const TitlesContent = styled.div`
 
 const Title = styled.p`
     font-size: 70px;
-    font-weight: 400;
+    font-weight: 300;
     color: ${props => props.color};
     margin: 8px;
+
+    @media (max-width: 530px){
+        width: 100%;
+    }
+    @media (max-width: 480px){
+        font-size: 50px
+    }
+    @media (max-width: 350px){
+        font-size: 44px
+    }
 `
 
 const Subtitle = styled.h2`
     color: ${props => props.color};
     font-size: 30px;
     margin: 8px;
+
+    @media (max-width: 480px){
+        font-size: 26px
+    }
 `
 
 const Description = styled.p`
@@ -118,6 +143,13 @@ const MainImg = styled.div`
     background-size: cover;
     background-position: center;
     background-attachment: ${props => props.parallax && 'fixed'};
+
+    @media (max-width: 480px){
+        height: 400px;
+    }
+    @media (max-width: 900px){
+        height: 70vh
+    }
 `
 
 const Hr = styled.hr`
@@ -131,7 +163,7 @@ const ContentContainer = styled.div`
     grid-template-columns: auto 400px;
     padding-top: 20px;
 
-    @media (max-width: 900px){
+    @media (max-width: 1000px){
         display: block;
     }
 `
@@ -149,12 +181,12 @@ const PostsHeading = styled.h1`
     text-align: center;
 `
 
-const DoesNotExist = styled.div`
-    padding-top: 80px;
-    display: flex;
-    justify-content: center;
+const DoesNotExist = styled.p`
+    padding: 80px 20px 0;
+    text-align: center;
 `
 
-const DNEText = styled.p`
-    margin: 0 4px;
+const LinkToSignup = styled.p`
+    padding: 20px;
+    text-align: center;
 `

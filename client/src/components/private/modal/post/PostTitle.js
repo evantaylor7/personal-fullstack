@@ -2,14 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 const PostTitle = props => {
-    const {value, titleChange, save, handleImgModal, titleImg} = props
+    const {value, titleChange, save, handleImgModal, titleImg, removeImg} = props
 
     return (
         <Container>
-            <Button onClick={handleImgModal} name='img'>
-                {titleImg ? 'Change Title Image' : 'Add Title Image'}
-            </Button>
-            {titleImg && <Img src={titleImg}/>}
+            {titleImg && <Img src={titleImg}></Img>}
+            <ButtonsContainer>
+                <Button onClick={handleImgModal} name='img'>
+                    {titleImg ? 'Change Title Image' : 'Add Title Image'}
+                </Button>
+                {titleImg && <Button onClick={removeImg}>Remove Image</Button>}
+            </ButtonsContainer>
             <TitleInput 
                 type='text'
                 value={value} 
@@ -29,10 +32,37 @@ const Container = styled.div`
     align-items: center;
 `
 
-const Button = styled.button``
+const Img = styled.div`
+    width: 100%;
+    height: 400px;
+    background-image: url(${props => props.src});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
-const Img = styled.img`
-    max-width: 100%;
+    @media (max-width: 600px){
+        height: 55vh
+    }
+`
+
+const Button = styled.button`
+    margin: 10px 5px 0;
+    border: solid 1px #214761;
+    background-color: white;
+    color: #214761;
+    padding: 5px;
+    border-radius: 4px;
+    transition: .4s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #214761;
+        color: whitesmoke;
+    }
+`
+
+const ButtonsContainer = styled.div`
+    display: flex;
 `
 
 const TitleInput = styled.input`

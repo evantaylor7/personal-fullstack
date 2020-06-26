@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {UserContext} from '../../../../context/UserProvider'
 
 const Unsplash = props => {
-    const {handleImgSelect} = props
+    const {handleImgSelect, collection} = props
     const {unsplash, getPhotos, searchPhotos} = useContext(UserContext)
     console.log(unsplash)
     const [input, setInput] = useState('')
@@ -22,14 +22,22 @@ const Unsplash = props => {
         e.preventDefault()
         searchPhotos(input)
     }
-
+    
     const imgList = unsplash.map(photo => (
         <Img 
             key={photo.id} 
             selected={imgSelector === photo.id}
             src={photo.urls.small} 
             onClick={() => {
-                handleImgSelect(photo.urls[photo.width * photo.height > 50000000 ? 'regular' : 'raw'])
+                handleImgSelect(photo.urls[
+                    collection?.name === 'post-preview' ? 
+                        'small'
+                    : 
+                        photo.width * photo.height > 30000000 ? 
+                            'regular' 
+                        : 
+                            'raw'
+                ])
                 setImgSelector(photo.id)
             }}
         />

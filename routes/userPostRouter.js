@@ -57,9 +57,16 @@ userPostRouter.put('/update-one/:postId', (req, res, next) => {
 // add unsplash image
 userPostRouter.put('/add-img/', (req, res, next) => {
     console.log(req.body)
+    let dest
+    if(req.body.titleImg){
+        dest = 'titleImg'
+    } else {
+        dest = 'previewImg'
+    }
+    console.log(dest)
     Post.findOneAndUpdate(
         {_id: req.body.postId, user: req.user._id},
-        {titleImg: req.body.titleImg},
+        {[dest]: req.body[dest]},
         {upsert: true, new: true},
         (err, updatedPost) => {
             if(err){

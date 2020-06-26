@@ -12,12 +12,13 @@ const ImageModal = props => {
         addPostImg,
         postNew,
         uploadImage, 
+        newPostImg,
         postDetail: {_id: postId}
     } = useContext(UserContext)
 
     const [tab, setTab] = useState('unsplash')
     const [img, setImg] = useState(null)
-
+    console.log(img)
     const handleTab = type => {
         setTab(type)
     }
@@ -28,22 +29,31 @@ const ImageModal = props => {
     console.log(collection)
     const handleImgSubmit = e => {
         if(typeof img === 'string'){
-            collection === 'blog' ?
+            if(collection === 'blog'){
                 updateBlog({img: img})
-            :
+            } else if (typeof collection === 'object'){
+                addPostImg({postId: collection.postId, previewImg: img})
+            } else {
                 postId ?
                     addPostImg({postId: postId, titleImg: img})
                 :
                     postNew({titleImg: img, blog: blogId})
+            }
         } else {
             const data = new FormData()
-
             // data.append('imageName', `${img.file.name} ${Date.now()}`)
             data.append('imageData', img.file)
-            collection === 'blog' ? 
+            console.log(data)
+            if(collection === 'blog'){
                 uploadImage('blog', blogId, data)
-            :
-                uploadImage('posts', postId, data)
+            } else if(typeof collection === 'object'){
+                uploadImage('post-preview', collection.postId, data)
+            } else {
+                postId ?
+                    uploadImage('posts', postId, data)
+                :
+                    newPostImg(blogId, data)
+            }
         }
         close(e)
     }
@@ -66,7 +76,7 @@ const ImageModal = props => {
                 <RightDiv>
                     {
                     tab === 'unsplash' ? 
-                        <Unsplash handleImgSelect={handleImgChange}/>
+                        <Unsplash handleImgSelect={handleImgChange} collection={collection}/>
                     :
                         <ImageUpload handleImgChange={handleImgChange} img={img}/>
                     }

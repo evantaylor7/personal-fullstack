@@ -143,7 +143,7 @@ const Title = styled.div`
 
 const TitleContent = styled.p`
     font-size: 70px;
-    font-weight: 400;
+    font-weight: 300;
     color: ${props => props.color};
     display: inline-block;
     padding: 2px 6px 6px 6px;
@@ -153,6 +153,15 @@ const TitleContent = styled.p`
         background-color: #b5d3e7;
         cursor: pointer;
     }
+    @media (max-width: 530px){
+        width: 100%;
+    }
+    @media (max-width: 480px){
+        font-size: 50px
+    }
+    @media (max-width: 350px){
+        font-size: 44px
+    }
 `
 
 const TitleForm = styled.form``
@@ -161,10 +170,20 @@ const TitleInput = styled.input`
     border: none;
     outline: none;
     font-size: 70px;
-    font-weight: 400;
+    font-weight: 300;
     padding: 2px 6px 6px 6px;
     width: 90%;
     text-align: center;
+
+    @media (max-width: 530px){
+        width: 100%;
+    }
+    @media (max-width: 480px){
+        font-size: 50px
+    }
+    @media (max-width: 350px){
+        font-size: 44px
+    }
 `
 
 const SubtitleContainer = styled.div`
@@ -183,13 +202,16 @@ const SubtitleContent = styled.h2`
     display: inline-block;
     color: ${props => props.color};
     padding: 2px 6px 6px 6px;
-    font-weight: 600;
+    font-weight: 300;
     font-size: 30px;
 
     &:hover {
         border-radius: 10px;
         background-color: #b5d3e7;
         cursor: pointer;
+    }
+    @media (max-width: 480px){
+        font-size: 26px
     }
 `
 
@@ -205,6 +227,10 @@ const SubtitleInput = styled.input`
     outline: none;
     width: 90%;
     border-radius: 4px;
+
+    @media (max-width: 480px){
+        font-size: 26px
+    }
 `
 
 const DescriptionContainer = styled.div`

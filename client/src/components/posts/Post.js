@@ -1,18 +1,29 @@
 import React, {useContext, useState} from 'react'
 import {Link} from 'react-router-dom'
 // import DOMPurify from 'dompurify'
+import ExternalModal from '../private/modal/Modal.js'
+import PostDetail from '../public/PostDetail'
 import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
-import PostDetail from '../public/PostDetail'
 
 const Post = props => {
     console.log(props)
-    const {_id, draft, title, authorName, date, content, img, openModal, readonly} = props
-    const {getPost, deletePost} = useContext(UserContext)
+    const {_id, draft, title, authorName, date, content, previewImg, openModal, readonly} = props
+    const {getPost, deletePost, editPost} = useContext(UserContext)
 
+    const [imgModal, setImgModal] = useState(false)
     const [previewModal, setPreviewModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     console.log(previewModal)
+
+    const handleToggleImgModal = () => {
+        setImgModal(prevImgModal => !prevImgModal)
+    }
+
+    const handleRemoveImg = () => {
+        editPost(_id, {previewImg: ''})
+    }
+
     const handleOpenPostEditor = e => {
         getPost(_id)
         openModal(e)
@@ -39,9 +50,27 @@ const Post = props => {
         <>
             {!readonly ?
                 <Container>
-                    <Title>{title}</Title>
-                    <Date>{date}</Date>
-                    {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
+                    <PostSnippet>
+                        <PreviewImg src={previewImg}>
+                            <Button onClick={handleToggleImgModal} name='img'>
+                                {previewImg ? 'Change Image' : 'Add Preview Image'}
+                            </Button>
+                            {previewImg && <Button onClick={handleRemoveImg}>Remove</Button>}
+                            {
+                            imgModal && 
+                                <ExternalModal 
+                                    close={handleToggleImgModal} 
+                                    name='img'
+                                    collection={{name: 'post-preview', postId: _id}}
+                                />
+                            }
+                        </PreviewImg>
+                        <PostInfo>
+                            <Title>{title}</Title>
+                            <Date>{date}</Date>
+                            {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
+                        </PostInfo>
+                    </PostSnippet>
                     <ButtonsContainer>
                         <Button onClick={handleOpenPostEditor} name='post'>Edit</Button>
                         <Button onClick={handlePreview}>Preview</Button>
@@ -76,9 +105,12 @@ const Post = props => {
                 </Container>
             :
                 <PostLink to={`/p/${_id}`}>
-                    <Container>
-                        <Title>{title}</Title>
-                        <Date>{date}</Date>
+                    <Container readonly={readonly}>
+                        {previewImg && <PreviewImg src={previewImg}></PreviewImg>}
+                        <PostInfo>
+                            <Title>{title}</Title>
+                            <Date>{date}</Date>
+                        </PostInfo>
                     </Container>
                 </PostLink>
             }
@@ -94,6 +126,8 @@ const Container = styled.div`
     padding: 10px;
     margin: 0 auto 20px auto;
     transition: box-shadow .4s;
+    max-width: 700px;
+    ${props => props.readonly && 'display: flex'};
     /* position: relative; */
 
     &:hover {
@@ -101,13 +135,40 @@ const Container = styled.div`
     }
 `
 
+const PostSnippet = styled.div`
+    display: flex;
+`
+
+const PreviewImg = styled.div`
+    width: 200px;
+    height: 200px;
+    background: ${props => props.src ? `url(${props.src})` : 'whitesmoke'};
+    ${props => props.src && 
+        'background-repeat: no-repeat; background-position: center; background-size: cover'
+    };
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* float: left; */
+`
+
+const PostInfo = styled.div`
+    margin-left: 10px;
+`
+
 const Title = styled.h2``
 
-const Date = styled.p``
+const Date = styled.p`
+    font-size: 14px;
+    color: #525252;
+`
 
 const ButtonsContainer = styled.div`
     display: flex;
     margin-top: 10px;
+    padding-top: 10px;
+    justify-content: center;
+    border-top: 1px darkgrey solid;
 `
 
 const Button = styled.button`
