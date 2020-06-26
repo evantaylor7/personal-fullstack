@@ -26,7 +26,7 @@ const Modal = props => {
                                     'Edit Blog Post'
                         }
                     </Title>
-                    <CancelButton name={name} onClick={close}>X</CancelButton>
+                    <CancelButton name={name} onClick={close}>&times;</CancelButton>
                 </TitleContainer>
                 <ContentContainer>
                     {
@@ -85,7 +85,7 @@ const CancelButton = styled.button`
     outline: none;
     margin-right: -8px;
     font-size: 24px;
-    padding: 2px 8px;
+    padding: 0 8px 2px;
     border-radius: 20px;
     transition: .4s;
 

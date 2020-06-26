@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from 'react'
 import PostTitle from './PostTitle.js'
 import PostEditor from './PostEditor.js'
 import PostDetail from '../../../public/PostDetail.js'
+import Modal from '../Modal.js'
 import styled from 'styled-components'
 import {UserContext} from '../../../../context/UserProvider'
 
@@ -26,10 +27,10 @@ const PostModal = props => {
     const [inputs, setInputs] = useState(initInputs)
     const [saveDisplay, setSaveDisplay] = useState(false)
     const [imgModal, setImgModal] = useState(false)
-    const [intId, setIntId] = useState(null)
+    // const [img, setImg] = useState(null)
+    // const [intId, setIntId] = useState(null)
     const [togglePreviewModal, setTogglPreviewModal] = useState(false)
     console.log(inputs)
-
 
     useEffect(() => {
         setInputs({title: postDetail?.title || '', authorName: authorName, content: postDetail.content || ''})
@@ -47,6 +48,23 @@ const PostModal = props => {
             title: value
         }))
     }
+
+    // const handleImgChange = e => {
+    //     const imgFile = e.target.files[0]
+    //     imgFile && setImg({
+    //         file: imgFile,
+    //         url: URL.createObjectURL(imgFile)
+    //         // loaded: 0
+    //     })
+    // }
+
+    // const handleImgSubmit = e => {
+    //     const img = e.target.files[0]
+    //     const data = new FormData()
+    //     // data.append('imageName', `${img.file.name} ${Date.now()}`)
+    //     data.append('imageData', img.file)
+    //     uploadImage('posts', postId, data)
+    // }
 
     const handleContentChange = inputs => {
         setSaveDisplay(false)
@@ -100,15 +118,6 @@ const PostModal = props => {
         toggle(e)
     }
 
-    // <ImgModal 
-    //     onClick={handleImgModal} 
-    //     name='img'
-    //     disabled={!postDetail._id}
-    // >
-    //     Add Image
-    // </ImgModal>
-    // {imgModal && <Modal close={handleImgModal} name='img' collection='post'/>}
-
     return (
         <Container>
             <ContentContainer>
@@ -128,9 +137,11 @@ const PostModal = props => {
                     {
                     tab === 'title' ?
                         <PostTitle
-                            onChange={handleTitleChange}
+                            titleChange={handleTitleChange}
                             value={inputs.title}
                             save={save}
+                            handleImgModal={handleImgModal}
+                            titleImg={postDetail?.titleImg}
                         />
                     :
                         <PostEditor 
@@ -141,6 +152,7 @@ const PostModal = props => {
                             toggleImgModal={handleImgModal}
                         />
                     }
+                    {imgModal && <Modal close={handleImgModal} name='img' collection='post'/>}
                 </RightDiv>
             </ContentContainer>
             <Footer>
@@ -148,7 +160,7 @@ const PostModal = props => {
                 {togglePreviewModal && 
                     <PreviewModal onClick={handleTogglePreviewModal}>
                         <PreviewHeader>
-                            <Close>X</Close>
+                            <Close>&times;</Close>
                         </PreviewHeader>
                         <PostDetail 
                             postId={postDetail._id} 
@@ -293,10 +305,10 @@ const PreviewHeader = styled.div`
 `
 
 const Close = styled.p`
-    font-size: 26px;
-    padding: 2px 8px;
+    font-size: 24px;
+    padding: 0 8px 2px;
     margin-right: 6px;
-    border-radius: 4px;
+    border-radius: 20px;
     transition: .4s;
 
     &:hover {

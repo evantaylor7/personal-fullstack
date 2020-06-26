@@ -314,9 +314,9 @@ const UserProvider = props => {
     }
 
     // add unsplash image to post
-    const addPostImg = (postId, img) => {
-        console.log(img)
-        userAxios.put(`/api/posts/add-img/${postId}`, img)
+    const addPostImg = imgObj => {
+        console.log(imgObj)
+        userAxios.put('/api/posts/add-img', imgObj)
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,

@@ -9,28 +9,10 @@ const PostEditor = props => {
     const {postId, onChange, value, save, toggleImgModal} = props
     const {uploadImage} = useContext(UserContext)
     console.log(value)
-    const [img, setImg] = useState(null)
 
     const handleEditorChange = (content, editor) => {
         onChange(content)
     }
-
-    // const handleImgChange = e => {
-    //     const imgFile = e.target.files[0]
-    //     imgFile && setImg({
-    //         file: imgFile,
-    //         url: URL.createObjectURL(imgFile)
-    //         // loaded: 0
-    //     })
-    // }
-
-    // const handleImgSubmit = e => {
-    //     const img = e.target.files[0]
-    //     const data = new FormData()
-    //     // data.append('imageName', `${img.file.name} ${Date.now()}`)
-    //     data.append('imageData', img.file)
-    //     uploadImage('posts', postId, data)
-    // }
 
     return (
         <Container>

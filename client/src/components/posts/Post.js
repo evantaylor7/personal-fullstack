@@ -51,7 +51,7 @@ const Post = props => {
                     previewModal && 
                         <Modal onClick={handlePreview}>
                             <PreviewHeader>
-                                <Close>X</Close>
+                                <Close>&times;</Close>
                             </PreviewHeader>
                             <PostDetail postId={_id} preview={true} toggleModal={handlePreview}/>
                         </Modal>
@@ -60,7 +60,7 @@ const Post = props => {
                     deleteModal &&
                         <Modal>
                             <DeleteConfirm>
-                                <DeleteClose onClick={() => setDeleteModal(false)}>X</DeleteClose>
+                                <DeleteClose onClick={() => setDeleteModal(false)}>&times;</DeleteClose>
                                 <Content>
                                     <DeleteText>
                                         Are you sure you want to delete this {draft ? 'draft' : 'post'}?
@@ -156,7 +156,7 @@ const PreviewHeader = styled.div`
 `
 
 const Close = styled.p`
-    padding: 2px 8px;
+    padding: 0 8px 2px;
     margin-right: 6px;
     border-radius: 16px;
     font-size: 24px;    
@@ -194,7 +194,7 @@ const DeleteClose = styled.p`
     margin: 5px;
     border-radius: 16px;
     font-size: 24px;
-    padding: 2px 8px;
+    padding: 0 8px 2px;
     transition: .4s;
 
     &:hover {
@@ -208,11 +208,13 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 12px;
 `
 
 const DeleteText = styled.p`
     font-size: 20px;
     margin-bottom: 20px;
+    text-align: center;
 `
 
 const DeleteButtons = styled.div``

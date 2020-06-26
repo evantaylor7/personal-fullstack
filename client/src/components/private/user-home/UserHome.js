@@ -22,6 +22,8 @@ const UserHome = () => {
 
     const [toggleModal, setToggleModal] = useState({img: false, post: false})
     const [toggleAuthorName, setToggleAuthorName] = useState(false)
+    const [publishModal, setPublishModal] = useState(false)
+    const [alertModal, setAlertModal] = useState(false)
     console.log(toggleAuthorName)
     useEffect(() => {
         getUserBlog()
@@ -46,10 +48,14 @@ const UserHome = () => {
     }
 
     const handlePublish = () => {
-        blog?.blogUrl ?
+        if(blog?.blogUrl){
+            !blog?.published && setPublishModal(true)
             updateBlog({published: !blog?.published})
-        :
-            alert('You must set a url endpoint')
+        } else if (!blog?.blogUrl && blog?.published){
+            updateBlog({published: !blog?.published})
+        } else {
+            setAlertModal(true)
+        }
     }
 
     const colorArray = ['rgb(237, 101, 90)', 'rgb(225, 192, 76)', 'rgb(114, 190, 71)']
@@ -121,15 +127,66 @@ const UserHome = () => {
                     {blog?.settings?.profile && <Profile/>}
                 </ContentContainer>
                 <ButtonsContainer>
-                    <Link to={{pathname: `/${blog?.blogUrl}`, state: {preview: !blog?.published}}}>
-                        <Button primary alt={1} style={{'marginRight': '3px'}}>
+                    {
+                    blog?.blogUrl === '' ?
+                        <Button 
+                            onClick={() => setAlertModal(true)} 
+                            primary 
+                            alt={1} 
+                            style={{'marginRight': '3px'}}
+                        >
                             {blog?.published ? 'View Blog' : 'Preview'}
                         </Button>
-                    </Link>
+                    :
+                        <Link to={{pathname: `/${blog?.blogUrl}`, state: {preview: !blog?.published}}}>
+                            <Button primary alt={1} style={{'marginRight': '3px'}}>
+                                {blog?.published ? 'View Blog' : 'Preview'}
+                            </Button>
+                        </Link>
+                    }
                     <Button primary onClick={handlePublish} style={{'marginLeft': '3px'}}>
                         {blog?.published ? 'Unp' : 'P'}ublish
                     </Button>
                 </ButtonsContainer>
+                {
+                publishModal &&
+                    <AlertModal>
+                        <PublishModal>
+                            <PublishedAlertHeader>
+                                <h1>Blog Published!</h1>
+                                <Close onClick={() => setPublishModal(false)}>&times;</Close>
+                            </PublishedAlertHeader>
+                            <PublishedAlertContent>
+                                <PublishedLocation><p>Your blog is available at: </p>
+                                    <A href={`https://blogtopia.herokuapp.com/${blog?.blogUrl}`}>
+                                        https://blogtopia.herokuapp.com/{blog?.blogUrl}
+                                    </A>
+                                </PublishedLocation>
+                                <PublishedAlertButtons>
+                                    <Button primary alt={1} onClick={() => setPublishModal(false)}>Close</Button>
+                                    <Link to={`/${blog?.blogUrl}`}>
+                                        <Button primary>
+                                            View Blog
+                                        </Button>
+                                    </Link>
+                                </PublishedAlertButtons>
+                            </PublishedAlertContent>
+                        </PublishModal>
+                    </AlertModal>
+                }
+                {
+                alertModal &&
+                    <AlertModal>
+                        <AlertModalBox>
+                            <AlertHeaderBox>
+                                <AlertHeader>Warning!</AlertHeader>
+                                <Close alert onClick={() => setAlertModal(false)}>&times;</Close>
+                            </AlertHeaderBox>
+                            <AlertText>You must set a url endpoint.</AlertText>
+                            <Button alt={1} onClick={() => setAlertModal(false)}>Close</Button>
+                        </AlertModalBox>
+                    </AlertModal>
+                }
             </BlogContainer>
         </Container>
     )
@@ -176,6 +233,10 @@ const Hr = styled.hr`
 const DotContainer = styled.div`
     display: flex;
     margin: 10px;
+
+    @media (max-width: 425px){
+        display: none;
+    }
 `
 
 const Dot = styled.div`
@@ -280,5 +341,113 @@ const PostsHeader = styled.h1``
 const ButtonsContainer = styled.div`
     margin: 100px 0 20px 0;
     display: flex;
-    justify-content: center
+    justify-content: center;
+`
+
+const AlertModal = styled.div`
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 2;
+`
+
+const PublishModal = styled.div`
+    width: 500px;
+    height: 300px;
+    margin: auto;
+    margin-top: calc(50vh - 150px);
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    position: relative;
+
+    @media (max-width: 550px){
+        width: 96%;
+    }
+`
+
+const PublishedAlertHeader = styled.div`
+    padding: 10px;
+    width: 100%;
+    background-color: #0F9B8E;
+    color: white;
+    border-radius: 4px 4px 0 0;
+`
+
+const Close = styled.p`
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 4px;
+    color: white;
+    border: solid 1px white;
+    font-size: 20px;
+    padding: 0 7px 3px;    
+    border-radius: 20px;
+    transition: .4s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: white;
+        color: ${props => props.alert ? '#c40000' : '#0F9B8E'};
+    }
+`
+
+const PublishedAlertContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: calc(100% - 58px);
+    padding: 6px;
+`
+
+const PublishedLocation = styled.p`
+    font-size: 18px;
+`
+
+const A = styled.a`
+    word-break: break-word;
+`
+
+const PublishedAlertButtons = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 170px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -60px;
+    justify-content: space-between;
+`
+
+const AlertModalBox = styled.div`
+    width: 500px;
+    height: 120px;
+    margin: auto;
+    margin-top: calc(50vh - 50px);
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    position: relative;
+
+    @media (max-width: 550px){
+        width: 96%;
+    }
+`
+
+const AlertHeaderBox = styled.div`
+    width: 100%;
+    background-color: #c40000;
+    color: white;
+    padding: 6px 0;
+    border-radius: 4px 4px 0 0;
+`
+
+const AlertHeader = styled.h2``
+
+const AlertText = styled.p`
+    font-size: 20px;
+    margin: 10px;
 `

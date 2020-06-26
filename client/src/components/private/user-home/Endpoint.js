@@ -53,12 +53,13 @@ const Endpoint = () => {
                     <EndpointInput 
                         maxLength={20}
                         type='text'
+                        placeholder='my-blog'
                         value={urlInput} 
                         onChange={handleUrlInput}
                         onKeyDown={noSpaces}
                     />
                     <ResponseContainer>
-                        <Hidden>{urlInput}</Hidden>
+                        <Hidden>{urlInput === '' ? 'my-blog' : urlInput}</Hidden>
                         {
                         showResponse ?
                             <>
@@ -107,12 +108,15 @@ const Container = styled.div`
         width: 86%;
         margin: 12px 4px 12px 0;
     }
+    @media (max-width: 425px){
+        width: 96%;
+        margin: 12px auto 12px auto;
+    }
 `
 
 const Domain = styled.p`
-    word-break: break-word;
-
-    @media (max-width: 918px){
+@media (max-width: 918px){
+        word-break: break-word;
         margin-top: 3px;
     }
 `

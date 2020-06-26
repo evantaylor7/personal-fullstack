@@ -2,15 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 
 const PostTitle = props => {
-    const {value, onChange, save} = props
+    const {value, titleChange, save, handleImgModal, titleImg} = props
 
     return (
         <Container>
+            <Button onClick={handleImgModal} name='img'>
+                {titleImg ? 'Change Title Image' : 'Add Title Image'}
+            </Button>
+            {titleImg && <Img src={titleImg}/>}
             <TitleInput 
                 type='text'
                 value={value} 
                 placeholder='Add a Blog Title'
-                onChange={onChange}
+                onChange={titleChange}
                 onBlur={save}
             />
         </Container>
@@ -23,6 +27,12 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+`
+
+const Button = styled.button``
+
+const Img = styled.img`
+    max-width: 100%;
 `
 
 const TitleInput = styled.input`

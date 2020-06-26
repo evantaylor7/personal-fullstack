@@ -154,4 +154,8 @@ const Content = styled.div`
         margin-left: 1.5rem;
         padding-left: 1rem;
     }
+
+    > ol, ul {
+        margin-left: 40px;
+    }
 `

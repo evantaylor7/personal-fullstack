@@ -10,6 +10,7 @@ const ImageModal = props => {
         blog: {_id: blogId, username}, 
         updateBlog, 
         addPostImg,
+        postNew,
         uploadImage, 
         postDetail: {_id: postId}
     } = useContext(UserContext)
@@ -30,7 +31,10 @@ const ImageModal = props => {
             collection === 'blog' ?
                 updateBlog({img: img})
             :
-                addPostImg(postId, {img: img})
+                postId ?
+                    addPostImg({postId: postId, titleImg: img})
+                :
+                    postNew({titleImg: img, blog: blogId})
         } else {
             const data = new FormData()
 

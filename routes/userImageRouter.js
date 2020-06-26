@@ -74,10 +74,14 @@ userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, n
 })
 
 userImageRouter.put('/posts/:postId', upload.single('imageData'), (req, res, next) => {
+    if(!req.params.postId){
+        req.body.postId === ''
+    }
+    console.log(req.params.postId)
     Post.findOneAndUpdate(
         {_id: req.params.postId},
-        {$push: {img: req.file.path}},
-        {new: true},
+        {titleImg: req.file.path},
+        {upsert: true, new: true},
         (err, post) => {
             if(err){
                 res.status(500)
