@@ -12,7 +12,17 @@ const PostDetail = props => {
     console.log(props)
     const {
         postDetail,
-        postDetail: {_id, titleImg, title, authorName, date, content, user, blog: blogId, draft}, 
+        postDetail: {
+            _id, 
+            titleImg, 
+            title, 
+            authorName, 
+            postedBy, 
+            date, 
+            content, 
+            user, 
+            blog: blogId, draft
+        }, 
         blog,
         getPost,
         getBlogWithId
@@ -56,7 +66,10 @@ const PostDetail = props => {
                             }
                             <Container preview={preview}>
                                 <Title>{title}</Title>
-                                <Author><i>by</i><ToBlog onClick={blogRedirect}>{authorName}</ToBlog></Author>
+                                <Author>
+                                    <i>by</i>
+                                    <ToBlog onClick={blogRedirect}>{authorName ? authorName : postedBy}</ToBlog>
+                                </Author>
                                 <Date>{date}</Date>
                                 <Content dangerouslySetInnerHTML={cleanCode}/>
                                 {

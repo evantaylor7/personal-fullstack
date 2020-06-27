@@ -61,6 +61,12 @@ const Container = styled.div`
     background-color: whitesmoke;
     border-radius: 10px;
     position: relative;
+
+    @media (max-width: 500px){
+        width: 100%;
+        height: 96%;
+        margin-top: 2vh;
+    }
 `
 
 const TitleContainer = styled.div`

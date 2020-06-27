@@ -176,7 +176,7 @@ const PostSnippet = styled.div`
     display: grid;
     grid-template-columns: 210px auto;
 
-    @media (max-width: 622px){
+    @media (max-width: 620px){
         display: block;
     }
 `
@@ -196,7 +196,11 @@ const PreviewImg = styled.div`
     @media (max-width: 620px){
         width: 100%;
         height: 0;
-        padding-top: 100%;
+        padding-top: ${props => props.src ? '60%' : '4%'};
+        background: ${props => props.src ? `url(${props.src})` : 'white'};
+        ${props => props.src && 
+            'background-repeat: no-repeat; background-position: center; background-size: cover'
+        };
     }
 `
 

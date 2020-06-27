@@ -103,7 +103,7 @@ const ContentContainer = styled.div`
     height: 100%;
     overflow: auto;
 
-    @media (max-width: 600px){
+    @media (max-width: 730px){
         display: block;
     }
 `
@@ -113,7 +113,7 @@ const LeftDiv = styled.div`
     background-color: #b5d3e7;
     border-top: solid 1px whitesmoke;
 
-    @media (max-width: 600px){
+    @media (max-width: 730px){
         display: flex;
         justify-content: center;
     }
@@ -138,7 +138,7 @@ const Tab = styled.div`
         color: whitesmoke;
     }
 
-    @media (max-width: 600px){
+    @media (max-width: 730px){
         width: 100%;
         text-align: center;
     }

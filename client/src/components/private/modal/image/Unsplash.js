@@ -31,7 +31,7 @@ const Unsplash = props => {
             onClick={() => {
                 handleImgSelect(photo.urls[
                     collection?.name === 'post-preview' ? 
-                        'small'
+                        'regular'
                     : 
                         photo.width * photo.height > 30000000 ? 
                             'regular' 
@@ -73,7 +73,7 @@ const Input = styled.input`
     border-radius: 4px;
     border: solid 1px black;
 
-    @media (max-width: 600px){
+    @media (max-width: 7300px){
         width: calc(100% - 10px);
         margin: 0 5px 5px 5px
     }
@@ -82,7 +82,8 @@ const Input = styled.input`
 const ImgListContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: space-evenly;
 `
 
 const Img = styled.img`
