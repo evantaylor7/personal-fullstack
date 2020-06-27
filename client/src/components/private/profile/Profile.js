@@ -5,7 +5,6 @@ import {UserContext} from '../../../context/UserProvider'
 
 const Profile = props => {
     const {readonly} = props
-    console.log(readonly)
     const {profile, blog, getProfile, uploadImage, getUserProfile, updateProfile} = useContext(UserContext)
 
     const [blurb, setBlurb] = useState('')

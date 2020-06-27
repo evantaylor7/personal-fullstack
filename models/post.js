@@ -23,6 +23,7 @@ const postSchema = new Schema({
     content: String,
     titleImg: String,
     previewImg: String,
+    description: String,
     // right?
     draft: {
         type: Boolean,

@@ -39,6 +39,7 @@ userPostRouter.post('/', (req, res, next) => {
 
 // edit a blog post
 userPostRouter.put('/update-one/:postId', (req, res, next) => {
+    console.log(req.body)
     req.body.date = createDate()
     Post.findOneAndUpdate(
         {_id: req.params.postId, user: req.user._id},

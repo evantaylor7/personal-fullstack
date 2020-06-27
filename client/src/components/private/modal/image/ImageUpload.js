@@ -45,13 +45,18 @@ const Container = styled.div`
 
 const Label = styled.label`
     margin: 10px auto;
-    background-color: #214761;
-    color: whitesmoke;
-    padding: 5px;
+    background-color: white;
+    color: #214761;
+    padding: 8px 14px;
+    font-size: 14px;
+    border: solid 1px #214761;
     border-radius: 4px;
+    transition: .4s;
 
     &:hover {
-        cursor: pointer
+        cursor: pointer;
+        background-color: #214761;
+        color: whitesmoke;
     }
 `
 

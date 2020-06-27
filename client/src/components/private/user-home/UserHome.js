@@ -9,7 +9,6 @@ import PostList from '../../posts/PostList.js'
 import Profile from '../profile/Profile.js'
 import {UserContext} from '../../../context/UserProvider'
 import styled from 'styled-components'
-import ScrollToTop from '../../../ScrollToTop.js'
 
 const UserHome = () => {
     const {
@@ -24,7 +23,7 @@ const UserHome = () => {
     const [toggleAuthorName, setToggleAuthorName] = useState(false)
     const [publishModal, setPublishModal] = useState(false)
     const [alertModal, setAlertModal] = useState(false)
-    console.log(toggleAuthorName)
+
     useEffect(() => {
         getUserBlog()
     }, [])
@@ -200,7 +199,7 @@ const Container = styled.div`
     padding-top: 40px;
     background-color: whitesmoke;
 
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         display: block;
         margin-bottom: 170px;
     }
@@ -215,7 +214,7 @@ const BlogContainer = styled.div`
     margin-left: 0;
     background-color: white;
 
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         margin: 10px auto
     }
 `
@@ -262,7 +261,7 @@ const MainImg = styled.div`
     background-position: ${props => props.parallax ? '110px center' : 'center'};
     background-attachment: ${props => props.parallax && 'fixed'};
 
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         background-position: center;
     }
     @media (max-width: 900px){
@@ -273,7 +272,7 @@ const MainImg = styled.div`
 const Button = styled.button`
     height: ${props => props.primary ? '40px' : '30px'};
     font-size: ${props => props.primary ? '16px' : '12px'};
-    padding: 4px 8px;
+    padding: 4px 12px;
     border-radius: 4px;
     border: solid 1px #214761;
     background-color: ${props => props.alt ? 'white' : '#214761'};
@@ -290,28 +289,27 @@ const Button = styled.button`
 
 const ContentContainer = styled.div`
     display: ${props => props.profile === 'true' ? 'grid' : 'block'};
-    /* text-align: center; */
     grid-template-columns: auto 400px;
     padding-top: 20px;
     padding-left: 20px;
 
     @media (max-width: 1200px){
-        display: block
+        display: block;
+        padding-left: 0;
     }
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         padding-left: 0
     }
 `
 
 const PostContainer = styled.div`
     grid-column: 1 / 2;
-    /* justify-self: center; */
     width: 96%;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
 
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         margin-left: auto;
         margin-right: auto;
     }

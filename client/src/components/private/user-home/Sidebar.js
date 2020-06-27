@@ -97,7 +97,7 @@ const Container = styled.div`
     box-shadow: 2px 2px 3px #a2a2a2;
     overflow: auto;
 
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         position: fixed;
         display: grid;
         text-align: center;
@@ -110,13 +110,14 @@ const Container = styled.div`
         padding-top: 0;
         border-top: solid 2px darkgrey;
         background-color: whitesmoke;
+        align-items: start;
     }
 `
 
 const LeftColumn = styled.div`
     text-align: center;
 
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         grid-column: 1 / 2;
         display: flex;
         flex-direction: column;
@@ -147,8 +148,11 @@ const SidebarButton = styled.button`
 const RightColumn = styled.div`
     text-align: center;
 
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         grid-column: 2 / 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 `
 
@@ -158,7 +162,7 @@ const ParallaxText = styled.p`
 `
 
 const Arrow = styled.span`
-    @media (max-width: 650px){
+    @media (max-width: 750px){
         display: none
     }
 `

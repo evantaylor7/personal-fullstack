@@ -8,8 +8,7 @@ const Endpoint = () => {
     const [urlInput, setUrlInput] = useState('')
     const [showResponse, setShowResponse] = useState(false)
     const [toggleDomain, setToggleDomain] = useState(false)
-    console.log(urlInput)
-    console.log( blogUrl)
+    
     useEffect(() => {
         blogUrl && setToggleDomain(true)
         blogUrl && setUrlInput(blogUrl)

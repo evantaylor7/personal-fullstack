@@ -1,20 +1,32 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
-// import DOMPurify from 'dompurify'
 import ExternalModal from '../private/modal/Modal.js'
 import PostDetail from '../public/PostDetail'
 import styled from 'styled-components'
 import {UserContext} from '../../context/UserProvider'
 
 const Post = props => {
-    console.log(props)
-    const {_id, draft, title, authorName, date, content, previewImg, openModal, readonly} = props
+    const {
+        _id, 
+        draft, 
+        title, 
+        authorName, 
+        date, 
+        content, 
+        previewImg, 
+        description, 
+        openModal, 
+        readonly
+    } = props
+
     const {getPost, deletePost, editPost} = useContext(UserContext)
 
     const [imgModal, setImgModal] = useState(false)
     const [previewModal, setPreviewModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
-    console.log(previewModal)
+
+    const [descriptionToggle, setDescriptionToggle] = useState(false)
+    const [descriptionInput, setDescriptionInput] = useState(description || '')
 
     const handleToggleImgModal = () => {
         setImgModal(prevImgModal => !prevImgModal)
@@ -22,6 +34,17 @@ const Post = props => {
 
     const handleRemoveImg = () => {
         editPost(_id, {previewImg: ''})
+    }
+
+    const handleDescriptionChange = e => {
+        const {value} = e.target
+        setDescriptionInput(value)
+    }
+
+    const handleDescriptionSubmit = e => {
+        e.preventDefault()
+        editPost(_id, {description: descriptionInput})
+        setDescriptionToggle(false)
     }
 
     const handleOpenPostEditor = e => {
@@ -37,14 +60,6 @@ const Post = props => {
         deletePost(_id)
         setDeleteModal(false)
     }
-
-    // <Button delete onClick={() => deletePost(_id)}>Delete</Button>
-
-    // const cleanCode = DOMPurify.sanitize(content)
-    // const snippetStart = cleanCode.search('<p>')
-    // const textEnd = cleanCode.search('</p>')
-    // const snippetEnd = textEnd - snippetStart > 200 ? 200 : textEnd
-    // const blogSnippet = {__html: `${cleanCode.slice(snippetStart, snippetEnd)} ${cleanCode?.length > 190 ? ' ...' : ''}`} 
 
     return (
         <>
@@ -68,7 +83,24 @@ const Post = props => {
                         <PostInfo>
                             <Title>{title}</Title>
                             <Date>{date}</Date>
-                            {/* <div dangerouslySetInnerHTML={blogSnippet}/> */}
+                            {
+                            !description || descriptionToggle ?
+                                <DescriptionForm onSubmit={handleDescriptionSubmit}>
+                                    <DescriptionInput 
+                                        type='text'
+                                        value={descriptionInput}
+                                        onChange={handleDescriptionChange}
+                                        placeholder='Add a description of your post.'
+                                        maxLength={400}
+                                    />
+                                    <Button save>Save</Button>
+                                </DescriptionForm>
+                            :
+                                <>
+                                    <Description>{description}</Description>
+                                    <Button onClick={() => setDescriptionToggle(true)}>Edit</Button>
+                                </>
+                            }
                         </PostInfo>
                     </PostSnippet>
                     <ButtonsContainer>
@@ -110,6 +142,7 @@ const Post = props => {
                         <PostInfo>
                             <Title>{title}</Title>
                             <Date>{date}</Date>
+                            {description && <Description>{description}</Description>}
                         </PostInfo>
                     </Container>
                 </PostLink>
@@ -127,19 +160,29 @@ const Container = styled.div`
     margin: 0 auto 20px auto;
     transition: box-shadow .4s;
     max-width: 700px;
-    ${props => props.readonly && 'display: flex'};
+    ${props => props.readonly && 'display: grid; grid-template-columns: 210px auto;'};
     /* position: relative; */
 
     &:hover {
         box-shadow: 2px 2px 5px #606060
     }
+
+    @media (max-width: 620px){
+        ${props => props.readonly && 'display: block;'};
+    }
 `
 
 const PostSnippet = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: 210px auto;
+
+    @media (max-width: 622px){
+        display: block;
+    }
 `
 
 const PreviewImg = styled.div`
+    grid-column: 1 / 2;
     width: 200px;
     height: 200px;
     background: ${props => props.src ? `url(${props.src})` : 'whitesmoke'};
@@ -149,18 +192,57 @@ const PreviewImg = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    /* float: left; */
+
+    @media (max-width: 620px){
+        width: 100%;
+        height: 0;
+        padding-top: 100%;
+    }
 `
 
 const PostInfo = styled.div`
-    margin-left: 10px;
+    grid-column: 2 / 3;
+    margin: 0 16px;
+
+    @media (max-width: 620px){
+        margin: 10px 0 0;
+    }
 `
 
-const Title = styled.h2``
+const Title = styled.h2`
+    font-weight: 350;
+`
 
 const Date = styled.p`
     font-size: 14px;
     color: #525252;
+`
+
+const DescriptionForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    position: relative;
+`
+
+const DescriptionInput = styled.textarea`
+    resize: none;
+    width: 100%;
+    margin-top: 10px;
+    /* position: relative; */
+    /* max-width: 460px; */
+    min-height: 120px;
+    /* max-height: 250px; */
+    outline: none;
+    padding: 6px;
+    border-radius: 6px;
+    line-height: 1.4em;
+    word-break: break-word;
+`
+
+const Description = styled.p`
+    margin: 10px 0;
+    line-height: 1.4em;
 `
 
 const ButtonsContainer = styled.div`
@@ -173,12 +255,13 @@ const ButtonsContainer = styled.div`
 
 const Button = styled.button`
     margin-right: 4px;
-    padding: 2px 4px;
+    padding: 4px 12px;
     background-color: white;
     border: solid 1px ${props => props.delete ? '#c40000' : '#214761'};
     border-radius: 4px;
     color: ${props => props.delete ? '#c40000' : '#214761'};
     transition: .4s;
+    ${props => props.save && 'max-width: 60px; margin-top: 6px;'};
 
     &:hover {
         cursor: pointer;

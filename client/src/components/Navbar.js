@@ -40,13 +40,14 @@ const Container = styled.div`
 
 const NavBox = styled.div`
     width: calc(100% - 444px);
+    max-width: 944px;
     height: 40px;
     margin: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: 700px){
+    @media (max-width: 944px){
         width: 100%;
         padding: 0 40px;
     }
