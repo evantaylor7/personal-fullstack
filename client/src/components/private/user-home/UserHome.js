@@ -16,6 +16,7 @@ const UserHome = () => {
         postDetail,
         getUserBlog, 
         updateBlog,
+        postNew,
         clearPostDetail
     } = useContext(UserContext)
 
@@ -42,7 +43,8 @@ const UserHome = () => {
     }
 
     const handleNewPost = e => {
-        clearPostDetail()
+        // clearPostDetail()
+        postNew({blog: blog._id})
         handleToggleModal(e)
     }
 
@@ -271,7 +273,7 @@ const MainImg = styled.div`
 
 const Button = styled.button`
     height: ${props => props.primary ? '40px' : '30px'};
-    font-size: ${props => props.primary ? '16px' : '12px'};
+    font-size: ${props => props.primary ? '16px' : '13px'};
     padding: 4px 12px;
     border-radius: 4px;
     border: solid 1px #214761;

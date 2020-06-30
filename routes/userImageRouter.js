@@ -27,7 +27,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 12000000
+        fileSize: 10000000
     },
     fileFilter: fileFilter,
     onError: function(err, next){
@@ -38,6 +38,7 @@ const upload = multer({
     }
 })
 
+// BLOG (main image):
 userImageRouter.put('/blog/:blogId', upload.single('imageData'), (req, res, next) => {
     console.log(req.file)
     Blog.findOneAndUpdate(
@@ -54,6 +55,7 @@ userImageRouter.put('/blog/:blogId', upload.single('imageData'), (req, res, next
     )
 })
 
+// PROFILE:
 userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, next) => {
     req.body.user = req.user._id
     req.body.blog = req.params.blogId
@@ -72,14 +74,14 @@ userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, n
     )
 })
 
+// POST:
 // add title image (update existing post)
-userImageRouter.put('/posts/:postId', upload.single('imageData'), (req, res, next) => {
+userImageRouter.put('/title-image/:postId', upload.single('imageData'), (req, res, next) => {
     req.body.img = `http://localhost:3000/${req.file.path}`
     // *** needs to be changed for deployment ***
     if(!req.params.postId){
         req.body.postId === ''
     }
-    console.log(req.params.postId)
     Post.findOneAndUpdate(
         {_id: req.params.postId},
         {titleImg: req.body.img},
@@ -101,7 +103,7 @@ const createDate = () => {
 }
 
 // add title image (create new post)
-userImageRouter.post('/posts/:blogId', upload.single('imageData'), (req, res, next) => {
+userImageRouter.post('/title-image/:blogId', upload.single('imageData'), (req, res, next) => {
     req.body.user = req.user._id
     req.body.postedBy = req.user.username
     req.body.date = createDate()
@@ -122,6 +124,22 @@ userImageRouter.put('/post-preview/:postId', upload.single('imageData'), (req, r
     Post.findOneAndUpdate(
         {_id: req.params.postId},
         {previewImg: req.file.path},
+        {new: true},
+        (err, post) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(post)
+        }
+    )
+})
+
+userImageRouter.put('/post/:postId', upload.single('imageData'), (req, res, next) => {
+    console.log(333, req.file)
+    Post.findOneAndUpdate(
+        {_id: req.params.postId},
+        {$push: {contentImgs: req.file.path}},
         {new: true},
         (err, post) => {
             if(err){

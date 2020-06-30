@@ -50,7 +50,7 @@ const ImageModal = props => {
                 uploadImage('post-preview', collection.postId, data)
             } else {
                 postId ?
-                    uploadImage('posts', postId, data)
+                    uploadImage('title-image', postId, data)
                 :
                     newPostImg(blogId, data)
             }

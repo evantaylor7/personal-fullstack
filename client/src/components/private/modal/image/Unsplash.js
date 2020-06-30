@@ -10,8 +10,12 @@ const Unsplash = props => {
     const [imgSelector, setImgSelector] = useState('')
 
     useEffect(() => {
-        getPhotos()
+        getPhotos(unsplash?.page + 1)
     }, [])
+
+    const loadMore = () => {
+        input !== '' ? searchPhotos(unsplash.page + 1, input) : getPhotos(unsplash?.page + 1)
+    }
 
     const handleChange = e => {
         const {value} = e.target
@@ -20,12 +24,12 @@ const Unsplash = props => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        searchPhotos(input)
+        searchPhotos(1, input, 'new')
     }
-    
-    const imgList = unsplash.map(photo => (
+    console.log(unsplash.photos)
+    const imgList = unsplash?.photos.map((photo, i) => (
         <Img 
-            key={photo.id} 
+            key={i} 
             selected={imgSelector === photo.id}
             src={photo.urls.small} 
             onClick={() => {
@@ -55,6 +59,7 @@ const Unsplash = props => {
             <ImgListContainer>
                 {imgList}
             </ImgListContainer>
+            <Button onClick={loadMore}>Load More</Button>
         </Container>
     )
 }
@@ -95,3 +100,5 @@ const Img = styled.img`
         cursor: pointer;
     }
 `
+
+const Button = styled.button``

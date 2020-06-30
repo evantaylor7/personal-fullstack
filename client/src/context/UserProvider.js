@@ -32,7 +32,7 @@ const UserProvider = props => {
         urlCheck: false
     }
     const [userState, setUserState] = useState(initState)
-    const [unsplash, setUnsplash] = useState([])
+    const [unsplash, setUnsplash] = useState({page: 0, photos: []})
 
     console.log(userState)
 
@@ -205,16 +205,18 @@ const UserProvider = props => {
                 console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    [(dest === 'posts' || dest === 'post-preview') ? 'postDetail' : dest]: res.data,
+                    [(dest === 'title-image' || dest === 'post-preview') ? 'postDetail' : dest]: res.data,
+                    [(dest === 'title-image' || dest === 'post-preview') && 'posts']: 
+                        prevUserState.posts.map(post => post._id === id ? res.data : post)
                 }))
-                dest === 'post-preview' && getPosts(userState.blog._id)
+                // dest === 'post-preview' && getPosts(userState.blog._id)
             })
             .catch(err => console.log(err))
     }
 
     // creates new post through image route
     const newPostImg = (blogId, img) => {
-        userAxios.post(`/api/image/posts/${blogId}`, img)
+        userAxios.post(`/api/image/title-image/${blogId}`, img)
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
@@ -422,19 +424,36 @@ const UserProvider = props => {
     }
 
     // EXTERNAL -- Unsplash API requests
-
-    const getPhotos = () => {
-        unsplashAxios.get(`https://api.unsplash.com/photos?per_page=30`)
+    console.log(unsplash.page)
+    const getPhotos = page => {
+        unsplashAxios.get(`https://api.unsplash.com/photos?per_page=30&page=${page}`)
             .then(res => {
-                setUnsplash(res.data)
+                console.log(res)
+                console.log(res.headers['x-ratelimit-remaining'])
+                setUnsplash(prevUnsplash => ({
+                    ...prevUnsplash,
+                    photos: [...prevUnsplash.photos, ...res.data],
+                    page: page
+                }))
             })
             .catch(err => console.log(err))
     }
 
-    const searchPhotos = query => {
-        unsplashAxios.get(`https://api.unsplash.com/search/photos?query=${query}&per_page=30`)
+    const searchPhotos = (page, query, condition) => {
+        unsplashAxios.get(`https://api.unsplash.com/search/photos?query=${query}&per_page=30&page=${page}`)
             .then(res => {
-                setUnsplash(res.data.results)
+                condition === 'new' ?
+                    setUnsplash(prevUnsplash => ({
+                        ...prevUnsplash,
+                        photos: res.data.results,
+                        page: page
+                    }))
+                :
+                    setUnsplash(prevUnsplash => ({
+                        ...prevUnsplash,
+                        photos: [...prevUnsplash.photos, ...res.data.results],
+                        page: page
+                    }))
             })
             .catch(err => console.log(err))
     }

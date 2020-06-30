@@ -7,7 +7,7 @@ const ImageUpload = props => {
     
     const handleChange = e => {
         const imgFile = e.target.files[0]
-        if(imgFile.size > 12000000){
+        if(imgFile.size > 10000000){
             setError('Image file is too large.')
         } else {
             setError(null)

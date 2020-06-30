@@ -137,7 +137,7 @@ const Post = props => {
                 </Container>
             :
                 <PostLink to={`/p/${_id}`}>
-                    <Container readonly={readonly}>
+                    <Container readonly={readonly} img={previewImg}>
                         {previewImg && <PreviewImg src={previewImg}></PreviewImg>}
                         <PostInfo>
                             <Title>{title}</Title>
@@ -160,7 +160,7 @@ const Container = styled.div`
     margin: 0 auto 20px auto;
     transition: box-shadow .4s;
     max-width: 700px;
-    ${props => props.readonly && 'display: grid; grid-template-columns: 210px auto;'};
+    ${props => (props.readonly && props.img) && 'display: grid; grid-template-columns: 210px auto;'};
     /* position: relative; */
 
     &:hover {

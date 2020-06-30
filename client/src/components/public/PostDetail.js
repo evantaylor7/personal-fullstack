@@ -30,8 +30,6 @@ const PostDetail = props => {
 
     const [redirect, setRedirect] = useState(false)
 
-    console.log(content)
-
     useEffect(() => {
         getPost(postId || propsPostId)
     }, [blog.blogUrl])
@@ -45,10 +43,8 @@ const PostDetail = props => {
         toggleModal && toggleModal(true)
     }
 
-    const cleanCode = {__html: DOMPurify.sanitize(content)}
-
-    console.log(redirect)
-    console.log(blog.blogUrl)
+    const config = {ADD_TAGS: ['iframe'], KEEP_CONTENT: false, ADD_ATTR: ['src', 'width', 'height', 'allowfullscreen']}
+    const cleanCode = {__html: DOMPurify.sanitize(content, config)}
 
     return (
         <>
@@ -191,7 +187,19 @@ const Content = styled.div`
 
     > p > img {
         max-width: 100%;
-        height: 100%;
+        height: auto;
+    }
+
+    > figure > img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    > figure > figcaption {
+        color: #999;
+        display: block;
+        margin-top: .25rem;
+        text-align: center;
     }
 
     > blockquote {
@@ -204,5 +212,13 @@ const Content = styled.div`
 
     > ol, ul {
         margin-left: 40px;
+    }
+
+    > p > iframe {
+        max-width: 100%;
+    }
+
+    > table {
+        max-width: 100%
     }
 `

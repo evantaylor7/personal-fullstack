@@ -6,16 +6,19 @@ import {UserContext} from '../../../context/UserProvider'
 const Profile = props => {
     const {readonly} = props
     const {profile, blog, getProfile, uploadImage, getUserProfile, updateProfile} = useContext(UserContext)
-
-    const [blurb, setBlurb] = useState('')
+    const [blurb, setBlurb] = useState(profile.blurb || '')
     const [blurbFormToggle, setBlurbFormToggle] = useState(false)
-
+    
     useEffect(() => {
         readonly ? 
             getProfile(blog?._id)
         :
             getUserProfile()
     }, [])
+
+    useEffect(() => {
+        setBlurb(profile.blurb)
+    }, [profile.blurb])
 
     const handleImgSubmit = e => {
         const imgFile = e.target.files[0]
@@ -65,11 +68,15 @@ const Profile = props => {
                             type='text' 
                             value={blurb}
                             onChange={handleBlurbChange}
-                            onBlur={handleBlurbSubmit}
                             autoFocus
                             placeholder={`${blog?.authorName ? blog.authorName : blog.username} is an entrepreneur, a philanthropist, and a writer...`}
                         />
                     }
+                    <Button 
+                        onClick={blurbFormToggle ? handleBlurbSubmit : () => setBlurbFormToggle(true)}
+                    >
+                        {blurbFormToggle ? 'Save' : 'Edit'}
+                    </Button>
                 </>
             }
         </Container>
@@ -174,4 +181,23 @@ const BlurbInput = styled.textarea`
     outline: none;
     padding: 6px;
     border-radius: 6px;
+`
+
+const Button = styled.button`
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    height: 30px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: solid 1px #214761;
+    background-color: white;
+    color: #214761;
+    transition: .4s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #214761;
+        color: whitesmoke;
+    }
 `

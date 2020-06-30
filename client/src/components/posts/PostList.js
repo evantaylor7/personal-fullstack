@@ -14,10 +14,10 @@ const PostList = props => {
             getPosts(blogId)
     }, [blogId])
 
-    const drafts = posts?.filter(post => post.draft).map(post =>
+    const drafts = posts?.filter(post => post.draft).map((post, i) =>
         <Post
             {...post}
-            key={post._id}
+            key={i}
             openModal={openModal}
         />
     )
@@ -44,10 +44,10 @@ const PostList = props => {
     //     return fin
     // }, {drafts: [], published: []})
 
-    const published = posts?.filter(post => !post.draft).map(post =>
+    const published = posts?.filter(post => !post.draft).map((post, i) =>
         <Post
             {...post}
-            key={post._id}
+            key={i}
             openModal={openModal}
             readonly={readonly}
         />
