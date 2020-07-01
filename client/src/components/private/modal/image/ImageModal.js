@@ -7,13 +7,15 @@ import {UserContext} from '../../../../context/UserProvider.js'
 const ImageModal = props => {
     const {close, collection} = props
     const {
-        blog: {_id: blogId, username}, 
+        blog: {_id: blogId, img: blogImg, username}, 
+        postDetail: {_id: postId, previewImg, titleImg},
         updateBlog, 
-        addPostImg,
         postNew,
+        addPostImg,
         uploadImage, 
+        deleteImage,
         newPostImg,
-        postDetail: {_id: postId}
+        downloadPhoto
     } = useContext(UserContext)
 
     const [tab, setTab] = useState('unsplash')
@@ -28,16 +30,22 @@ const ImageModal = props => {
     }
     console.log(collection)
     const handleImgSubmit = e => {
-        if(typeof img === 'string'){
+        if(img.name === 'unsplash'){
+            downloadPhoto(img.photoId)
             if(collection === 'blog'){
-                updateBlog({img: img})
+                blogImg && deleteImage(blogImg)
+                updateBlog({img: img.src})
             } else if (typeof collection === 'object'){
-                addPostImg({postId: collection.postId, previewImg: img})
+                previewImg && deleteImage(previewImg)
+                addPostImg({postId: collection.postId, previewImg: img.src})
             } else {
-                postId ?
-                    addPostImg({postId: postId, titleImg: img})
-                :
-                    postNew({titleImg: img, blog: blogId})
+                if(postId){
+                    titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
+                    // needs to be changed
+                    addPostImg({postId: postId, titleImg: img.src})
+                } else {
+                    postNew({titleImg: img.src, blog: blogId})
+                }
             }
         } else {
             const data = new FormData()
@@ -45,14 +53,19 @@ const ImageModal = props => {
             data.append('imageData', img.file)
             console.log(data)
             if(collection === 'blog'){
+                blogImg && deleteImage(blogImg)
                 uploadImage('blog', blogId, data)
             } else if(typeof collection === 'object'){
+                previewImg && deleteImage(previewImg)
                 uploadImage('post-preview', collection.postId, data)
             } else {
-                postId ?
+                if(postId){
+                    titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
+                    // *** needs to be changed ***
                     uploadImage('title-image', postId, data)
-                :
+                } else {
                     newPostImg(blogId, data)
+                }
             }
         }
         close(e)

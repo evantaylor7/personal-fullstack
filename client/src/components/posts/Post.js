@@ -19,7 +19,7 @@ const Post = props => {
         readonly
     } = props
 
-    const {getPost, deletePost, editPost} = useContext(UserContext)
+    const {deleteImage, getPost, deletePost, editPost} = useContext(UserContext)
 
     const [imgModal, setImgModal] = useState(false)
     const [previewModal, setPreviewModal] = useState(false)
@@ -33,6 +33,7 @@ const Post = props => {
     }
 
     const handleRemoveImg = () => {
+        deleteImage(previewImg)
         editPost(_id, {previewImg: ''})
     }
 
@@ -67,10 +68,10 @@ const Post = props => {
                 <Container>
                     <PostSnippet>
                         <PreviewImg src={previewImg}>
-                            <Button onClick={handleToggleImgModal} name='img'>
+                            <Button previewImg onClick={handleToggleImgModal} name='img'>
                                 {previewImg ? 'Change Image' : 'Add Preview Image'}
                             </Button>
-                            {previewImg && <Button onClick={handleRemoveImg}>Remove</Button>}
+                            {previewImg && <Button previewImg onClick={handleRemoveImg}>Remove</Button>}
                             {
                             imgModal && 
                                 <ExternalModal 
@@ -190,7 +191,7 @@ const PreviewImg = styled.div`
         'background-repeat: no-repeat; background-position: center; background-size: cover'
     };
     display: flex;
-    align-items: center;
+    align-items: ${props => props.src ? 'flex-end' : 'center'};
     justify-content: center;
 
     @media (max-width: 620px){
@@ -266,11 +267,15 @@ const Button = styled.button`
     color: ${props => props.delete ? '#c40000' : '#214761'};
     transition: .4s;
     ${props => props.save && 'max-width: 60px; margin-top: 6px;'};
+    ${props => props.previewImg && 'margin-bottom: 2px;'};
 
     &:hover {
         cursor: pointer;
         background-color: ${props => props.delete ? '#c40000' : '#214761'};
         color: whitesmoke;
+    }
+    @media (max-width: 620px){
+        ${props => props.previewImg && 'margin-bottom: 10px'}
     }
 `
 

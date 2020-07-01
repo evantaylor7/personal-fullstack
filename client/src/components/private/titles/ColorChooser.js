@@ -45,6 +45,9 @@ const ColorsContainer = styled.div`
     ${props => props.description}:hover & {
         display: flex
     }
+    @media (max-width: 750px){
+        display: flex;
+    }
 `
 
 const Colors = styled.div`

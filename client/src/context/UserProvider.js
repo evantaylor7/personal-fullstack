@@ -227,6 +227,15 @@ const UserProvider = props => {
             .catch(err => console.log(err))
     }
 
+    // delete an image
+    const deleteImage = imgPath => {
+        userAxios.delete(`/api/image/${imgPath}`)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
+    }
+
     // external:
     // add unsplash image to post
     const addPostImg = imgObj => {
@@ -429,7 +438,7 @@ const UserProvider = props => {
         unsplashAxios.get(`https://api.unsplash.com/photos?per_page=30&page=${page}`)
             .then(res => {
                 console.log(res)
-                console.log(res.headers['x-ratelimit-remaining'])
+                console.log('requests remaing: ' + res.headers['x-ratelimit-remaining'])
                 setUnsplash(prevUnsplash => ({
                     ...prevUnsplash,
                     photos: [...prevUnsplash.photos, ...res.data],
@@ -442,6 +451,7 @@ const UserProvider = props => {
     const searchPhotos = (page, query, condition) => {
         unsplashAxios.get(`https://api.unsplash.com/search/photos?query=${query}&per_page=30&page=${page}`)
             .then(res => {
+                console.log('requests remaing: ' + res.headers['x-ratelimit-remaining'])
                 condition === 'new' ?
                     setUnsplash(prevUnsplash => ({
                         ...prevUnsplash,
@@ -457,6 +467,16 @@ const UserProvider = props => {
             })
             .catch(err => console.log(err))
     }
+
+    const downloadPhoto = photoId => {
+        unsplashAxios.get(`https://api.unsplash.com/photos/${photoId}/download`)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
+    }
+
+    const unsplashCleanup = () => {setUnsplash({page: 0, photos: []})}
 
     return (
         <div>
@@ -477,6 +497,7 @@ const UserProvider = props => {
                     getProfile,
                     uploadImage,
                     newPostImg,
+                    deleteImage,
                     addPostImg,
                     getUserBlog,
                     checkUrlEndpoints,
@@ -492,7 +513,9 @@ const UserProvider = props => {
                     getUserProfile,
                     updateProfile,
                     getPhotos,
-                    searchPhotos
+                    searchPhotos,
+                    downloadPhoto,
+                    unsplashCleanup
                 }}
             >
                 {props.children}

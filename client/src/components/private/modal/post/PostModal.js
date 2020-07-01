@@ -18,6 +18,7 @@ const PostModal = props => {
         blog,
         blog: {_id: blogId, authorName}, 
         postDetail, 
+        deleteImage,
         postNew, 
         editPost
     } = useContext(UserContext)
@@ -105,6 +106,7 @@ const PostModal = props => {
     }
 
     const handleRemoveImg = () => {
+        deleteImage(postDetail.titleImg.replace('http://localhost:3000/', ''))
         editPost(postDetail._id, {titleImg: ''})
     }
 

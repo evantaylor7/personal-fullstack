@@ -7,13 +7,16 @@ const ImageUpload = props => {
     
     const handleChange = e => {
         const imgFile = e.target.files[0]
-        if(imgFile.size > 10000000){
-            setError('Image file is too large.')
+        if(!imgFile){
+            return
+        } else if(imgFile.size > 10000000){
+            setError('Image file is too large. Limit: 10mb.')
         } else {
             setError(null)
             imgFile && handleImgChange({
                 file: imgFile,
-                url: URL.createObjectURL(imgFile)
+                url: URL.createObjectURL(imgFile),
+                name: 'upload'
                 // loaded: 0
             })
         }
@@ -65,7 +68,7 @@ const UploadInput = styled.input`
 `
 
 const ErrorMessage = styled.p`
-    color: red;
+    color: #c40000;
 `
 
 const ImgPreview = styled.img`

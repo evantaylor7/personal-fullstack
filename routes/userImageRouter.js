@@ -5,7 +5,6 @@ const Profile = require('../models/profile.js')
 const Post = require('../models/post.js')
 const multer = require('multer')
 const fs = require('fs')
-const path = require('path')
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -103,21 +102,21 @@ const createDate = () => {
 }
 
 // add title image (create new post)
-userImageRouter.post('/title-image/:blogId', upload.single('imageData'), (req, res, next) => {
-    req.body.user = req.user._id
-    req.body.postedBy = req.user.username
-    req.body.date = createDate()
-    req.body.blog = req.params.blogId
-    req.body.titleImg = req.file.path
-    const newPost = new Post(req.body)
-    newPost.save((err, newPost) => {
-        if(err){
-            res.status(500)
-            return next(err)
-        }
-        return res.status(201).send(newPost)
-    })
-})
+// userImageRouter.post('/title-image/:blogId', upload.single('imageData'), (req, res, next) => {
+//     req.body.user = req.user._id
+//     req.body.postedBy = req.user.username
+//     req.body.date = createDate()
+//     req.body.blog = req.params.blogId
+//     req.body.titleImg = req.file.path
+//     const newPost = new Post(req.body)
+//     newPost.save((err, newPost) => {
+//         if(err){
+//             res.status(500)
+//             return next(err)
+//         }
+//         return res.status(201).send(newPost)
+//     })
+// })
 
 // add preview image
 userImageRouter.put('/post-preview/:postId', upload.single('imageData'), (req, res, next) => {
@@ -135,11 +134,13 @@ userImageRouter.put('/post-preview/:postId', upload.single('imageData'), (req, r
     )
 })
 
+// add post content image
 userImageRouter.put('/post/:postId', upload.single('imageData'), (req, res, next) => {
     console.log(333, req.file)
+    const img = `http://localhost:3000/${req.file.path}`
     Post.findOneAndUpdate(
         {_id: req.params.postId},
-        {$push: {contentImgs: req.file.path}},
+        {$push: {contentImgs: img}},
         {new: true},
         (err, post) => {
             if(err){
@@ -151,19 +152,15 @@ userImageRouter.put('/post/:postId', upload.single('imageData'), (req, res, next
     )
 })
 
-// userImageRouter.get('/:blogId', (req, res, next) => {
-//     Image.find(
-//         {blog: req.params.blogId},
-//         (err, image) => {
-//             if(err){
-//                 res.status(500)
-//                 return next(err)
-//             }
-//             return res.status(200).send(image)
-//         }
-//     )
-// })
-
-// userImageRouter.delete('/delete/:imgPath', (req, res, next) => )
+// delete an image file
+userImageRouter.delete(`/uploads/:imgPath`, (req, res, next) => {
+    fs.unlink(`./uploads/${req.params.imgPath}`, err => {
+        if(err){
+            console.log('failed to delete local image:' + err)
+        } else {
+            console.log('successfully deleted local image')
+        }
+    })
+})
 
 module.exports = userImageRouter

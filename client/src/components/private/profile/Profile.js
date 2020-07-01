@@ -5,10 +5,19 @@ import {UserContext} from '../../../context/UserProvider'
 
 const Profile = props => {
     const {readonly} = props
-    const {profile, blog, getProfile, uploadImage, getUserProfile, updateProfile} = useContext(UserContext)
+    const {
+        profile, 
+        blog, 
+        getProfile, 
+        uploadImage, 
+        deleteImage, 
+        getUserProfile, 
+        updateProfile
+    } = useContext(UserContext)
     const [blurb, setBlurb] = useState(profile.blurb || '')
     const [blurbFormToggle, setBlurbFormToggle] = useState(false)
-    
+    const [error, setError] = useState(null)
+
     useEffect(() => {
         readonly ? 
             getProfile(blog?._id)
@@ -22,10 +31,18 @@ const Profile = props => {
 
     const handleImgSubmit = e => {
         const imgFile = e.target.files[0]
-        const data = new FormData()
-        // data.append('imageName', `${img.file.name} ${Date.now()}`)
-        data.append('imageData', imgFile)
-        imgFile && uploadImage('profile', blog._id, data)
+        if(!imgFile){
+            return
+        } else if(imgFile.size > 10000000){
+            setError('Image file is too large. Limit: 10mb')
+        } else {
+            profile?.img && deleteImage(profile.img)
+            setError(null)
+            const data = new FormData()
+            // data.append('imageName', `${img.file.name} ${Date.now()}`)
+            data.append('imageData', imgFile)
+            imgFile && uploadImage('profile', blog._id, data)
+        }
     }
 
     const handleBlurbChange = e => {
@@ -51,6 +68,7 @@ const Profile = props => {
                     </ImageLabel>
                 }
             </ImageContainer>
+            {error && <ErrorMessage>{error}</ErrorMessage>}
             {
             readonly ?
                 <Blurb>
@@ -141,6 +159,9 @@ const ImageLabel = styled.label`
         background-color: rgba(0, 0, 0, .4);
         cursor: pointer
     }
+    @media (max-width: 750px){
+        background-color: rgba(0, 0, 0, .4);
+    }
     @media (max-width: 400px){
         height: 0;
         padding-bottom: 100%;
@@ -161,11 +182,18 @@ const ImgText = styled.p`
     ${ImageLabel}:hover & {
         opacity: 1
     }
-    @media (max-width: 400px){
-        margin-top: 100%;
+    @media (max-width: 750px){
         opacity: 1;
         ::before {content: 'Tap to '}
     }
+    @media (max-width: 400px){
+        margin-top: 100%;
+    }
+`
+
+const ErrorMessage = styled.p`
+    color: #c40000;
+    margin-top: 6px;
 `
 
 const Blurb = styled.p`

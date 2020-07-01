@@ -7,7 +7,7 @@ const key = process.env.REACT_APP_TINY_KEY
 
 const PostEditor = props => {
     const {postId, onChange, value, save, toggleImgModal} = props
-    const {uploadImage, token} = useContext(UserContext)
+    const {uploadImage, deleteImage, token} = useContext(UserContext)
     console.log(value)
 
     const handleEditorChange = (content, editor) => {
@@ -27,6 +27,7 @@ const PostEditor = props => {
                 const {contentImgs} = res.data
                 const location = contentImgs[contentImgs.length - 1]
                 success(location)
+                // not working...
             })
             .catch(err => {
                 failure('HTTP Error: ' + err.message)
@@ -74,6 +75,10 @@ const PostEditor = props => {
     //     document.forms[0].submit()
     // })
 
+    const handleDeleteImg = imgPath => {
+        deleteImage(imgPath.replace('http://localhost:3000/', ''))
+    }
+
     return (
         <Container>
             <Editor
@@ -93,7 +98,19 @@ const PostEditor = props => {
                                 e.stopPropagation()
                                 return false
                             }
+                            if(e.keyCode === 8 || e.keyCode === 46){
+                                console.log('ran')
+                            }
+                            if((e.keyCode === 8 || e.keyCode === 46) && editor.selection){ // delete & backspace keys
+                                const selectedNode = editor.selection.getNode() // get the selected node (element) in the editor
+                                if(selectedNode && selectedNode.nodeName === 'IMG'){
+                                    handleDeleteImg(selectedNode.src) // A callback that will let me invoke the deletion of the image on the server if appropriate for the image source.
+                                }
+                            }
                         })
+                        // editor.on('keydown', e => {
+                            
+                        // })
                     },
                     file_picker_types: 'image',
                     // automatic_uploads: true,
