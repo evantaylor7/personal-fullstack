@@ -78,8 +78,7 @@ userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, n
 
 // add title image (update existing post)
 userImageRouter.put('/title-image/:postId', upload.single('imageData'), (req, res, next) => {
-    req.body.img = `http://localhost:3000/${req.file.path}`
-    // *** needs to be changed for deployment ***
+    req.body.img = `https://blogtopia.herokuapp.com/${req.file.path}`
     if(!req.params.postId){
         req.body.postId === ''
     }

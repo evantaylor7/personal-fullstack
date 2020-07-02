@@ -37,8 +37,7 @@ const ImageModal = props => {
                 previewImg && deleteImage(previewImg)
                 addPostImg({postId: collection.postId, previewImg: img.src})
             } else {
-                titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
-                // *** needs to be changed ***
+                titleImg && deleteImage(titleImg.replace('https://blogtopia.herokuapp.com/', ''))
                 addPostImg({postId: postId, titleImg: img.src})
             }
         } else {
@@ -51,8 +50,7 @@ const ImageModal = props => {
                 previewImg && deleteImage(previewImg)
                 uploadImage('post-preview', collection.postId, data)
             } else {
-                titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
-                // *** needs to be changed ***
+                titleImg && deleteImage(titleImg.replace('https://blogtopia.herokuapp.com/', ''))
                 uploadImage('title-image', postId, data)
             }
         }

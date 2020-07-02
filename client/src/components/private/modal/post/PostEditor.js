@@ -33,7 +33,7 @@ const PostEditor = props => {
     }
 
     const handleDeleteImg = imgPath => {
-        deleteImage(imgPath.replace('http://localhost:3000/', ''), postId)
+        deleteImage(imgPath.replace('https://blogtopia.herokuapp.com/', ''), postId)
     }
 
     return (
