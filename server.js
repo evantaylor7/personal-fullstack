@@ -3,16 +3,17 @@ const app = express()
 const expressJwt = require('express-jwt')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+const path = require("path")
 
 require('dotenv').config()
 const port = process.env.PORT
-const secret = process.env.SECRET
+const secret = process.env.SECRET || "super secret local dev passphrase"
 
 app.use(express.json())
 app.use(morgan('dev'))
 
 mongoose.connect (
-    'mongodb://localhost:27017/personal-fullstack', 
+    process.env.MONGODB_URI || 'mongodb://localhost:27017/personal-fullstack', 
     {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -39,12 +40,18 @@ app.use('/api/profile', require('./routes/userProfileRouter.js'))
 app.use('/uploads', express.static('uploads'))
 app.use('/api/image', require('./routes/userImageRouter.js'))
 
+app.use(express.static(path.join(__dirname, "client", "build")))
+
 app.use((err, req, res, next) => {
     console.log(err)
     if(err.name === 'UnauthorizedError'){
         res.status(err.status)
     }
     return res.send({errMsg: err.message})
+})
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 })
 
 app.listen(port, () => {
