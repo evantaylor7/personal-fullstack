@@ -91,9 +91,9 @@ const Profile = props => {
                         />
                     }
                     <Button 
-                        onClick={blurbFormToggle ? handleBlurbSubmit : () => setBlurbFormToggle(true)}
+                        onClick={blurbFormToggle || !profile.blurb ? handleBlurbSubmit : () => setBlurbFormToggle(true)}
                     >
-                        {blurbFormToggle ? 'Save' : 'Edit'}
+                        {blurbFormToggle || !profile.blurb ? 'Save' : 'Edit'}
                     </Button>
                 </>
             }

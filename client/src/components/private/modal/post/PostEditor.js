@@ -76,7 +76,7 @@ const PostEditor = props => {
     // })
 
     const handleDeleteImg = imgPath => {
-        deleteImage(imgPath.replace('http://localhost:3000/', ''))
+        deleteImage(imgPath.replace('http://localhost:3000/', ''), postId)
     }
 
     return (
@@ -115,10 +115,14 @@ const PostEditor = props => {
                     file_picker_types: 'image',
                     // automatic_uploads: true,
                     image_caption: true,
+                    // typeahead_urls: false,
                     automatic_uploads: true,
                     // uploadImages: function(success) {
                     //     document.forms[0].submit()
                     // },
+                    // image_prepend_url: "http://localhost:3000/uploads/",
+                    // images_upload_url: { 'location': 'uploads/' },
+                    images_upload_base_path: "http://localhost:3000/uploads/",
                     images_upload_handler: (blobInfo, success, failure, progress) => handleImgUpload(blobInfo, success, failure, progress),
                     // image_upload_url: {location: '/uploads/'},
                     resize: false,

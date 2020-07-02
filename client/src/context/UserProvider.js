@@ -228,10 +228,10 @@ const UserProvider = props => {
     }
 
     // delete an image
-    const deleteImage = imgPath => {
-        userAxios.delete(`/api/image/${imgPath}`)
+    const deleteImage = (imgPath, postId) => {
+        userAxios.delete(`/api/image/${imgPath}`, postId)
             .then(res => {
-                console.log(res)
+                console.log(res.data)
             })
             .catch(err => console.log(err))
     }

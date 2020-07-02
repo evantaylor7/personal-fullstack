@@ -4,6 +4,7 @@ import CommentList from '../comments/CommentList.js'
 import CommentForm from '../comments/CommentForm.js'
 import {UserContext} from '../../context/UserProvider.js'
 import DOMPurify from 'dompurify'
+// import uploads from '../../../../uploads'
 import styled from 'styled-components'
 
 const PostDetail = props => {
@@ -44,7 +45,10 @@ const PostDetail = props => {
     }
 
     const config = {ADD_TAGS: ['iframe'], KEEP_CONTENT: false, ADD_ATTR: ['src', 'width', 'height', 'allowfullscreen']}
-    const cleanCode = {__html: DOMPurify.sanitize(content, config)}
+    const cleanCode = {__html: DOMPurify.sanitize(content, config).replace(/uploads\//g, 'http://localhost:3000/uploads/')}
+    console.log(cleanCode)
+    // const updatedImgs = {__html: cleanCode.replace('uploads/', 'http://localhost:3000/uploads/')}
+    // console.log(updatedImgs)
 
     return (
         <>
@@ -68,6 +72,7 @@ const PostDetail = props => {
                                 </Author>
                                 <Date>{date}</Date>
                                 <Content dangerouslySetInnerHTML={cleanCode}/>
+                                {/* <Content dangerouslySetInnerHTML={{__html: '<p>asdfsdf</p>↵<p><img height="3264" width="2448" alt="" src="http://localhost:3000/uploads/7BC7C319-3BD2-48D5-8F52-94B8EE1C899A.jpeg-1593641850366"></p>'}}/> */}
                                 {
                                 !preview &&
                                     <>

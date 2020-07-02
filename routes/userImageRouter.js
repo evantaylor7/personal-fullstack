@@ -137,10 +137,11 @@ userImageRouter.put('/post-preview/:postId', upload.single('imageData'), (req, r
 // add post content image
 userImageRouter.put('/post/:postId', upload.single('imageData'), (req, res, next) => {
     console.log(333, req.file)
-    const img = `http://localhost:3000/${req.file.path}`
+    // req.body.img = `/${req.file.path}`
+    // const img = req.file.path.replace('uploads/', '')
     Post.findOneAndUpdate(
         {_id: req.params.postId},
-        {$push: {contentImgs: img}},
+        {$push: {contentImgs: req.file.path}},
         {new: true},
         (err, post) => {
             if(err){
@@ -154,11 +155,23 @@ userImageRouter.put('/post/:postId', upload.single('imageData'), (req, res, next
 
 // delete an image file
 userImageRouter.delete(`/uploads/:imgPath`, (req, res, next) => {
+    Post.updateOne(
+        {id: req.body.postId},
+        {$pull: {contentImgs: `uploads/${req.params.imgPath}`}},
+        (err, post) => {
+            if(err){
+                res.status(404)
+                return next(err)
+            }
+            console.log('Successfully delete image path from array')
+        }
+    )
     fs.unlink(`./uploads/${req.params.imgPath}`, err => {
         if(err){
-            console.log('failed to delete local image:' + err)
+            res.status(500)
+            return next(('Failed to delete local image file:' + err))
         } else {
-            console.log('successfully deleted local image')
+            res.status(200).send('Successfully deleted local image file')
         }
     })
 })

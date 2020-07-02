@@ -412,7 +412,7 @@ const PublishedAlertContent = styled.div`
     padding: 6px;
 `
 
-const PublishedLocation = styled.p`
+const PublishedLocation = styled.div`
     font-size: 18px;
 `
 

@@ -1,6 +1,7 @@
 const express = require('express')
 const userPostRouter = express.Router()
 const Post = require('../models/post.js')
+const fs = require('fs')
 
 const createDate = () => {
     const month = new Date().toLocaleString('default', { month: 'long' })
@@ -95,16 +96,30 @@ userPostRouter.put('/update-collection', (req, res, next) => {
 })
 
 // delete a blog post
-userPostRouter.delete('/:postId', (req, res, next) => {
-    Post.findOneAndDelete(
-        {_id: req.params.postId, user: req.user._id},
-        (err, deletedPost) => {
-            if(err){
-                res.status(500)
-                return next(err)
+userPostRouter.delete('/:postId', async (req, res, next) => {
+    try{
+        const post = await Post.findOne({_id: req.params.postId})
+        if(post){
+            const postImgs = post.contentImgs
+            if(postImgs){
+                for(let i = 0; i < postImgs.length; i++){
+                    fs.unlink(`./${postImgs[i]}`, err => {
+                        if(err){
+                            console.log('Failed to delete local image file:' + err)
+                        } else {
+                            console.log('Successfully deleted local file')
+                        }
+                    })
+                }
             }
-        return res.status(200).send(`Your issue \"${deletedPost.title}\" was successfully deleted.`)
-    })
+        }
+        await Post.findOneAndDelete({_id: req.params.postId, user: req.user._id})
+        return res.status(200).send(`Your post was successfully deleted.`)
+    }
+    catch(err){
+        res.status(500)
+        return next(err)
+    }
 })
 
 module.exports = userPostRouter
