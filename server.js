@@ -3,11 +3,11 @@ const app = express()
 const expressJwt = require('express-jwt')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const path = require("path")
+const path = require('path')
 
 require('dotenv').config()
 const port = process.env.PORT
-const secret = process.env.SECRET || "super secret local dev passphrase"
+const secret = process.env.SECRET || 'super secret local dev passphrase'
 
 app.use(express.json())
 app.use(morgan('dev'))
@@ -38,9 +38,10 @@ app.use('/api/comments', require('./routes/userCommentRouter.js'))
 app.use('/api/profile', require('./routes/userProfileRouter.js'))
 
 app.use('/uploads', express.static('uploads'))
+app.use(cookieParser())
 app.use('/api/image', require('./routes/userImageRouter.js'))
 
-app.use(express.static(path.join(__dirname, "client", "build")))
+app.use(express.static(path.join(__dirname, 'client', 'build')))
 
 app.use((err, req, res, next) => {
     console.log(err)
@@ -50,8 +51,8 @@ app.use((err, req, res, next) => {
     return res.send({errMsg: err.message})
 })
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html', 'uploads'));
 })
 
 app.listen(port, () => {
