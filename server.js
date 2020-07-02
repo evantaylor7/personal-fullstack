@@ -38,7 +38,6 @@ app.use('/api/comments', require('./routes/userCommentRouter.js'))
 app.use('/api/profile', require('./routes/userProfileRouter.js'))
 
 app.use('/uploads', express.static('uploads'))
-app.use(cookieParser())
 app.use('/api/image', require('./routes/userImageRouter.js'))
 
 app.use(express.static(path.join(__dirname, 'client', 'build')))
@@ -52,7 +51,7 @@ app.use((err, req, res, next) => {
 })
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html', 'uploads'))
 })
 
 app.listen(port, () => {
