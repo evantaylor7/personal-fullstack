@@ -7,7 +7,7 @@ const CommentList = props => {
     const {user, token, postComment} = useContext(UserContext)
     const [commentInputs, setCommentInputs] = useState({postedBy: '', content: ''})
     const [nameToggle, setNameToggle] = useState(false)
-    console.log(commentInputs)
+
     const handleChange = e => {
         const {name, value} = e.target
         setCommentInputs(prevCommentInputs => ({
@@ -68,8 +68,6 @@ const CommentList = props => {
         </Container>
     )
 }
-
-export default CommentList
 
 const Container = styled.div`
     margin-top: 60px;
@@ -146,3 +144,5 @@ const Submit = styled.button`
         cursor: pointer;
     }
 `
+
+export default CommentList

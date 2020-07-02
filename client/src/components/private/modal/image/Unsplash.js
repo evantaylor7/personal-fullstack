@@ -5,7 +5,7 @@ import {UserContext} from '../../../../context/UserProvider'
 const Unsplash = props => {
     const {handleImgSelect, collection} = props
     const {unsplash, getPhotos, searchPhotos, unsplashCleanup} = useContext(UserContext)
-    console.log(unsplash)
+
     const [input, setInput] = useState('')
     const [imgSelector, setImgSelector] = useState('')
     const [imgPreview, setImgPreview] = useState('')
@@ -31,7 +31,7 @@ const Unsplash = props => {
         e.preventDefault()
         searchPhotos(1, input, 'new')
     }
-    console.log(unsplash.photos)
+
     const imgList = unsplash?.photos.map((photo, i) => (
         <ImgContainer key={i}>
             <Img src={photo.urls.small} selected={imgSelector === photo.id}/>
@@ -87,8 +87,6 @@ const Unsplash = props => {
     )
 }
 
-export default Unsplash
-
 const Container = styled.div``
 const SearchForm = styled.form``
 
@@ -124,7 +122,6 @@ const UnsplashLink = styled.a`
 const ImgListContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
     justify-content: space-evenly;
 `
 
@@ -155,6 +152,9 @@ const Overlay = styled.div`
 
     ${ImgContainer}:hover & {
         opacity: 1
+    }
+    @media (max-width: 730px){
+        opacity: 1;
     }
 `
 
@@ -195,7 +195,6 @@ const ImgPreviewContainer = styled.div`
     margin: auto;
     margin-top: 5vh;
     background-color: black;
-    /* border-radius: 10px; */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -267,3 +266,5 @@ const Button = styled.button`
         color: whitesmoke;
     }
 `
+
+export default Unsplash

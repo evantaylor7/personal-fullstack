@@ -21,8 +21,6 @@ const BlogDetail = () => {
         getBlog(blogUrl)
     }, [])
     
-    console.log(blog)
-
     return (
         <Page>
             {
@@ -73,8 +71,6 @@ const BlogDetail = () => {
         </Page>
     )
 }
-
-export default BlogDetail
 
 const Page = styled.div`
     background-color: whitesmoke;
@@ -190,3 +186,5 @@ const LinkToSignup = styled.p`
     padding: 20px;
     text-align: center;
 `
+
+export default BlogDetail

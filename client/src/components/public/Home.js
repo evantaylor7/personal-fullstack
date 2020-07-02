@@ -1,31 +1,8 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
 import styled, {keyframes} from 'styled-components'
 
-const Home = props => {
-    // const {toggleNav} = props
-
-    // const [nav, setNav] = useState(false)
-
-    // useEffect(() => {
-    //     toggleNav()
-    //     nav && toggleNav()
-    // }, [nav])
-
-    // useLayoutEffect(() => {
-
-    // })
-
-    // const handleScroll = () => {
-    //     console.log(window.pageYOffset)
-    //     if(window.pageYOffset >= 400){
-    //         console.log('set')
-    //         console.log(nav)
-    //         setNav(true)
-    //     }
-    // }
-
-    // window.addEventListener('scroll', handleScroll)
+const Home = () => {
     
     return (
         <HomePage>
@@ -44,8 +21,6 @@ const Home = props => {
         </HomePage>
     )
 }
-
-export default Home
 
 const HomePage = styled.div`
     padding-top: 40px;
@@ -80,7 +55,6 @@ const Title = styled.p`
     opacity: 0;
     font-size: 200px;
     font-weight: 250;
-    /* color: #3c3c3c; */
     color: white;
     animation: ${fadeIn} 2s forwards;
 
@@ -109,7 +83,6 @@ const Subtitle = styled.p`
     font-size: 40px;
     font-style: italic;
     font-weight: 400;
-    /* color: #3c3c3c; */
     color: white;
     animation: ${fadeIn} 2s forwards .5s;
 
@@ -168,3 +141,5 @@ const SignupLink = styled(Link)`
         font-size: 18px;
     }
 `
+
+export default Home

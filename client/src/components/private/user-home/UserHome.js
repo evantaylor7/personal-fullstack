@@ -11,14 +11,7 @@ import {UserContext} from '../../../context/UserProvider'
 import styled from 'styled-components'
 
 const UserHome = () => {
-    const {
-        blog,
-        postDetail,
-        getUserBlog, 
-        updateBlog,
-        postNew,
-        clearPostDetail
-    } = useContext(UserContext)
+    const {blog, getUserBlog, updateBlog, postNew} = useContext(UserContext)
 
     const [toggleModal, setToggleModal] = useState({img: false, post: false})
     const [toggleAuthorName, setToggleAuthorName] = useState(false)
@@ -31,7 +24,6 @@ const UserHome = () => {
 
     const handleToggleModal = e => {
         const {name} = e.target
-        console.log(name)
         setToggleModal(prevToggle => ({
             ...prevToggle,
             [name]: !prevToggle[name]
@@ -43,7 +35,6 @@ const UserHome = () => {
     }
 
     const handleNewPost = e => {
-        // clearPostDetail()
         postNew({blog: blog._id})
         handleToggleModal(e)
     }
@@ -192,8 +183,6 @@ const UserHome = () => {
         </Container>
     )
 }
-
-export default UserHome
 
 const Container = styled.div`
     display: grid;
@@ -459,3 +448,5 @@ const AlertText = styled.p`
     font-size: 20px;
     margin: 10px;
 `
+
+export default UserHome

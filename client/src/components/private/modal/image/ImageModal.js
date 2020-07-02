@@ -7,20 +7,18 @@ import {UserContext} from '../../../../context/UserProvider.js'
 const ImageModal = props => {
     const {close, collection} = props
     const {
-        blog: {_id: blogId, img: blogImg, username}, 
+        blog: {_id: blogId, img: blogImg}, 
         postDetail: {_id: postId, previewImg, titleImg},
         updateBlog, 
-        postNew,
         addPostImg,
         uploadImage, 
         deleteImage,
-        newPostImg,
         downloadPhoto
     } = useContext(UserContext)
 
     const [tab, setTab] = useState('unsplash')
     const [img, setImg] = useState(null)
-    console.log(img)
+
     const handleTab = type => {
         setTab(type)
     }
@@ -28,7 +26,7 @@ const ImageModal = props => {
     const handleImgChange = img => {
         setImg(img)
     }
-    console.log(collection)
+
     const handleImgSubmit = e => {
         if(img.name === 'unsplash'){
             downloadPhoto(img.photoId)
@@ -39,19 +37,13 @@ const ImageModal = props => {
                 previewImg && deleteImage(previewImg)
                 addPostImg({postId: collection.postId, previewImg: img.src})
             } else {
-                if(postId){
-                    titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
-                    // needs to be changed
-                    addPostImg({postId: postId, titleImg: img.src})
-                } else {
-                    postNew({titleImg: img.src, blog: blogId})
-                }
+                titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
+                // *** needs to be changed ***
+                addPostImg({postId: postId, titleImg: img.src})
             }
         } else {
             const data = new FormData()
-            // data.append('imageName', `${img.file.name} ${Date.now()}`)
             data.append('imageData', img.file)
-            console.log(data)
             if(collection === 'blog'){
                 blogImg && deleteImage(blogImg)
                 uploadImage('blog', blogId, data)
@@ -59,13 +51,9 @@ const ImageModal = props => {
                 previewImg && deleteImage(previewImg)
                 uploadImage('post-preview', collection.postId, data)
             } else {
-                if(postId){
-                    titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
-                    // *** needs to be changed ***
-                    uploadImage('title-image', postId, data)
-                } else {
-                    newPostImg(blogId, data)
-                }
+                titleImg && deleteImage(titleImg.replace('http://localhost:3000/', ''))
+                // *** needs to be changed ***
+                uploadImage('title-image', postId, data)
             }
         }
         close(e)
@@ -101,8 +89,6 @@ const ImageModal = props => {
         </Container>
     )
 }
-
-export default ImageModal
 
 const Container = styled.div`
     height: calc(100% - 40px);
@@ -188,3 +174,5 @@ const Apply = styled.button`
         cursor: pointer;
     }
 `
+
+export default ImageModal

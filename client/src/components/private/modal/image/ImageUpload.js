@@ -18,6 +18,7 @@ const ImageUpload = props => {
                 url: URL.createObjectURL(imgFile),
                 name: 'upload'
                 // loaded: 0
+                // ^ may be needed ***
             })
         }
     }
@@ -37,8 +38,6 @@ const ImageUpload = props => {
         </Container>
     )
 }
-
-export default ImageUpload
 
 const Container = styled.div`
     display: flex;
@@ -75,3 +74,5 @@ const ImgPreview = styled.img`
     max-width: 90%;
     max-height: 60vh;
 `
+
+export default ImageUpload

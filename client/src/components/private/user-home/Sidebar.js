@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Sidebar = props => {
-    const {blog, blog: {settings}, updateBlog} = props
+    const {blog: {settings}, updateBlog} = props
 
     const changeSettings = e => {
         const {name} = e.target
@@ -80,8 +80,6 @@ const Sidebar = props => {
         </Container>
     )
 }
-
-export default Sidebar
 
 const Container = styled.div`
     width: 200px;
@@ -166,3 +164,5 @@ const Arrow = styled.span`
         display: none
     }
 `
+
+export default Sidebar

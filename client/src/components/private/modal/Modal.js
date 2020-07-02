@@ -40,8 +40,6 @@ const Modal = props => {
     )
 }
 
-export default Modal
-
 const ModalContainer = styled.div`
     position: fixed;
     z-index: ${props => props.name === 'img' ? 3 : 2};
@@ -105,3 +103,5 @@ const CancelButton = styled.button`
 const ContentContainer = styled.div`
     height: calc(100% - 40px);
 `
+
+export default Modal

@@ -26,10 +26,10 @@ const CommentList = props => {
     )
 }
 
-export default CommentList
-
 const Container = styled.div`
     @media (max-width: 550px){
         width: 100%
     }
 `
+
+export default CommentList

@@ -26,8 +26,6 @@ const ColorChooser = props => {
     )
 }
 
-export default ColorChooser
-
 const ColorsContainer = styled.div`
     display: none;
     flex-direction: row;
@@ -62,3 +60,5 @@ const Colors = styled.div`
         cursor: pointer;
     }
 `
+
+export default ColorChooser

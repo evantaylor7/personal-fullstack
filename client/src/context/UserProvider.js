@@ -34,11 +34,10 @@ const UserProvider = props => {
     const [userState, setUserState] = useState(initState)
     const [unsplash, setUnsplash] = useState({page: 0, photos: []})
 
-    console.log(userState)
-
     // NO TOKEN NEEDED -->
 
     // USER AUTH / LOGOUT:
+
     const signup = credentials => {
         axios.post('/auth/signup', credentials)
             .then(res => {
@@ -95,11 +94,11 @@ const UserProvider = props => {
     }
 
     // BLOG:
+
     // get blog (without token)
     const getBlog = blogUrl => {
         axios.get(`/blog/${blogUrl}`)
             .then(res => {
-                console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
                     blog: res.data
@@ -121,6 +120,7 @@ const UserProvider = props => {
     }
 
     // BLOG POSTS:
+
     // get blog posts (one user)
     const getPublicPosts = blogId => {
         axios.get(`/posts/${blogId}`)
@@ -146,6 +146,7 @@ const UserProvider = props => {
     }
 
     // COMMENTS:
+
     // get comments (on post detail page)
     const getComments = postId => {
         axios.get(`/comments/${postId}`)
@@ -160,7 +161,6 @@ const UserProvider = props => {
 
     // post a comment (anyone can post: if user, will have user info, if not user, will have their optional info or 'anonymous' as default)
     const postComment = (postId, commentObj) => {
-        console.log(commentObj)
         userState.token && commentObj.postedBy === '' ?
             userAxios.post(`/api/comments/${postId}`, commentObj)
                 .then(res => {
@@ -182,6 +182,7 @@ const UserProvider = props => {
     }
 
     // PROFILE:
+
     const getProfile = blogId => {
         userAxios.get(`/profile/${blogId}`)
             .then(res => {
@@ -195,34 +196,18 @@ const UserProvider = props => {
 
     // TOKEN NEEDED -->
 
-    // IMAGES:
-    // internal:
+    // IMAGES (internal):
+
     // updates existing data
     const uploadImage = (dest, id, imgData) => {
-        console.log('ran')
         userAxios.put(`/api/image/${dest}/${id}`, imgData)
             .then(res => {
-                console.log(res.data)
                 setUserState(prevUserState => ({
                     ...prevUserState,
                     [(dest === 'title-image' || dest === 'post-preview') ? 'postDetail' : dest]: res.data,
                     [(dest === 'title-image' || dest === 'post-preview') && 'posts']: 
                         prevUserState.posts.map(post => post._id === id ? res.data : post)
                 }))
-                // dest === 'post-preview' && getPosts(userState.blog._id)
-            })
-            .catch(err => console.log(err))
-    }
-
-    // creates new post through image route
-    const newPostImg = (blogId, img) => {
-        userAxios.post(`/api/image/title-image/${blogId}`, img)
-            .then(res => {
-                setUserState(prevUserState => ({
-                    ...prevUserState,
-                    postDetail: res.data
-                }))
-                getPosts(userState.blog._id)
             })
             .catch(err => console.log(err))
     }
@@ -236,10 +221,10 @@ const UserProvider = props => {
             .catch(err => console.log(err))
     }
 
-    // external:
+    // IMAGES (external):
+
     // add unsplash image to post
     const addPostImg = imgObj => {
-        console.log(imgObj)
         userAxios.put('/api/posts/add-img', imgObj)
             .then(res => {
                 setUserState(prevUserState => ({
@@ -252,6 +237,7 @@ const UserProvider = props => {
     }
 
     // BLOG:
+
     // user getting their own blog
     const getUserBlog = () => {
         userAxios.get('/api/blog')
@@ -287,10 +273,9 @@ const UserProvider = props => {
     }
 
     const createBlog = () => {
-        console.log('ran')
         userAxios.post('/api/blog')
             .then(res => {
-                userState(prevUserState => ({
+                setUserState(prevUserState => ({
                     ...prevUserState,
                     blog: res.data
                 }))
@@ -300,7 +285,6 @@ const UserProvider = props => {
 
     // update or upsert (create new if non-existent)
     const updateBlog = updates => {
-        console.log(updates)
         userAxios.put('/api/blog', updates)
             .then(res => {
                 setUserState(prevUserState => ({
@@ -312,6 +296,7 @@ const UserProvider = props => {
     }   
 
     // BLOG POSTS:
+
     const clearPostDetail = () => {
         setUserState(prevUserState => ({
             ...prevUserState,
@@ -357,14 +342,9 @@ const UserProvider = props => {
 
     // update many posts (when adding or changing author name)
     const editPosts = edits => {
-        console.log(edits)
         userAxios.put('/api/posts/update-collection', edits)
             .then(res => {
                 console.log(res.data)
-                // setUserState(prevUserState => ({
-                //     ...prevUserState,
-                //     posts: res.data
-                // }))
             })
             .catch(err => console.log(err))
     }
@@ -372,7 +352,6 @@ const UserProvider = props => {
     const deletePost = postId => {
         userAxios.delete(`/api/posts/${postId}`)
             .then(res => {
-                console.log(res)
                 setUserState(prevUserState => ({
                     ...prevUserState,
                     posts: prevUserState.posts.filter(post => post._id !== postId)
@@ -382,11 +361,11 @@ const UserProvider = props => {
     }
 
     // COMMENTS:
+
     // delete comment (by post's user OR comment's user, if user)
     const deleteComment = commentId => {
         userAxios.delete(`/api/comments/${commentId}`)
             .then(res => {
-                console.log(res)
                 setUserState(prevUserState => ({
                     ...prevUserState,
                     comments: prevUserState.comments.filter(comment => comment._id !== commentId)
@@ -408,7 +387,8 @@ const UserProvider = props => {
             .catch(err => console.log(err))
     }
 
-    // PROFILE (about section)
+    // PROFILE (about section):
+
     const getUserProfile = () => {
         userAxios.get('/api/profile')
             .then(res => {
@@ -432,13 +412,12 @@ const UserProvider = props => {
             .catch(err => console.log(err))
     }
 
-    // EXTERNAL -- Unsplash API requests
-    console.log(unsplash.page)
+    // EXTERNAL - Unsplash API requests:
+
     const getPhotos = page => {
         unsplashAxios.get(`https://api.unsplash.com/photos?per_page=30&page=${page}`)
             .then(res => {
-                console.log(res)
-                console.log('requests remaing: ' + res.headers['x-ratelimit-remaining'])
+                console.log('Unsplash requests remaing: ' + res.headers['x-ratelimit-remaining'])
                 setUnsplash(prevUnsplash => ({
                     ...prevUnsplash,
                     photos: [...prevUnsplash.photos, ...res.data],
@@ -451,7 +430,7 @@ const UserProvider = props => {
     const searchPhotos = (page, query, condition) => {
         unsplashAxios.get(`https://api.unsplash.com/search/photos?query=${query}&per_page=30&page=${page}`)
             .then(res => {
-                console.log('requests remaing: ' + res.headers['x-ratelimit-remaining'])
+                console.log('Unsplash requests remaing: ' + res.headers['x-ratelimit-remaining'])
                 condition === 'new' ?
                     setUnsplash(prevUnsplash => ({
                         ...prevUnsplash,
@@ -471,7 +450,7 @@ const UserProvider = props => {
     const downloadPhoto = photoId => {
         unsplashAxios.get(`https://api.unsplash.com/photos/${photoId}/download`)
             .then(res => {
-                console.log(res)
+                console.log(res.status)
             })
             .catch(err => console.log(err))
     }
@@ -496,7 +475,6 @@ const UserProvider = props => {
                     postComment,
                     getProfile,
                     uploadImage,
-                    newPostImg,
                     deleteImage,
                     addPostImg,
                     getUserBlog,

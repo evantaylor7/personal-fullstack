@@ -37,10 +37,6 @@ app.use('/api/comments', require('./routes/userCommentRouter.js'))
 app.use('/api/profile', require('./routes/userProfileRouter.js'))
 
 app.use('/uploads', express.static('uploads'))
-// app.use(bodyParser.json({limit: '20mb'}))
-// app.use(bodyParser.urlencoded({limit: '20mb', extended: true}))
-// app.use(cookieParser())
-// app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/image', require('./routes/userImageRouter.js'))
 
 app.use((err, req, res, next) => {

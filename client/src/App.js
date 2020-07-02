@@ -13,12 +13,6 @@ import ProtectedRoute from './ProtectedRoute.js'
 const App = () => {
     const {token} = useContext(UserContext)
 
-    // const [navToggle, setNavToggle] = useState(true)
-    // console.log(navToggle)
-    // const toggleNav = () => {
-    //     setNavToggle(prevNavToggle => !prevNavToggle)
-    // }
-
     return (
         <div>
             <Navbar/>

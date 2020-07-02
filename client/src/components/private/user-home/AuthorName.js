@@ -34,8 +34,6 @@ const AuthorName = props => {
     )
 }
 
-export default AuthorName
-
 const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -71,3 +69,5 @@ const Save = styled.button`
     color: #1d1d1d;
     cursor: pointer;
 `
+
+export default AuthorName

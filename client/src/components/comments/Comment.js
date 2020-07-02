@@ -61,8 +61,6 @@ const Comment = props => {
     )
 }
 
-export default Comment
-
 const Container = styled.div`
     margin-top: 20px;
 	width: 522px;
@@ -127,3 +125,5 @@ const Edit = styled.button`
 		cursor: pointer;
 	}
 `
+
+export default Comment

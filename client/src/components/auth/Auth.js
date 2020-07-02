@@ -70,8 +70,6 @@ const Auth = () => {
     )
 }
 
-export default Auth
-
 const Container = styled.div`
     padding-top: 80px;
     text-align: center;
@@ -101,3 +99,5 @@ const ToggleButton = styled.button`
         cursor: pointer
     }
 `
+
+export default Auth

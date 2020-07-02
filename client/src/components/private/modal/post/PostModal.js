@@ -22,16 +22,12 @@ const PostModal = props => {
         postNew, 
         editPost
     } = useContext(UserContext)
-    console.log(postDetail)
 
     const [tab, setTab] = useState('title')
     const [inputs, setInputs] = useState(initInputs)
     const [saveDisplay, setSaveDisplay] = useState(false)
     const [imgModal, setImgModal] = useState(false)
-    // const [img, setImg] = useState(null)
-    // const [intId, setIntId] = useState(null)
     const [togglePreviewModal, setTogglPreviewModal] = useState(false)
-    console.log(inputs)
 
     useEffect(() => {
         setInputs({title: postDetail?.title || '', authorName: authorName, content: postDetail.content || ''})
@@ -50,23 +46,6 @@ const PostModal = props => {
         }))
     }
 
-    // const handleImgChange = e => {
-    //     const imgFile = e.target.files[0]
-    //     imgFile && setImg({
-    //         file: imgFile,
-    //         url: URL.createObjectURL(imgFile)
-    //         // loaded: 0
-    //     })
-    // }
-
-    // const handleImgSubmit = e => {
-    //     const img = e.target.files[0]
-    //     const data = new FormData()
-    //     // data.append('imageName', `${img.file.name} ${Date.now()}`)
-    //     data.append('imageData', img.file)
-    //     uploadImage('posts', postId, data)
-    // }
-
     const handleContentChange = inputs => {
         setSaveDisplay(false)
         setInputs(prevInputs => ({
@@ -78,10 +57,8 @@ const PostModal = props => {
     const save = () => {
         const {title, content} = inputs
         if(!title && !content){
-            console.log("didn't save")
             return
         } else {
-            console.log("saved")
             setSaveDisplay(true)
             postDetail?._id ? 
                 editPost(postDetail._id, inputs)
@@ -89,17 +66,6 @@ const PostModal = props => {
                 postNew({...inputs, blog: blogId})
         }
     }
-
-    // useEffect(() => {
-        
-    //     const intId = setInterval(() => save(inputs), 3000)
-    //     setIntId(intId)
-
-    //     return () => {
-    //         clearInterval(intId)
-    //         setIntId(null)
-    //     }
-    // }, [])
 
     const handleImgModal = () => {
         setImgModal(prevImgModal => !prevImgModal)
@@ -115,7 +81,6 @@ const PostModal = props => {
     }
 
     const handlePostSubmit = (e, type) => {
-        console.log(type)
         type === 'draft' ?
             editPost(postDetail._id, {...inputs, draft: true})
         :
@@ -186,8 +151,6 @@ const PostModal = props => {
         </Container>
     )
 }
-
-export default PostModal
 
 const Container = styled.div`
     height: calc(100% - 40px);
@@ -331,7 +294,6 @@ const SubmitContainer = styled.div`
 `
 
 const Submit = styled.button`
-    /* float: right; */
     justify-self: right;
     margin-right: ${props => props.draft ? '4px' : '20px'};
     border: ${props => props.draft ? 'solid 1px #214761' : 'none'};
@@ -363,3 +325,5 @@ const SavedAlert = styled.p`
         margin-right: 4px
     }
 `
+
+export default PostModal

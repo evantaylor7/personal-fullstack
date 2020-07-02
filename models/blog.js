@@ -33,10 +33,6 @@ const blogSchema = new Schema({
     title: Object,
     subtitle: Object,
     description: Object,
-    // storedImg: {
-    //     data: Buffer,
-    //     contentType: String
-    // },
     img: String,
     published: {
         type: Boolean,

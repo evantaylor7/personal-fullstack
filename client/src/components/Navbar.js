@@ -28,8 +28,6 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
-
 const Container = styled.div`
     z-index: 1;
     box-shadow: 0 0 8px #262626;
@@ -83,3 +81,5 @@ const SignUp = styled(NavLink)`
         border-bottom: solid 1px black
     }
 `
+
+export default Navbar

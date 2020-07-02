@@ -44,8 +44,6 @@ const AuthForm = props => {
     )
 }
 
-export default AuthForm
-
 const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -85,3 +83,5 @@ const ErrorMsg = styled.p`
     color: red;
     margin-top: 10px;
 `
+
+export default AuthForm

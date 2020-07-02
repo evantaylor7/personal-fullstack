@@ -13,10 +13,6 @@ const userSchema = new Schema({
         type: String,
         required: true
     }
-    // userIcon: {
-    //     data: Buffer,
-    //     contentType: String
-    // }
 })
 
 userSchema.pre('save', function(next){

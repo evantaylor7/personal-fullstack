@@ -39,7 +39,6 @@ const Profile = props => {
             profile?.img && deleteImage(profile.img)
             setError(null)
             const data = new FormData()
-            // data.append('imageName', `${img.file.name} ${Date.now()}`)
             data.append('imageData', imgFile)
             imgFile && uploadImage('profile', blog._id, data)
         }
@@ -100,8 +99,6 @@ const Profile = props => {
         </Container>
     )
 }
-
-export default Profile
 
 const Container = styled.div`
     grid-column: 2 / -1;
@@ -229,3 +226,5 @@ const Button = styled.button`
         color: whitesmoke;
     }
 `
+
+export default Profile

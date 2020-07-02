@@ -117,8 +117,6 @@ const Titles = props => {
     )
 }
 
-export default Titles
-
 const Container = styled.div`
     margin: ${props => !props.img ? '40px 0 0 0' : props.titleAbove ? '30px 0 40px' : '10px'};
     text-align: center;
@@ -220,7 +218,6 @@ const SubtitleForm = styled.form``
 const SubtitleInput = styled.input`
     padding: 2px 6px 6px 6px;
     font-size: 30px;
-    /* font-weight: 600; */
     font-style: italic;
     text-align: center;
     border: none;
@@ -279,3 +276,5 @@ const DescriptionInput = styled.textarea`
         width: 90%
     }
 `
+
+export default Titles

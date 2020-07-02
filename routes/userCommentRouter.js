@@ -36,7 +36,6 @@ userCommentRouter.delete('/:commentId', (req, res, next) => {
         return res.status(200).send('Comment deleted')
     })
 })
-// ^^ could also change this to look for user of comment || user of post
 
 // edit comment
 userCommentRouter.put('/:commentId', (req, res, next) => {

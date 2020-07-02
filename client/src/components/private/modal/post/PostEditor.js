@@ -6,9 +6,8 @@ import {UserContext, userAxios} from '../../../../context/UserProvider'
 const key = process.env.REACT_APP_TINY_KEY
 
 const PostEditor = props => {
-    const {postId, onChange, value, save, toggleImgModal} = props
-    const {uploadImage, deleteImage, token} = useContext(UserContext)
-    console.log(value)
+    const {postId, onChange, value, save} = props
+    const {deleteImage} = useContext(UserContext)
 
     const handleEditorChange = (content, editor) => {
         onChange(content)
@@ -27,53 +26,11 @@ const PostEditor = props => {
                 const {contentImgs} = res.data
                 const location = contentImgs[contentImgs.length - 1]
                 success(location)
-                // not working...
             })
             .catch(err => {
                 failure('HTTP Error: ' + err.message)
             })
     }
-
-    // const handleImgUpload = (blobInfo, success, failure, progress) => {
-    //     let xhr, formData
-    //     xhr = new XMLHttpRequest()
-    //     xhr.withCredentials = false
-    //     xhr.open('PUT', `/api/image/post/${id}`)
-    //     xhr.setRequestHeader('Authorization', 'Bearer ' + token)
-    //     xhr.upload.onprogress = function (e) {
-    //         progress(e.loaded / e.total * 100)
-    //     }
-    //     xhr.onload = function(){
-    //         let json
-    //         if(xhr.status < 200 || xhr.status >= 300){
-    //             failure('HTTP Error: ' + xhr.status)
-    //             return
-    //         }
-    //         json = JSON.parse(xhr.responseText)
-    //         const {contentImgs} = json
-    //         const location = contentImgs[contentImgs.length - 1]
-    //         if(!json || typeof location !== 'string'){
-    //             failure('Invalid JSON: ' + xhr.responseText)
-    //             return
-    //         }
-    //         success(location)
-    //     }
-    //     xhr.onerror = function () {
-    //         failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status)
-    //     }
-    //     formData = new FormData()
-    //     const file = blobInfo.blob()
-    //     if(file.size > 10000000){
-    //         failure('Image file is too large. Limit: 10mb')
-    //         return
-    //     }
-    //     formData.append('imageData', file, blobInfo.filename())
-    //     xhr.send(formData)
-    // }
-
-    // tinymce.activeEditor.uploadImages(function(success) {
-    //     document.forms[0].submit()
-    // })
 
     const handleDeleteImg = imgPath => {
         deleteImage(imgPath.replace('http://localhost:3000/', ''), postId)
@@ -98,40 +55,25 @@ const PostEditor = props => {
                                 e.stopPropagation()
                                 return false
                             }
-                            if(e.keyCode === 8 || e.keyCode === 46){
-                                console.log('ran')
-                            }
-                            if((e.keyCode === 8 || e.keyCode === 46) && editor.selection){ // delete & backspace keys
-                                const selectedNode = editor.selection.getNode() // get the selected node (element) in the editor
+                            if((e.keyCode === 8 || e.keyCode === 46) && editor.selection){
+                                const selectedNode = editor.selection.getNode()
                                 if(selectedNode && selectedNode.nodeName === 'IMG'){
-                                    handleDeleteImg(selectedNode.src) // A callback that will let me invoke the deletion of the image on the server if appropriate for the image source.
+                                    handleDeleteImg(selectedNode.src)
                                 }
                             }
                         })
-                        // editor.on('keydown', e => {
-                            
-                        // })
                     },
                     file_picker_types: 'image',
-                    // automatic_uploads: true,
                     image_caption: true,
-                    // typeahead_urls: false,
                     automatic_uploads: true,
-                    // uploadImages: function(success) {
-                    //     document.forms[0].submit()
-                    // },
-                    // image_prepend_url: "http://localhost:3000/uploads/",
-                    // images_upload_url: { 'location': 'uploads/' },
                     images_upload_base_path: "http://localhost:3000/uploads/",
                     images_upload_handler: (blobInfo, success, failure, progress) => handleImgUpload(blobInfo, success, failure, progress),
-                    // image_upload_url: {location: '/uploads/'},
                     resize: false,
                     placeholder: 'Write your post here. Add images, line breaks, emoticons, etc. Press "shift + enter" to start a new paragraph without a space.',
                     height: '100%',
                     browser_spellcheck: true,
                     contextmenu: false,
                     menubar: false,
-                    // menu: {file: {title: 'File', items: 'preview | print'}},
                     plugins: [
                         'quickbars advlist autolink lists link image hr emoticons charmap print',
                         'searchreplace visualblocks codesample fullscreen',
@@ -139,10 +81,6 @@ const PostEditor = props => {
                     ],
                     quickbars_selection_toolbar: 'bold italic underline | quicklink h1 h2 h3 | blockquote',
                     quickbars_insert_toolbar: 'image media quicktable | hr',
-                    // toolbar:
-                    //     'undo redo | advlist formatselect | bold italic underline backcolor | \
-                    //     alignleft aligncenter alignright alignjustify | \
-                    //     bullist numlist outdent indent | image media emoticons link hr | removeformat | print',
                     toolbar: "formatgroup paragraphgroup insertgroup fullscreen",
                     toolbar_groups: {
                         formatgroup: {
@@ -174,10 +112,10 @@ const PostEditor = props => {
     )
 }
 
-export default PostEditor
-
 const Container = styled.div`
     width: 100%;
     height: 100%;
     margin: auto;
 `
+
+export default PostEditor

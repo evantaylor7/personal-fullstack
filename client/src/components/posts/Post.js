@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useState} from 'react'
 import {Link} from 'react-router-dom'
 import ExternalModal from '../private/modal/Modal.js'
 import PostDetail from '../public/PostDetail'
@@ -10,15 +10,12 @@ const Post = props => {
         _id, 
         draft, 
         title, 
-        authorName, 
         date, 
-        content, 
         previewImg, 
         description, 
         openModal, 
         readonly
     } = props
-
     const {deleteImage, getPost, deletePost, editPost} = useContext(UserContext)
 
     const [imgModal, setImgModal] = useState(false)
@@ -152,8 +149,6 @@ const Post = props => {
     )
 }
 
-export default Post
-
 const Container = styled.div`
     border: solid 1px #a1a1a1;
     border-radius: 4px;
@@ -162,7 +157,6 @@ const Container = styled.div`
     transition: box-shadow .4s;
     max-width: 700px;
     ${props => (props.readonly && props.img) && 'display: grid; grid-template-columns: 210px auto;'};
-    /* position: relative; */
 
     &:hover {
         box-shadow: 2px 2px 5px #606060
@@ -234,10 +228,7 @@ const DescriptionInput = styled.textarea`
     resize: none;
     width: 100%;
     margin-top: 10px;
-    /* position: relative; */
-    /* max-width: 460px; */
     min-height: 120px;
-    /* max-height: 250px; */
     outline: none;
     padding: 6px;
     border-radius: 6px;
@@ -391,5 +382,7 @@ const DeleteButton = styled.button`
 
 const PostLink = styled(Link)`
     text-decoration: none;
-    color: #1d1d1d
+    color: #1d1d1d;
 `
+
+export default Post

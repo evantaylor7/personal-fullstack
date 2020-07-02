@@ -38,8 +38,8 @@ const upload = multer({
 })
 
 // BLOG (main image):
+
 userImageRouter.put('/blog/:blogId', upload.single('imageData'), (req, res, next) => {
-    console.log(req.file)
     Blog.findOneAndUpdate(
         {_id: req.params.blogId},
         {img: req.file.path},
@@ -55,6 +55,7 @@ userImageRouter.put('/blog/:blogId', upload.single('imageData'), (req, res, next
 })
 
 // PROFILE:
+
 userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, next) => {
     req.body.user = req.user._id
     req.body.blog = req.params.blogId
@@ -74,6 +75,7 @@ userImageRouter.put('/profile/:blogId', upload.single('imageData'), (req, res, n
 })
 
 // POST:
+
 // add title image (update existing post)
 userImageRouter.put('/title-image/:postId', upload.single('imageData'), (req, res, next) => {
     req.body.img = `http://localhost:3000/${req.file.path}`
@@ -84,7 +86,7 @@ userImageRouter.put('/title-image/:postId', upload.single('imageData'), (req, re
     Post.findOneAndUpdate(
         {_id: req.params.postId},
         {titleImg: req.body.img},
-        {upsert: true, new: true},
+        {new: true},
         (err, post) => {
             if(err){
                 res.status(500)
@@ -94,29 +96,6 @@ userImageRouter.put('/title-image/:postId', upload.single('imageData'), (req, re
         }
     )
 })
-
-const createDate = () => {
-    const month = new Date().toLocaleString('default', { month: 'long' })
-    const dateArr = Date().split(' ')
-    return `${month} ${dateArr[2]}, ${dateArr[3]}`
-}
-
-// add title image (create new post)
-// userImageRouter.post('/title-image/:blogId', upload.single('imageData'), (req, res, next) => {
-//     req.body.user = req.user._id
-//     req.body.postedBy = req.user.username
-//     req.body.date = createDate()
-//     req.body.blog = req.params.blogId
-//     req.body.titleImg = req.file.path
-//     const newPost = new Post(req.body)
-//     newPost.save((err, newPost) => {
-//         if(err){
-//             res.status(500)
-//             return next(err)
-//         }
-//         return res.status(201).send(newPost)
-//     })
-// })
 
 // add preview image
 userImageRouter.put('/post-preview/:postId', upload.single('imageData'), (req, res, next) => {
@@ -136,9 +115,6 @@ userImageRouter.put('/post-preview/:postId', upload.single('imageData'), (req, r
 
 // add post content image
 userImageRouter.put('/post/:postId', upload.single('imageData'), (req, res, next) => {
-    console.log(333, req.file)
-    // req.body.img = `/${req.file.path}`
-    // const img = req.file.path.replace('uploads/', '')
     Post.findOneAndUpdate(
         {_id: req.params.postId},
         {$push: {contentImgs: req.file.path}},
@@ -163,7 +139,7 @@ userImageRouter.delete(`/uploads/:imgPath`, (req, res, next) => {
                 res.status(404)
                 return next(err)
             }
-            console.log('Successfully delete image path from array')
+            console.log('Successfully deleted image path from array')
         }
     )
     fs.unlink(`./uploads/${req.params.imgPath}`, err => {

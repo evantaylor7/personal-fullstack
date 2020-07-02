@@ -8,10 +8,12 @@ const PostList = props => {
     const {posts, getPosts, getPublicPosts} = useContext(UserContext)
 
     useEffect(() => {
-        blogId && readonly ?
-            getPublicPosts(blogId)
-        :
-            getPosts(blogId)
+        blogId && (
+            readonly ?
+                getPublicPosts(blogId)
+            :
+                getPosts(blogId)
+        )
     }, [blogId])
 
     const drafts = posts?.filter(post => post.draft).map((post, i) =>
@@ -21,28 +23,6 @@ const PostList = props => {
             openModal={openModal}
         />
     )
-
-    // const reduced = posts?.reduce((fin, cur) => {
-    //     if(cur.draft){
-    //         fin.drafts.push(
-    //             <Post
-    //             {...cur}
-    //             key={cur._id}
-    //             openModal={openModal}
-    //         />
-    //         )
-    //     } else {
-    //         fin.published.push(
-    //             <Post
-    //             {...cur}
-    //             key={cur._id}
-    //             openModal={openModal}
-    //             readonly={readonly}
-    //         />
-    //         )
-    //     }
-    //     return fin
-    // }, {drafts: [], published: []})
 
     const published = posts?.filter(post => !post.draft).map((post, i) =>
         <Post
@@ -69,10 +49,10 @@ const PostList = props => {
     )
 }
 
-export default PostList
-
 const Container = styled.div``
 
 const PostType = styled.h2`
     margin: 20px 0;
 `
+
+export default PostList

@@ -24,8 +24,6 @@ const PostTitle = props => {
     )
 }
 
-export default PostTitle
-
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -74,5 +72,6 @@ const TitleInput = styled.input`
     font-size: 20pt;
     outline: none;
     font-weight: 200;
-    /* background-color: whitesmoke; */
 `
+
+export default PostTitle

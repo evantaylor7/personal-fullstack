@@ -3,12 +3,17 @@ import styled from 'styled-components'
 import {UserContext} from '../../../context/UserProvider'
 
 const Endpoint = () => {
-    const {blog: {username, blogUrl}, urlCheck, checkUrlEndpoints, updateBlog} = useContext(UserContext)
+    const {
+        blog: {username, blogUrl}, 
+        urlCheck, 
+        checkUrlEndpoints, 
+        updateBlog
+    } = useContext(UserContext)
 
     const [urlInput, setUrlInput] = useState('')
     const [showResponse, setShowResponse] = useState(false)
     const [toggleDomain, setToggleDomain] = useState(false)
-    
+
     useEffect(() => {
         blogUrl && setToggleDomain(true)
         blogUrl && setUrlInput(blogUrl)
@@ -87,8 +92,6 @@ const Endpoint = () => {
         </Container>
     )
 }
-
-export default Endpoint
 
 const Container = styled.div`
     height: 24px;
@@ -198,3 +201,5 @@ const EditDomainButton = styled.button`
         cursor: pointer;
     }
 `
+
+export default Endpoint
