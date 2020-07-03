@@ -94,6 +94,16 @@ const TitlesContent = styled.div`
     top: ${props => !props.titleAbove && props.img && '50%'};
     left: ${props => !props.titleAbove && props.img && '50%'};
     transform: ${props => !props.titleAbove && props.img && 'translate(-50%, -50%)'};
+
+    @media (max-width: 530px){
+        width: 100%;
+    }
+    @media (max-width: 480px){
+        font-size: 50px
+    }
+    @media (max-width: 350px){
+        font-size: 44px
+    }
 `
 
 const Title = styled.p`
@@ -103,7 +113,7 @@ const Title = styled.p`
     margin: 8px;
 
     @media (max-width: 530px){
-        width: 100%;
+        width: 96%;
     }
     @media (max-width: 480px){
         font-size: 50px
@@ -129,6 +139,11 @@ const Description = styled.p`
     color: ${props => props.color};
     word-break: break-word;
     line-height: 22px;
+
+    @media (max-width: 1080px){
+        width: 90%;
+        margin: auto
+    }
 `
 
 const MainImg = styled.div`

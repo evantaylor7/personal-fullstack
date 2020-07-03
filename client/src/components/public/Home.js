@@ -14,9 +14,14 @@ const Home = () => {
             </LandingContainer>
             <SecondSection>
                 <Content>Share your story with the world</Content>
-                    <SignupLink to='/auth'>
-                        Get Started
-                    </SignupLink>
+                    <Buttons>
+                        <SignupLink to='/auth'>
+                            Get Started
+                        </SignupLink>
+                        <SignupLink example to='/example'>
+                            Check out an Example
+                        </SignupLink>
+                    </Buttons>
             </SecondSection>
         </HomePage>
     )
@@ -121,21 +126,41 @@ const SecondSection = styled.div`
     @media (max-width: 350px){
         font-size: 18px;
     }
+    @media (max-width: 360px){
+        margin-top: -150px;
+    }
 `
 
 const Content = styled.p``
 
-const SignupLink = styled(Link)`
-    margin-top: 10px;
-    font-size: 22px;
-    text-decoration: none;
-    color: whitesmoke;
-    padding: 10px;
-    background-color: #214761;
-    border-radius: 30px;
+const Buttons = styled.div`
+    display: flex;
 
+    @media (max-width: 360px){
+        flex-direction: column;
+    }
+`
+
+const SignupLink = styled(Link)`
+    margin: 10px 3px 10px 3px;
+    font-size: 20px;
+    text-decoration: none;
+    color: ${props => props.example ? '#214761' : 'whitesmoke'};
+    padding: 10px 14px;
+    background-color: ${props => props.example ? 'white' : '#214761'};
+    border-radius: 30px;
+    ${props => props.example && 'border: solid 1px #214761'};
+    transition: .4s;
+
+    &:hover {
+        background-color: ${props => props.example ? '#214761' : '#3a5b71'};
+        ${props => props.example && 'color: whitesmoke'};
+    }
     @media (max-width: 440px){
         font-size: 20px;
+    }
+    @media (max-width: 360px){
+        margin: 10px 0;
     }
     @media (max-width: 350px){
         font-size: 18px;
