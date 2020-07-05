@@ -60,19 +60,21 @@ const PostDetail = props => {
                                 </TitleImgContainer>
                             }
                             <Container preview={preview}>
-                                <Title>{title}</Title>
-                                <Author>
-                                    <i>by</i>
-                                    <ToBlog onClick={blogRedirect}>{authorName ? authorName : postedBy}</ToBlog>
-                                </Author>
-                                <Date>{date}</Date>
+                                <TitleContainer>
+                                    <Title>{title}</Title>
+                                    <Author>
+                                        <i>by</i>
+                                        <ToBlog onClick={blogRedirect}>{authorName ? authorName : postedBy}</ToBlog>
+                                    </Author>
+                                    <Date>{date}</Date>
+                                </TitleContainer>
                                 <Content dangerouslySetInnerHTML={cleanCode}/>
                                 {
                                 !preview &&
-                                    <>
+                                    <CommentContainer>
                                         <CommentForm postId={postId}/>
                                         <CommentList postId={postId} postUser={user}/>
-                                    </>
+                                    </CommentContainer>
                                 }
                             </Container>
                         </Page>
@@ -104,7 +106,7 @@ const Container = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
 
     @media (max-width: 944px){
         width: 100%
@@ -112,6 +114,12 @@ const Container = styled.div`
     @media (max-width: 500px){
         padding: ${props => props.preview ? '40px 10px' : '60px 10px'};
     }
+`
+
+const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 const TitleImgContainer = styled.div`
@@ -221,6 +229,12 @@ const Content = styled.div`
     > p > strong {
         font-weight: 600;
     }
+`
+
+const CommentContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 export default PostDetail
