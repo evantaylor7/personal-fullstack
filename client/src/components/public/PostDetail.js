@@ -43,7 +43,6 @@ const PostDetail = props => {
 
     const config = {ADD_TAGS: ['iframe'], KEEP_CONTENT: false, ADD_ATTR: ['src', 'width', 'height', 'allowfullscreen']}
     const cleanCode = {__html: DOMPurify.sanitize(content, config).replace(/uploads\//g, 'https://blogtopia.herokuapp.com/uploads/')}
-    console.log(cleanCode)
 
     return (
         <>
