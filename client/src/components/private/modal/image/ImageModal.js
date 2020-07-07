@@ -31,27 +31,27 @@ const ImageModal = props => {
         if(img.name === 'unsplash'){
             downloadPhoto(img.photoId)
             if(collection === 'blog'){
-                blogImg && deleteImage(blogImg)
+                blogImg && deleteImage(blogImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
                 updateBlog({img: img.src})
             } else if (typeof collection === 'object'){
-                previewImg && deleteImage(previewImg)
+                previewImg && deleteImage(previewImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
                 addPostImg({postId: collection.postId, previewImg: img.src})
             } else {
-                titleImg && deleteImage(titleImg.replace('https://blogtopia.herokuapp.com/', ''))
+                titleImg && deleteImage(titleImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
                 addPostImg({postId: postId, titleImg: img.src})
             }
         } else {
             const data = new FormData()
             data.append('imageData', img.file)
             if(collection === 'blog'){
-                blogImg && deleteImage(blogImg)
-                uploadImage('blog', blogId, data)
+                blogImg && deleteImage(blogImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
+                uploadImage('blog', blogId, data, img.file)
             } else if(typeof collection === 'object'){
-                previewImg && deleteImage(previewImg)
-                uploadImage('post-preview', collection.postId, data)
+                previewImg && deleteImage(previewImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
+                uploadImage('post-preview', collection.postId, data, img.file)
             } else {
-                titleImg && deleteImage(titleImg.replace('https://blogtopia.herokuapp.com/', ''))
-                uploadImage('title-image', postId, data)
+                titleImg && deleteImage(titleImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
+                uploadImage('title-image', postId, data, img.file)
             }
         }
         close(e)

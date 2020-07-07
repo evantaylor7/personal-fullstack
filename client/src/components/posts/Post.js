@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import ExternalModal from '../private/modal/Modal.js'
 import PostDetail from '../public/PostDetail'
@@ -24,13 +24,17 @@ const Post = props => {
 
     const [descriptionToggle, setDescriptionToggle] = useState(false)
     const [descriptionInput, setDescriptionInput] = useState(description || '')
+    
+    useEffect(() => {
+        !description && setDescriptionInput('')
+    }, [description])
 
     const handleToggleImgModal = () => {
         setImgModal(prevImgModal => !prevImgModal)
     }
 
     const handleRemoveImg = () => {
-        deleteImage(previewImg)
+        deleteImage(previewImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
         editPost(_id, {previewImg: ''})
     }
 

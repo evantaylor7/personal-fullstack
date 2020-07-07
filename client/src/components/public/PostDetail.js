@@ -42,7 +42,7 @@ const PostDetail = props => {
     }
 
     const config = {ADD_TAGS: ['iframe'], KEEP_CONTENT: false, ADD_ATTR: ['src', 'width', 'height', 'allowfullscreen']}
-    const cleanCode = {__html: DOMPurify.sanitize(content, config).replace(/uploads\//g, 'https://blogtopia.herokuapp.com/uploads/')}
+    const cleanCode = {__html: DOMPurify.sanitize(content, config)}
 
     return (
         <>
@@ -105,7 +105,6 @@ const Container = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
 
     @media (max-width: 944px){
         width: 100%

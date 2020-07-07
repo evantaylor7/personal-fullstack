@@ -79,6 +79,14 @@ const UserProvider = props => {
         }))
     }
 
+    const cleanState = () => {
+        setUserState(prevUserState => ({
+            ...initState,
+            user: prevUserState.user,
+            token: prevUserState.token
+        }))
+    }
+
     const handleAuthError = errMsg => {
         setUserState(prevUserState => ({
             ...prevUserState,
@@ -199,12 +207,33 @@ const UserProvider = props => {
     // IMAGES (internal):
 
     // updates existing data
-    const uploadImage = (dest, id, imgData) => {
+    const uploadImage = (dest, id, imgData, originalFile) => {
+        const tempImg = originalFile && URL.createObjectURL(originalFile)
+        const finalDest = (dest === 'title-image' || dest === 'post-preview') ? 'postDetail' : dest
+        const postDest = dest === 'title-image' ? 'titleImg' : 'previewImg'
+        setUserState(prevUserState => ({
+            ...prevUserState,
+            [finalDest]: 
+                finalDest === 'postDetail' ? 
+                    {
+                        ...prevUserState.postDetail, 
+                        [postDest]: tempImg
+                    }
+                : 
+                    {...prevUserState[dest], img: tempImg},
+            [(dest === 'title-image' || dest === 'post-preview') && 'posts']:
+                prevUserState.posts.map(post => (
+                    post._id === id ? 
+                        {...post, [postDest]: tempImg} 
+                        : post
+                ))
+        }))
+
         userAxios.put(`/api/image/${dest}/${id}`, imgData)
             .then(res => {
                 setUserState(prevUserState => ({
                     ...prevUserState,
-                    [(dest === 'title-image' || dest === 'post-preview') ? 'postDetail' : dest]: res.data,
+                    [finalDest]: res.data,
                     [(dest === 'title-image' || dest === 'post-preview') && 'posts']: 
                         prevUserState.posts.map(post => post._id === id ? res.data : post)
                 }))
@@ -212,9 +241,18 @@ const UserProvider = props => {
             .catch(err => console.log(err))
     }
 
+    // delete an image from content
+    const deleteContentImage = (imgPath, postId) => {
+        userAxios.delete(`/api/image/content/${imgPath}`, postId)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
+    }
+
     // delete an image
-    const deleteImage = (imgPath, postId) => {
-        userAxios.delete(`/api/image/${imgPath}`, postId)
+    const deleteImage = imgPath => {
+        userAxios.delete(`/api/image/${imgPath}`)
             .then(res => {
                 console.log(res.data)
             })
@@ -466,6 +504,7 @@ const UserProvider = props => {
                     signup,
                     login,
                     logout,
+                    cleanState,
                     resetAuthError,
                     getBlog,
                     getBlogWithId,
@@ -475,6 +514,7 @@ const UserProvider = props => {
                     postComment,
                     getProfile,
                     uploadImage,
+                    deleteContentImage,
                     deleteImage,
                     addPostImg,
                     getUserBlog,

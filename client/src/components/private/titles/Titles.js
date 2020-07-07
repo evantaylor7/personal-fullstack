@@ -7,10 +7,10 @@ const Titles = props => {
 
     const [formToggle, setFormToggle] = useState({title: false, subtitle: false, description: false})
     const [inputs, setInputs] = useState({})
-    
+
     useEffect(() => { 
         setInputs({
-            title: {content: title?.content, color: title?.color},
+            title: {content: title?.content ? title.content : undefined, color: title?.color},
             subtitle: {content: subtitle?.content, color: subtitle?.color}, 
             description: {content: description?.content, color: description?.color}
         })

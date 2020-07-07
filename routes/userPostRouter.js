@@ -1,7 +1,12 @@
 const express = require('express')
 const userPostRouter = express.Router()
+const aws = require('aws-sdk')
 const Post = require('../models/post.js')
-const fs = require('fs')
+// const fs = require('fs')
+
+aws.config.region = 'us-east-1'
+const s3 = new aws.S3()
+const bucket = process.env.S3_BUCKET_NAME
 
 const createDate = () => {
     const month = new Date().toLocaleString('default', { month: 'long' })
@@ -99,15 +104,33 @@ userPostRouter.delete('/:postId', async (req, res, next) => {
         if(post){
             const postImgs = post.contentImgs
             if(postImgs){
-                for(let i = 0; i < postImgs.length; i++){
-                    fs.unlink(`./${postImgs[i]}`, err => {
-                        if(err){
-                            console.log('Failed to delete local image file:' + err)
-                        } else {
-                            console.log('Successfully deleted local file')
-                        }
-                    })
+                const params = {
+                    Bucket: bucket,
+                    Delete: {
+                        Objects: []
+                    }
                 }
+                for(let i = 0; i < postImgs.length; i++){
+                    params.Delete.Objects.push({Key: postImgs[i].replace('https://blogtopiabucket.s3.amazonaws.com/', '')})
+
+                    // previous function to delete from local ./uploads folder --> 
+
+                    // fs.unlink(`./${postImgs[i]}`, err => {
+                    //     if(err){
+                    //         console.log('Failed to delete local image file:' + err)
+                    //     } else {
+                    //         console.log('Successfully deleted local file')
+                    //     }
+                    // })
+                    
+                }
+                s3.deleteObjects(params, (err, data) => {
+                    if(err){
+                        res.status(500)
+                        return next(err)
+                    }
+                    console.log(data)
+                })
             }
         }
         await Post.findOneAndDelete({_id: req.params.postId, user: req.user._id})

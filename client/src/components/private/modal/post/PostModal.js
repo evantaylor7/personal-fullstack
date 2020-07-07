@@ -72,7 +72,7 @@ const PostModal = props => {
     }
 
     const handleRemoveImg = () => {
-        deleteImage(postDetail.titleImg.replace('https://blogtopia.herokuapp.com/', ''))
+        deleteImage(postDetail.titleImg.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
         editPost(postDetail._id, {titleImg: ''})
     }
 

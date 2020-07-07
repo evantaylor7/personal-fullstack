@@ -36,11 +36,11 @@ const Profile = props => {
         } else if(imgFile.size > 10000000){
             setError('Image file is too large. Limit: 10mb')
         } else {
-            profile?.img && deleteImage(profile.img)
+            profile?.img && deleteImage(profile.img.replace('https://blogtopiabucket.s3.amazonaws.com/', ''))
             setError(null)
             const data = new FormData()
             data.append('imageData', imgFile)
-            imgFile && uploadImage('profile', blog._id, data)
+            imgFile && uploadImage('profile', blog._id, data, imgFile)
         }
     }
 

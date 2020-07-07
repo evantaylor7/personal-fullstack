@@ -7,7 +7,7 @@ const key = process.env.REACT_APP_TINY_KEY
 
 const PostEditor = props => {
     const {postId, onChange, value, save} = props
-    const {deleteImage} = useContext(UserContext)
+    const {deleteContentImage} = useContext(UserContext)
 
     const handleEditorChange = (content, editor) => {
         onChange(content)
@@ -33,7 +33,7 @@ const PostEditor = props => {
     }
 
     const handleDeleteImg = imgPath => {
-        deleteImage(imgPath.replace('https://blogtopia.herokuapp.com/', ''), postId)
+        deleteContentImage(imgPath.replace('https://blogtopiabucket.s3.amazonaws.com/', ''), postId)
     }
 
     return (
@@ -66,7 +66,6 @@ const PostEditor = props => {
                     file_picker_types: 'image',
                     image_caption: true,
                     automatic_uploads: true,
-                    images_upload_base_path: "http://localhost:3000/uploads/",
                     images_upload_handler: (blobInfo, success, failure, progress) => handleImgUpload(blobInfo, success, failure, progress),
                     resize: false,
                     placeholder: 'Write your post here. Add images, line breaks, emoticons, etc. Press "shift + enter" to start a new paragraph without a space.',

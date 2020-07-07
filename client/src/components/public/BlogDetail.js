@@ -14,11 +14,16 @@ const BlogDetail = () => {
         token, 
         blog, 
         blog: {settings, title, subtitle, description, img, published}, 
-        getBlog
+        getBlog,
+        cleanState
     } = useContext(UserContext)
     
     useEffect(() => {
         getBlog(blogUrl)
+
+        return () => {
+            cleanState()
+        }
     }, [])
     
     return (
