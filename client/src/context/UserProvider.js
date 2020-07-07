@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 
-const key = process.env.REACT_APP_ACCESS_KEY
-
 const UserContext = React.createContext()
 
 const userAxios = axios.create()
@@ -11,6 +9,7 @@ userAxios.interceptors.request.use(config => {
     config.headers.Authorization = `Bearer ${token}`
     return config
 })
+const key = process.env.REACT_APP_UNSPLASH_KEY
 
 const unsplashAxios = axios.create()
 unsplashAxios.interceptors.request.use(config => {
