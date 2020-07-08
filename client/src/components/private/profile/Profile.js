@@ -109,7 +109,7 @@ const Container = styled.div`
 
     @media (max-width: 1200px){
         width: 400px;
-        margin: auto;
+        margin: 0 auto;
         border-left: ${props => !props.readonly && 'none'};
     }
     @media (max-width: 1000px){

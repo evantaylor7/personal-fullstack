@@ -19,7 +19,7 @@ mongoose.connect (
     useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify: false
-    }, 
+    },
     err => {
         if(err) throw err;
         console.log('MongoDB connection established successfully')
