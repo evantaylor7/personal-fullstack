@@ -164,7 +164,10 @@ const MainImg = styled.div`
         height: 400px;
     }
     @media (max-width: 900px){
-        height: 70vh
+        height: 70vh;
+    }
+    @media (min-width: 1200px){
+        background-size: 1200px auto;
     }
 `
 

@@ -251,12 +251,16 @@ const MainImg = styled.div`
     background-size: cover;
     background-position: ${props => props.parallax ? '110px center' : 'center'};
     background-attachment: ${props => props.parallax && 'fixed'};
+    max-width: 1200px;
 
     @media (max-width: 750px){
         background-position: center;
     }
     @media (max-width: 900px){
         height: 70vh
+    }
+    @media (min-width: 1420px){
+        background-size: 1310px auto;
     }
 `
 
