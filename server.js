@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(morgan('dev'))
 
 mongoose.connect (
-    process.env.MONGODB_URI || 'mongodb://localhost:27017/personal-fullstack', 
+    process.env.DB_URI || 'mongodb://localhost:27017/personal-fullstack', 
     {
     useNewUrlParser: true,
     useUnifiedTopology: true,
