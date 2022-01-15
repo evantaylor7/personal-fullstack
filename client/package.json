@@ -8,7 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "@tinymce/tinymce-react": "^3.6.0",
     "axios": "^0.21.2",
-    "dompurify": "^2.0.11",
+    "dompurify": "^2.0.17",
     "dotenv": "^8.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
