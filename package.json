@@ -16,7 +16,7 @@
     "bcrypt": "^5.1.1",
     "bl": "^2.2.1",
     "dotenv": "^8.2.0",
-    "express": "^4.20.0",
+    "express": "^4.21.0",
     "express-jwt": "^6.0.0",
     "is-svg": "^4.4.0",
     "jsonwebtoken": "^9.0.0",
