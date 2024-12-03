@@ -20,7 +20,7 @@
     "express-jwt": "^6.0.0",
     "is-svg": "^4.4.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^5.13.20",
+    "mongoose": "^8.8.3",
     "morgan": "^1.10.0",
     "mquery": "^3.2.5",
     "multer": "^1.4.2",
